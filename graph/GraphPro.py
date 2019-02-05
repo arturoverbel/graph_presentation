@@ -3,7 +3,7 @@ import networkx as nx
 import numpy as np
 
 
-class GraphPro():
+class GraphPro:
     source = []
     target = []
     weight = []
@@ -32,7 +32,7 @@ class GraphPro():
             if not self.directed:
                 list_edges.remove((int(self.last_vertex_modified[1]), int(self.last_vertex_modified[0])))
 
-        nx.draw(gr, pos=pos, with_labels=True, edgelist=list_edges, node_size=600)
+        nx.draw_networkx(gr, pos=pos, with_labels=True, edgelist=list_edges, node_size=600)
 
         if with_weight:
             edge_labels = dict([((u, v,), d['weight']) for u, v, d in gr.edges(data=True)])
@@ -41,5 +41,4 @@ class GraphPro():
         if len(last) > 0:
             nx.draw_networkx_edges(gr, pos=pos, edgelist=[last], width=2.0, edge_color='b')
 
-        plt.axis('off')
         plt.show()

@@ -22,6 +22,6 @@ data = graph.vertex_update_random()
 print(data)
 graph.print_r()
 
-#graph.draw()
+graph.draw()
 print()
 print("------------------------")
