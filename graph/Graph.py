@@ -4,8 +4,6 @@ import numpy as np
 
 class Graph(DynamicGraph):
 
-    default_weights = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-
     def __init__(self, source=[], target=[], weight=[], directed=True):
         DynamicGraph.__init__(self, source, target, weight, directed)
 

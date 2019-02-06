@@ -5,8 +5,7 @@ import os
 os.system('clear')
 print("<--------Test Create------->\n")
 
-weights = [1, 2, 3, 4, 5]
-graph = Graph.creategraph(6, .75, weights)
+graph = Graph.creategraph(6, .75)
 graph.print_r()
 
 print("-------Incremental-----")
