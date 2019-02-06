@@ -118,6 +118,20 @@ class DynamicGraph(GraphPro):
 
         return self.last_node_modified
 
+    def dynamic_decreasing_node(self, node):
+        self.clean_vars()
+        if self.vertex[self.vertex == node].size == 0:
+            return -1
+
+        index = np.where(np.logical_or(self.source == node, self.target == node))[0]
+        for i in index:
+            self.source = np.delete(self.source, index)
+            self.target = np.delete(self.target, index)
+            returned = np.append(returned, source)
+        print(index)
+
+        return self.last_node_modified
+
     def vertex_update(self, source, target, weight=1):
         self.clean_vars()
         self.weight[np.logical_and(self.source == source, self.target == target)] = weight

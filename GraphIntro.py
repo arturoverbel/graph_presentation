@@ -7,8 +7,10 @@ weights = [2, 2, 4, 1, 1, 3, 3, 2, 2]
 
 graph = Graph(sources, targets, weights)
 
-graph.dynamic_incremental_node(6, [2, 0, 5], [2, 4, 5], [5], [2])
-print('---Incremental vertex---')
+print('------')
+graph.print_r()
+graph.dynamic_decreasing_node(5)
+
 graph.draw()
 
 exit()

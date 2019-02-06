@@ -13,12 +13,6 @@ class Graph(DynamicGraph):
         print("Weight: ", self.weight)
         print("Vertex: ", self.vertex)
 
-    def set_vertex(self):
-        vertex = np.unique(self.source)
-        vertex2 = np.unique(self.target)
-        self.vertex = np.unique(np.concatenate([vertex, vertex2]))
-        return self.vertex
-
     def get_weight(self, n1, n2):
         if n1 == n2:
             return 0

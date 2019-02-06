@@ -19,6 +19,12 @@ class GraphPro:
 
         self.set_vertex()
 
+    def set_vertex(self):
+        vertex = np.unique(self.source)
+        vertex2 = np.unique(self.target)
+        self.vertex = np.unique(np.concatenate([vertex, vertex2]))
+        return self.vertex
+
     def draw(self, with_weight=True):
         gr = nx.DiGraph()
         gr.add_weighted_edges_from(self.export())
@@ -91,7 +97,6 @@ class GraphPro:
         labels = dict()
         for i in list_nodes:
             labels[i] = str(i)
-
         nx.draw_networkx_labels(gr, pos, labels)
 
         plt.show()
