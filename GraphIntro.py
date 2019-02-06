@@ -1,19 +1,29 @@
 
 from graph.Graph import Graph
-import os
 
-os.system('clear')
+sources = [1, 2, 3, 0, 5, 1, 2, 1, 3]
+targets = [0, 0, 0, 5, 0, 2, 1, 3, 1]
+weights = [2, 2, 4, 1, 1, 3, 3, 2, 2]
+
+graph = Graph(sources, targets, weights)
+
+graph.dynamic_incremental_node(6, [2, 0, 5], [2, 4, 5], [5], [2])
+print('---Incremental vertex---')
+graph.draw()
+
+exit()
+
 print("<--------Test Create------->\n")
 
 graph = Graph.creategraph(6, .75)
 graph.print_r()
 
 print("-------Incremental-----")
-data = graph.dynamic_incremental_random_vertex(weights)
+data = graph.dynamic_incremental_random_edge()
 graph.print_r()
 
 print("-------Decreasing-----")
-data = graph.dynamic_decreasing_random_vertex()
+data = graph.dynamic_decreasing_random_edge()
 graph.print_r()
 
 print("-------Update Vertex-----")

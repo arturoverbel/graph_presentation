@@ -30,7 +30,7 @@ class Graph(DynamicGraph):
         return array_export
 
     @staticmethod
-    def creategraph(total_nodes, pro_edges, weights=default_weights, directed=True):
+    def creategraph(total_nodes, pro_edges, weights=[1, 2, 3, 4, 5, 6, 7, 8, 9], directed=True):
 
         source = np.array([])
         target = np.array([])

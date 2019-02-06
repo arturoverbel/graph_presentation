@@ -1,19 +1,36 @@
 import numpy as np
+import types
+
+from reportlab.lib.validators import isInstanceOf
+
 from graph.GraphPro import GraphPro
 
 
 class DynamicGraph(GraphPro):
+    last_vertex_modified = np.array([])
+    last_vertex_action = ""
+    last_node_modified = {
+        'node': None,
+        'source': np.array([]),
+        'target': np.array([]),
+    }
+    last_node_action = ""
+
     def __init__(self, source=[], target=[], weight=[], directed=True):
         GraphPro.__init__(self, source, target, weight, directed)
+        self.clean_vars()
+
+    def clean_vars(self):
         self.last_vertex_modified = np.array([])
-        self.node_incremental = {
+        self.last_vertex_action = ""
+        self.last_node_modified = {
             'node': None,
             'source': np.array([]),
             'target': np.array([]),
         }
+        self.last_node_action = ""
 
-    def dynamic_decreasing_random_vertex(self):
-
+    def dynamic_decreasing_random_edge(self):
         count_max = 100
         flag = 0
         while True:
@@ -26,9 +43,10 @@ class DynamicGraph(GraphPro):
             if flag >= count_max:
                 return -2
 
-        return self.dynamic_decreasing_vertex(source, target)
+        return self.dynamic_decreasing_edge(source, target)
 
-    def dynamic_decreasing_vertex(self, source, target):
+    def dynamic_decreasing_edge(self, source, target):
+        self.clean_vars()
 
         index = np.where(np.logical_and(self.source == source, self.target == target))[0][0]
         returned = np.array([])
@@ -42,10 +60,11 @@ class DynamicGraph(GraphPro):
         self.weight = np.delete(self.weight, index)
 
         self.last_vertex_modified = returned
+        self.last_vertex_action = "DELETE"
 
         return returned
 
-    def dynamic_incremental_random_vertex(self, weights=[1, 2, 3, 4, 5, 6, 7, 8, 9]):
+    def dynamic_incremental_random_edge(self, weights=[1, 2, 3, 4, 5, 6, 7, 8, 9]):
 
         count_max = 100
         flag = 0
@@ -62,9 +81,10 @@ class DynamicGraph(GraphPro):
                 return -2
 
         w = np.random.choice(weights)
-        return self.dynamic_incremental_vertex(source, target, w)
+        return self.dynamic_incremental_edge(source, target, w)
 
-    def dynamic_incremental_vertex(self, source, target, weight=1):
+    def dynamic_incremental_edge(self, source, target, weight=1):
+        self.clean_vars()
 
         returned = np.array([])
         self.source = np.append(self.source, source)
@@ -75,11 +95,12 @@ class DynamicGraph(GraphPro):
         returned = np.append(returned, weight)
 
         self.last_vertex_modified = returned
+        self.last_vertex_action = "ADD"
 
         return returned
 
     def dynamic_incremental_node(self, node, sources, w_sources, targets, w_targets):
-
+        self.clean_vars()
         if self.vertex[self.vertex == node].size > 0:
             return -1
 
@@ -90,18 +111,21 @@ class DynamicGraph(GraphPro):
         self.weight = np.concatenate((self.weight, w_sources, w_targets))
         self.vertex = np.append(self.vertex, node)
 
-        self.node_incremental['node'] = node
-        self.node_incremental['source'] = sources
-        self.node_incremental['target'] = targets
+        self.last_node_modified['node'] = node
+        self.last_node_modified['source'] = sources
+        self.last_node_modified['target'] = targets
+        self.last_node_action = "ADD"
 
-        return self.node_incremental
+        return self.last_node_modified
 
     def vertex_update(self, source, target, weight=1):
+        self.clean_vars()
         self.weight[np.logical_and(self.source == source, self.target == target)] = weight
         if not self.directed:
             self.weight[np.logical_and(self.source == target, self.target == source)] = weight
 
         self.last_vertex_modified = np.array([source, target, weight])
+        self.last_vertex_action = "UPDATE"
         return True
 
     def vertex_update_random(self, weight=1):
