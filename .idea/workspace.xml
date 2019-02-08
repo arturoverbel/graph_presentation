@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="126412e1-9b4b-4b2d-8e38-27b6d10e68a3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/GraphIntro-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/GraphIntro-checkpoint.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GraphIntro.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/GraphIntro.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GraphIntro.py" beforeDir="false" afterPath="$PROJECT_DIR$/GraphIntro.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/graph/DynamicGraph.py" beforeDir="false" afterPath="$PROJECT_DIR$/graph/DynamicGraph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graph/GraphPro.py" beforeDir="false" afterPath="$PROJECT_DIR$/graph/GraphPro.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,8 +18,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GraphIntro.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+            <state relative-caret-position="425">
+              <caret line="25" column="10" selection-start-line="25" selection-start-column="10" selection-end-line="25" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -27,8 +27,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/graph/DynamicGraph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="100" lean-forward="true" selection-start-line="100" selection-end-line="100" />
+            <state relative-caret-position="207">
+              <caret line="64" column="53" selection-start-line="64" selection-start-column="46" selection-end-line="64" selection-end-column="53" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -39,8 +39,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/graph/GraphPro.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
+            <state relative-caret-position="204">
+              <caret line="28" column="25" lean-forward="true" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="25" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -51,8 +51,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/graph/Graph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="13" column="38" selection-start-line="13" selection-start-column="38" selection-end-line="13" selection-end-column="38" />
+            <state relative-caret-position="177">
+              <caret line="26" column="79" selection-start-line="26" selection-start-column="52" selection-end-line="26" selection-end-column="79" />
             </state>
           </provider>
         </entry>
@@ -72,6 +72,13 @@
       <find>appe</find>
       <find>append</find>
       <find>last_nodes</find>
+      <find>types</find>
+      <find>dynamic_incremental_edge</find>
+      <find>vertex_upda</find>
+      <find>dynamic_decreasing_edge</find>
+      <find>dynamic_incremental_node</find>
+      <find>creategraph</find>
+      <find>dynamic_incremental_random_edge</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -82,9 +89,9 @@
       <list>
         <option value="$PROJECT_DIR$/GraphIntro.ipynb" />
         <option value="$PROJECT_DIR$/graph/Graph.py" />
-        <option value="$PROJECT_DIR$/GraphIntro.py" />
         <option value="$PROJECT_DIR$/graph/GraphPro.py" />
         <option value="$PROJECT_DIR$/graph/DynamicGraph.py" />
+        <option value="$PROJECT_DIR$/GraphIntro.py" />
       </list>
     </option>
   </component>
@@ -174,34 +181,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/graph/Graph.py">
+    <entry file="file://$PROJECT_DIR$/GraphIntro.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="13" column="38" selection-start-line="13" selection-start-column="38" selection-end-line="13" selection-end-column="38" />
+        <state relative-caret-position="425">
+          <caret line="25" column="10" selection-start-line="25" selection-start-column="10" selection-end-line="25" selection-end-column="10" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/graph/GraphPro.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
+        <state relative-caret-position="204">
+          <caret line="28" column="25" lean-forward="true" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="25" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GraphIntro.py">
+    <entry file="file://$PROJECT_DIR$/graph/Graph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        <state relative-caret-position="177">
+          <caret line="26" column="79" selection-start-line="26" selection-start-column="52" selection-end-line="26" selection-end-column="79" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/graph/DynamicGraph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="100" lean-forward="true" selection-start-line="100" selection-end-line="100" />
+        <state relative-caret-position="207">
+          <caret line="64" column="53" selection-start-line="64" selection-start-column="46" selection-end-line="64" selection-end-column="53" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>

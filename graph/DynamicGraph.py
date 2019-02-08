@@ -1,7 +1,5 @@
 import numpy as np
-import types
-
-from reportlab.lib.validators import isInstanceOf
+import math
 
 from graph.GraphPro import GraphPro
 
@@ -99,6 +97,25 @@ class DynamicGraph(GraphPro):
 
         return returned
 
+    def dynamic_incremental_random_node(self, num_edges=1, weights=[1, 2, 3, 4, 5, 6, 7, 8, 9]):
+        self.clean_vars()
+        node = np.amax(self.vertex) + 1
+        print(node)
+
+        number = math.ceil(num_edges/2)
+        sources = np.random.choice(self.vertex, number, replace=False)
+        w_sources = np.random.choice(weights, number)
+
+        number = num_edges - number
+        if number <= 0:
+            targets = []
+            w_targets = []
+        else:
+            targets = np.random.choice(self.vertex, number, replace=False)
+            w_targets = np.random.choice(weights, number)
+
+        return self.dynamic_incremental_node(node, sources, w_sources, targets, w_targets)
+
     def dynamic_incremental_node(self, node, sources, w_sources, targets, w_targets):
         self.clean_vars()
         if self.vertex[self.vertex == node].size > 0:
@@ -117,6 +134,10 @@ class DynamicGraph(GraphPro):
         self.last_node_action = "ADD"
 
         return self.last_node_modified
+
+    def dynamic_decreasing_random_node(self):
+        node = np.random.choice(self.vertex, 1)[0]
+        return self.dynamic_decreasing_node(node)
 
     def dynamic_decreasing_node(self, node):
         self.clean_vars()

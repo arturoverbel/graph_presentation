@@ -5,16 +5,6 @@ sources = [1, 2, 3, 0, 5, 1, 2, 1, 3]
 targets = [0, 0, 0, 5, 0, 2, 1, 3, 1]
 weights = [2, 2, 4, 1, 1, 3, 3, 2, 2]
 
-graph = Graph(sources, targets, weights)
-
-print('------')
-graph.print_r()
-graph.dynamic_decreasing_node(5)
-
-graph.draw()
-
-exit()
-
 print("<--------Test Create------->\n")
 
 graph = Graph.creategraph(6, .75)
