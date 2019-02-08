@@ -123,13 +123,20 @@ class DynamicGraph(GraphPro):
         if self.vertex[self.vertex == node].size == 0:
             return -1
 
-        index = np.where(np.logical_or(self.source == node, self.target == node))[0]
-        for i in index:
-            self.source = np.delete(self.source, index)
-            self.target = np.delete(self.target, index)
-            returned = np.append(returned, source)
-        print(index)
+        self.last_node_modified['node'] = node
+        while True:
+            indexes = np.where(np.logical_or(self.source == node, self.target == node))[0]
+            if len(indexes) == 0:
+                break
+            source = self.source[indexes[0]]
+            target = self.target[indexes[0]]
+            self.source = np.delete(self.source, indexes[0])
+            self.target = np.delete(self.target, indexes[0])
 
+            self.last_node_modified['source'] = np.append(self.last_node_modified['source'], source)
+            self.last_node_modified['target'] = np.append(self.last_node_modified['target'], target)
+
+        self.last_node_action = "DELETE"
         return self.last_node_modified
 
     def vertex_update(self, source, target, weight=1):

@@ -28,7 +28,7 @@ class GraphPro:
     def draw(self, with_weight=True):
         gr = nx.DiGraph()
         gr.add_weighted_edges_from(self.export())
-        pos = nx.spring_layout(gr)
+
         list_edges = list(gr.edges())
         list_nodes = list(gr.nodes)
         last = ()
@@ -42,19 +42,20 @@ class GraphPro:
                     list_edges.remove((int(self.last_vertex_modified[1]), int(self.last_vertex_modified[0])))
 
         if self.last_node_modified is not None:
+            for source in self.last_node_modified['source']:
+                edge = (int(source), int(self.last_node_modified['node']))
+                if edge in list_edges:
+                    list_edges.remove(edge)
+                last_nodes.append(edge)
+            for target in self.last_node_modified['target']:
+                edge = (int(self.last_node_modified['node']), int(target))
+                if edge in list_edges:
+                    list_edges.remove(edge)
+                last_nodes.append(edge)
             if self.last_node_modified['node'] in list_nodes:
-                for source in self.last_node_modified['source']:
-                    edge = (int(source), int(self.last_node_modified['node']))
-                    if edge in list_edges:
-                        list_edges.remove(edge)
-                    last_nodes.append(edge)
-                for target in self.last_node_modified['target']:
-                    edge = (int(self.last_node_modified['node']), int(target))
-                    if edge in list_edges:
-                        list_edges.remove(edge)
-                    last_nodes.append(edge)
                 list_nodes.remove(self.last_node_modified['node'])
 
+        pos = nx.spring_layout(gr)
         nx.draw_networkx_edges(gr, pos=pos, with_labels=True, edgelist=list_edges, node_size=600)
         nx.draw_networkx_nodes(gr, pos=pos, with_labels=True, nodelist=list_nodes, node_size=600)
 
@@ -76,18 +77,12 @@ class GraphPro:
             if self.last_node_action == "ADD":
                 color = 'b'
                 color_node = 'b'
-            elif self.last_node_action == "DELETE":
-                color = 'r'
-                color_node = 'y'
-            elif self.last_node_action == "UPDATE":
-                color = 'g'
-                color_node = 'g'
 
             if color != '':
-                nx.draw_networkx_edges(gr, pos=pos, edgelist=last_nodes, width=2.0, edge_color=color)
                 nx.draw_networkx_nodes(gr, pos=pos, with_labels=True, nodelist=[self.last_node_modified['node']],
                                        node_color=color_node,
                                        node_size=600)
+                nx.draw_networkx_edges(gr, pos=pos, edgelist=last_nodes, width=2.0, edge_color=color)
                 list_nodes.append(self.last_node_modified['node'])
 
         if with_weight:
