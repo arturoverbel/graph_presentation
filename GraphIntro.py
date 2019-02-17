@@ -1,4 +1,3 @@
-
 from graph.Graph import Graph
 
 sources = [1, 2, 3, 0, 5, 1, 2, 1, 3]

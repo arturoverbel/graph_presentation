@@ -12,10 +12,15 @@ class GraphPro:
     undirected = 0
 
     def __init__(self, source=[], target=[], weight=[], directed=True):
+        self.directed = directed
         self.source = np.array(source)
         self.target = np.array(target)
         self.weight = np.array(weight)
-        self.directed = directed
+
+        if self.directed is False:
+            self.source = np.concatenate([self.source, self.target])
+            self.target = np.concatenate([self.target, np.array(source)])
+            self.weight = np.concatenate([self.weight, self.weight])
 
         self.set_vertex()
 
