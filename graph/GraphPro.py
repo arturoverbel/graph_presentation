@@ -35,7 +35,7 @@ class GraphPro:
         gr.add_weighted_edges_from(self.export())
 
         list_edges = list(gr.edges())
-        list_nodes = list(gr.nodes)
+        list_nodes = list(gr.nodes())
         last = ()
         last_nodes = []
 
