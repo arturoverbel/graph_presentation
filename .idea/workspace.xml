@@ -2,15 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="126412e1-9b4b-4b2d-8e38-27b6d10e68a3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/graph_presentation.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/graph_presentation.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graph/Graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/graph/Graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services_graph.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/server/templates/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -47,11 +55,16 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/server" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/server" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/server" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -81,10 +94,11 @@
       <screen x="0" y="339" width="1920" height="741" />
     </state>
     <state x="743" y="301" width="672" height="678" key="search.everywhere.popup/1920.312.1366.768/0.339.1920.741@0.339.1920.741" timestamp="1581365275033" />
-    <state x="805" y="445" width="540" height="225" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1581365593491">
-      <screen x="0" y="339" width="1920" height="741" />
+    <state x="825" y="178" width="540" height="225" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1581538580336">
+      <screen x="35" y="27" width="1885" height="1053" />
     </state>
     <state x="805" y="445" width="540" height="225" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/1920.312.1366.768/0.339.1920.741@0.339.1920.741" timestamp="1581365593491" />
+    <state x="825" y="178" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/35.27.1885.1053/1920.312.1366.768@35.27.1885.1053" timestamp="1581538580336" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -20,8 +20,15 @@ class Graph(DynamicGraph):
         return np.inf if w.size == 0 else w[0]
 
     def export(self):
-        array_export = [(int(self.source[i]), int(self.target[i]), self.weight[i]) for i in range(self.source.size)]
-        return array_export
+        return [(int(self.source[i]), int(self.target[i]), self.weight[i]) for i in range(self.source.size)]
+
+    def export_arrays(self):
+        size = range(self.source.size)
+        return [
+            [int(self.source[i]) for i in size],
+            [int(self.target[i]) for i in size],
+            [int(self.weight[i]) for i in size]
+        ]
 
     @staticmethod
     def creategraph(total_nodes, pro_edges, weights=[1, 2, 3, 4, 5, 6, 7, 8, 9], directed=True):

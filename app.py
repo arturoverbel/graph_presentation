@@ -1,15 +1,8 @@
 from flask import Flask
-from flask import render_template
+from server.routing import graph_routing
 
 app = Flask(__name__)
-
-@app.route('/')
-def hello():
-    return render_template('index.html')
-
-@app.route('/graph')
-def hello():
-    return render_template('index.html')
+app.register_blueprint(graph_routing)
 
 if __name__ == '__main__':
     app.run()
