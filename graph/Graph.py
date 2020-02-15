@@ -1,5 +1,6 @@
 from graph.DynamicGraph import DynamicGraph
 import numpy as np
+import random
 
 
 class Graph(DynamicGraph):
@@ -29,6 +30,23 @@ class Graph(DynamicGraph):
             [int(self.target[i]) for i in size],
             [int(self.weight[i]) for i in size]
         ]
+
+    def export_javascript(self):
+        size_vertex = range(self.vertex.size)
+        size_edges = range(self.source.size)
+        return {
+            'nodes': [{
+                'id': int(self.vertex[i]),
+                'label': int(self.vertex[i]),
+                'x': random.random(),
+                'y': random.random()
+            } for i in size_vertex],
+            'edges': [{
+                'id': str(int(self.source[i])) + '-' + str(int(self.target[i])),
+                'source': int(self.source[i]),
+                'target': int(self.target[i])
+            } for i in size_edges],
+        }
 
     @staticmethod
     def creategraph(total_nodes, pro_edges, weights=[1, 2, 3, 4, 5, 6, 7, 8, 9], directed=True):
