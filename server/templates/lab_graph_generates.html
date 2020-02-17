@@ -9,12 +9,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <script src="/resources/sigma-min/sigma.min.js"></script>
+    <script src="/resources/node_modules/cytoscape/dist/cytoscape.min.js"></script>
+    <script src="/resources/cytoscape-spread.js"></script>
 
     <style>
         #graph-container {
           max-width: 100%;
-          height: 400px;
+          height: 800px;
           margin: auto;
           border-style: solid;
           border-color: red;
@@ -48,7 +49,10 @@
             </div>
           </div>
         </div>
-        <div class="col-md-8">
+
+      </div>
+      <div class="row">
+        <div class="col-md-11" id="draw-container">
           <div id="graph-container"></div>
         </div>
       </div>
@@ -56,6 +60,10 @@
   </body>
 
   <script>
+    var graph_render = null;
+    var graph_container = 'graph-container';
+    var draw_container = 'draw-container';
+
     $("#btn-load").click(function(){
       num_nodes = $("#num-nodes").val();
       pro_edges = $("#pro-edges").val();
@@ -69,20 +77,58 @@
           url: "http://127.0.0.1:5000/graph/create",
           dataType: "json",
           contentType: "application/json; charset=utf-8",
-          data: JSON.stringify({ "num_nodes": 10, "probability_edges": 0.75 })
+          data: JSON.stringify({
+             "num_nodes": parseInt(num_nodes),
+             "probability_edges": parseFloat(pro_edges)
+          })
       })
-      .done(function( dataGraph ) {
+      .done(function( data_for_load_graph ) {
         console.log( "Done!" );
-        console.log( dataGraph );
+        console.log( data_for_load_graph );
 
-        s = new sigma({
-          graph: dataGraph,
-          container: 'graph-container'
-        });
+        create_graph( data_for_load_graph );
       })
       .fail(function( jqXHR, textStatus ) {
         alert( "Request failed: " + textStatus );
       });
+    }
+
+    function create_graph(data_for_load_graph) {
+      refresh_graph();
+
+      graph_render = cytoscape({
+        container: document.getElementById(graph_container),
+        elements: data_for_load_graph,
+        layout: {
+						name: 'spread',
+						minDist: 40
+				},
+        style: [
+          {
+            selector: 'node',
+            style: {
+              'label': 'data(id)',
+              'text-valign': 'center',
+              'color': '#000000',
+              'background-color': '#3a7ecf'
+            }
+          },
+
+          {
+            selector: 'edge',
+            style: {
+              'width': 2,
+              'line-color': '#3a7ecf',
+              'opacity': 0.5
+            }
+          }
+        ]
+      });
+    }
+
+    function refresh_graph() {
+      $('#' + graph_container).remove();
+      $('#' + draw_container).html('<div id="'+graph_container+'"></div>');
     }
 
 

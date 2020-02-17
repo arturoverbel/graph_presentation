@@ -23,31 +23,6 @@ class Graph(DynamicGraph):
     def export(self):
         return [(int(self.source[i]), int(self.target[i]), self.weight[i]) for i in range(self.source.size)]
 
-    def export_arrays(self):
-        size = range(self.source.size)
-        return [
-            [int(self.source[i]) for i in size],
-            [int(self.target[i]) for i in size],
-            [int(self.weight[i]) for i in size]
-        ]
-
-    def export_javascript(self):
-        size_vertex = range(self.vertex.size)
-        size_edges = range(self.source.size)
-        return {
-            'nodes': [{
-                'id': int(self.vertex[i]),
-                'label': int(self.vertex[i]),
-                'x': random.random(),
-                'y': random.random()
-            } for i in size_vertex],
-            'edges': [{
-                'id': str(int(self.source[i])) + '-' + str(int(self.target[i])),
-                'source': int(self.source[i]),
-                'target': int(self.target[i])
-            } for i in size_edges],
-        }
-
     @staticmethod
     def creategraph(total_nodes, pro_edges, weights=[1, 2, 3, 4, 5, 6, 7, 8, 9], directed=True):
 
