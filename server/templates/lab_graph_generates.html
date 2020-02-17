@@ -96,13 +96,20 @@
     function create_graph(data_for_load_graph) {
       refresh_graph();
 
+      style_seted = {
+        'width': 2,
+        'line-color': '#3a7ecf',
+        'opacity': 0.5
+      }
+
+      if (data_for_load_graph.directed == 'true') {
+        style_seted['curve-style'] ='bezier';
+        style_seted['target-arrow-shape'] ='triangle';
+      }
+
       graph_render = cytoscape({
         container: document.getElementById(graph_container),
         elements: data_for_load_graph,
-        layout: {
-						name: 'spread',
-						minDist: 40
-				},
         style: [
           {
             selector: 'node',
@@ -116,11 +123,7 @@
 
           {
             selector: 'edge',
-            style: {
-              'width': 2,
-              'line-color': '#3a7ecf',
-              'opacity': 0.5
-            }
+            style: style_seted
           }
         ]
       });

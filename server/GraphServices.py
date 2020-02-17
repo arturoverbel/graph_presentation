@@ -9,7 +9,7 @@ class GraphServices:
 
     def create_graph(self, num_nodes, probability_edges):
         print("Generate graph. nodes: " + str(num_nodes) + ", edges probability: ", str(probability_edges))
-        graph = Graph.creategraph(num_nodes, probability_edges)
+        graph = Graph.creategraph(num_nodes, probability_edges, directed=True)
         return self.export(graph)
 
     def export(self, graph):
@@ -42,5 +42,6 @@ class GraphServices:
 
         return {
             'nodes': nodes,
-            'edges': edges
+            'edges': edges,
+            'directed': directed
         }
