@@ -6,16 +6,16 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/resources/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <script src="/resources/node_modules/cytoscape/dist/cytoscape.min.js"></script>
-    <script src="/resources/cytoscape-spread.js"></script>
+    <script src="/resources/node_modules/datatables.net-dt/js/dataTables.dataTables.min.js"></script>
 
     <style>
         #graph-container {
-          max-width: 100%;
-          height: 800px;
+          max-width: 350px;
+          height: 350px;
           margin: auto;
           border-style: solid;
           border-color: red;
@@ -32,7 +32,7 @@
   <body>
     <div id="container">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-2 col-xs-4">
           <div id="control">
             <div class="form-row">
               <div class="form-group">
@@ -49,11 +49,26 @@
             </div>
           </div>
         </div>
+        <div class="col-md-2 col-xs-4">
+          <div id="control">
+            <div class="form-row">
+              <div class="form-group">
+                <button class="btn btn-primary" id="btn-algorithm-floyd-warshall">Floyd - Warshall</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
       <div class="row">
-        <div class="col-md-11" id="draw-container">
+        <div class="col-md-11 col-xs-11" id="draw-container">
           <div id="graph-container"></div>
+        </div>
+        <div class="col-md-11 col-xs-11" id="result-container">
+          <div id="graph-result-container">
+            <table id='table-matrix-loaded' class="display" style="width:100%">
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -61,14 +76,23 @@
 
   <script>
     var graph_render = null;
+    var graph_values = {};
     var graph_container = 'graph-container';
     var draw_container = 'draw-container';
+    var graph_result_container = 'graph-result-container';
 
     $("#btn-load").click(function(){
       num_nodes = $("#num-nodes").val();
       pro_edges = $("#pro-edges").val();
 
       load_graph(num_nodes, pro_edges);
+    });
+
+    $("#btn-algorithm-floyd-warshall").click(function(){
+      num_nodes = $("#num-nodes").val();
+      pro_edges = $("#pro-edges").val();
+
+      run_algorithm_floyd_warshall();
     });
 
     function load_graph(num_nodes, pro_edges) {
@@ -86,7 +110,28 @@
         console.log( "Done!" );
         console.log( data_for_load_graph );
 
+        graph_values = data_for_load_graph.values;
+
         create_graph( data_for_load_graph );
+      })
+      .fail(function( jqXHR, textStatus ) {
+        alert( "Request failed: " + textStatus );
+      });
+    }
+
+    function run_algorithm_floyd_warshall(num_nodes, pro_edges) {
+      $.ajax({
+          method: "POST",
+          url: "http://127.0.0.1:5000/graph/algorithms/floyd-warshall",
+          dataType: "json",
+          contentType: "application/json; charset=utf-8",
+          data: JSON.stringify({
+             "values": graph_values
+          })
+      })
+      .done(function( response ) {
+        console.log( response );
+        draw_matrix(response);
       })
       .fail(function( jqXHR, textStatus ) {
         alert( "Request failed: " + textStatus );
@@ -98,19 +143,27 @@
 
       style_seted = {
         'width': 2,
+        'label': 'data(label)',
         'line-color': '#3a7ecf',
         'opacity': 0.5
       }
 
-      if (data_for_load_graph.directed == 'true') {
+      if (data_for_load_graph.values.directed == 'true') {
         style_seted['curve-style'] ='bezier';
         style_seted['target-arrow-shape'] ='triangle';
       }
 
       graph_render = cytoscape({
         container: document.getElementById(graph_container),
-        elements: data_for_load_graph,
+        elements: data_for_load_graph.elements,
         style: [
+          {
+            "selector": ".autorotate",
+            "style": {
+              "edge-text-rotation": "autorotate",
+              "text-background-opacity": 1
+            }
+          },
           {
             selector: 'node',
             style: {
@@ -127,6 +180,17 @@
           }
         ]
       });
+    }
+
+    function draw_matrix(matrix) {
+
+      var t = $('#table-matrix-loaded').DataTable();
+
+      for (index_row = 0; index_row < matrix.length; index_row++) {
+        row = matrix[index_row];
+        t.row.add(row).draw( false );
+      }
+
     }
 
     function refresh_graph() {

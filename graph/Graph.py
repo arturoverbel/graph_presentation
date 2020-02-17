@@ -23,6 +23,25 @@ class Graph(DynamicGraph):
     def export(self):
         return [(int(self.source[i]), int(self.target[i]), self.weight[i]) for i in range(self.source.size)]
 
+    def export_values(self):
+        directed = 'true' if self.directed else 'false'
+
+        return {
+            'source': list(np.array([str(x) for x in self.source])),
+            'target': list(np.array([str(x) for x in self.target])),
+            'weight': list(np.array([str(x) for x in self.weight])),
+            'directed': directed,
+            'last_vertex_action': self.last_vertex_action,
+            'last_vertex_modified': list(self.last_vertex_modified),
+            'last_node_action': self.last_node_action,
+            'last_node_modified': {
+                'node': self.last_node_modified['node'],
+                'source': list(self.last_node_modified['source']),
+                'target': list(self.last_node_modified['target'])
+            }
+        }
+
+
     @staticmethod
     def creategraph(total_nodes, pro_edges, weights=[1, 2, 3, 4, 5, 6, 7, 8, 9], directed=True):
 

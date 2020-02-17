@@ -10,6 +10,11 @@ print("-------Incremental-----")
 data = graph.dynamic_incremental_random_edge()
 graph.print_r()
 
+print(graph.export_values())
+
+graph.draw()
+exit()
+
 print("-------Decreasing-----")
 data = graph.dynamic_decreasing_random_edge()
 graph.print_r()
