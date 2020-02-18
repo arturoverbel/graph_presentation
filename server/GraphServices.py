@@ -6,8 +6,8 @@ class GraphServices(Services):
     def __init__(self):
         Services.__init__(self)
 
-    def create_graph(self, num_nodes, probability_edges):
-        print("Generate graph. nodes: " + str(num_nodes) + ", edges probability: ", str(probability_edges))
-        graph = Graph.creategraph(num_nodes, probability_edges, directed=True)
+    def create_graph(self, num_nodes, probability_edges, directed):
+        print("Generate. Nodes[" + str(num_nodes) + "] Edges[" + str(probability_edges) + "] Direc[" + str(directed)+ "]")
+        graph = Graph.creategraph(num_nodes, probability_edges, directed=directed)
 
         return self.export(graph)

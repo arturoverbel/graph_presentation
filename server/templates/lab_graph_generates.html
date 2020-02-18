@@ -8,10 +8,13 @@
 
     <script src="/resources/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
     <script src="/resources/node_modules/cytoscape/dist/cytoscape.min.js"></script>
-    <!---<script src="/resources/node_modules/datatables.net-dt/js/dataTables.dataTables.min.js"></script>-->
     <script src="/resources/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
+
+    <script src="/resources/scripts/draw_graph.js"></script>
+    <script src="/resources/scripts/draw_matrix.js"></script>
+    <script src="/resources/scripts/load_graph.js"></script>
+    <script src="/resources/scripts/run_algorithms.js"></script>
 
     <link rel="stylesheet" href="/resources/node_modules/datatables.net-dt/css/jquery.dataTables.min.css">
 
@@ -48,6 +51,10 @@
                 <input type="number" class="form-control" id="pro-edges" value="0.8">
               </div>
               <div class="form-group">
+                <label for="num-edges">Dirigido</label>
+                <input class="form-check-input" type="checkbox" checked id="graph-directed">
+              </div>
+              <div class="form-group">
                 <button class="btn btn-primary" id="btn-load">Load</button>
               </div>
               <div class="form-group">
@@ -75,170 +82,42 @@
   </body>
 
   <script>
-    var graph_render = null;
-    var table_matrix = null;
     var graph_values = {};
     var graph_container = 'graph-container';
     var draw_container = 'draw-container';
-    var graph_result_container = 'graph-result-container';
-
+    var matrix_container = 'table-matrix-loaded';
 
     $("#btn-load").click(function(){
       num_nodes = $("#num-nodes").val();
       pro_edges = $("#pro-edges").val();
+      directed = $('#graph-directed').is(":checked");
 
-      load_graph(num_nodes, pro_edges);
+      $.when( load_graph(num_nodes, pro_edges, directed) )
+        .then(
+          function (response) {
+            graph_values = response.values;
+            create_graph( response, graph_container, draw_container );
+          },
+          function (response) {
+            alert( "Request failed: " + response );
+          });
     });
+
+
 
     $("#btn-algorithm-floyd-warshall").click(function(){
       num_nodes = $("#num-nodes").val();
       pro_edges = $("#pro-edges").val();
 
-      run_algorithm_floyd_warshall();
+      $.when( run_algorithm_floyd_warshall(graph_values) )
+        .then(
+          function (response) {
+            draw_matrix(response, matrix_container);
+          },
+          function (response) {
+            alert( "Request failed: " + response );
+          });
     });
-
-    function load_graph(num_nodes, pro_edges) {
-      $.ajax({
-          method: "POST",
-          url: "http://127.0.0.1:5000/graph/create",
-          dataType: "json",
-          contentType: "application/json; charset=utf-8",
-          data: JSON.stringify({
-             "num_nodes": parseInt(num_nodes),
-             "probability_edges": parseFloat(pro_edges)
-          })
-      })
-      .done(function( data_for_load_graph ) {
-        graph_values = data_for_load_graph.values;
-
-        create_graph( data_for_load_graph );
-      })
-      .fail(function( jqXHR, textStatus ) {
-        alert( "Request failed: " + textStatus );
-      });
-    }
-
-    function run_algorithm_floyd_warshall(num_nodes, pro_edges) {
-      $.ajax({
-          method: "POST",
-          url: "http://127.0.0.1:5000/graph/algorithms/floyd-warshall",
-          dataType: "json",
-          contentType: "application/json; charset=utf-8",
-          data: JSON.stringify({
-             "values": graph_values
-          })
-      })
-      .done(function( response ) {
-        draw_matrix(response);
-      })
-      .fail(function( jqXHR, textStatus ) {
-        alert( "Request failed: " + textStatus );
-      });
-    }
-
-    function create_graph(data_for_load_graph) {
-      refresh_graph();
-
-      style_seted = {
-        'width': 2,
-        'label': 'data(label)',
-        'line-color': '#3a7ecf',
-        'opacity': 0.5
-      }
-
-      if (data_for_load_graph.values.directed == 'true') {
-        style_seted['curve-style'] ='bezier';
-        style_seted['target-arrow-shape'] ='triangle';
-      }
-
-      graph_render = cytoscape({
-        container: document.getElementById(graph_container),
-        elements: data_for_load_graph.elements,
-        style: [
-          {
-            "selector": ".autorotate",
-            "style": {
-              "edge-text-rotation": "autorotate",
-              "text-background-opacity": 1
-            }
-          },
-          {
-            selector: 'node',
-            style: {
-              'label': 'data(id)',
-              'text-valign': 'center',
-              'color': '#000000',
-              'background-color': '#3a7ecf'
-            }
-          },
-
-          {
-            selector: 'edge',
-            style: style_seted
-          }
-        ]
-      });
-    }
-
-    function draw_matrix(matrix) {
-
-      var htmlBODY = "<tbody>";
-      //$('#table-matrix-loaded').html("<tbody></tbody>");
-
-      var vertexes = graph_values.vertex;
-
-      htmlBODY += "<tr><td></td>";
-      for (index_vv = 0; index_vv < vertexes.length; index_vv++) {
-        htmlBODY += "<td><b>" + vertexes[index_vv] + "</b></td>";
-      }
-      htmlBODY += "</tr>";
-
-
-      for (index_row = 0; index_row < matrix.length; index_row++) {
-        row = matrix[index_row];
-        htmlBODY += "<tr>";
-        htmlBODY += "<td><b>" + vertexes[index_row] + "</b></td>";
-
-        for (index = 0; index < row.length; index++) {
-          cell = row[index]
-          htmlBODY += "<td>" + cell + "</td>";
-        }
-
-        htmlBODY += "</tr>";
-      }
-
-      htmlBODY += "</tbody>";
-
-      $('#table-matrix-loaded').html(htmlBODY);
-
-      if ( $.fn.dataTable.isDataTable( '#table-matrix-loaded' ) ) {
-        table_matrix = $('#table-matrix-loaded').DataTable();
-      }
-      else {
-        table_matrix = $('#table-matrix-loaded').DataTable({
-          "paging":   false,
-          "ordering": false,
-          "info":     false,
-          "searching": false
-        });
-      }
-
-
-
-      /*var t = $('#table-matrix-loaded').DataTable();
-
-      for (index_row = 0; index_row < matrix.length; index_row++) {
-        row = matrix[index_row];
-        t.row.add(row).draw( false );
-      }*/
-
-    }
-
-    function refresh_graph() {
-      $('#' + graph_container).remove();
-      $('#' + draw_container).html('<div id="'+graph_container+'"></div>');
-    }
-
 
   </script>
 </html>

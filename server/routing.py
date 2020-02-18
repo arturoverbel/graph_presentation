@@ -24,8 +24,9 @@ def graph_create():
 
     num_nodes = req_data['num_nodes']
     probability_edges = req_data['probability_edges']
+    directed = req_data['directed']
 
-    graph_result = graphServices.create_graph(num_nodes, probability_edges)
+    graph_result = graphServices.create_graph(num_nodes, probability_edges, directed)
     return Response(json.dumps(graph_result), mimetype='application/json')
 
 
@@ -34,5 +35,5 @@ def run_algoritm_floyd_warshall():
     req_data = request.get_json()
     values = req_data['values']
     result = graphAlgorithms.run_algoritm_floyd_warshall(values)
-    
+
     return Response(json.dumps(result), mimetype='application/json')
