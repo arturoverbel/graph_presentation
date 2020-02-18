@@ -30,6 +30,7 @@ class Graph(DynamicGraph):
             'source': list(np.array([str(x) for x in self.source])),
             'target': list(np.array([str(x) for x in self.target])),
             'weight': list(np.array([str(x) for x in self.weight])),
+            'vertex': list(np.array([str(x) for x in self.vertex])),
             'directed': directed,
             'last_vertex_action': self.last_vertex_action,
             'last_vertex_modified': list(self.last_vertex_modified),

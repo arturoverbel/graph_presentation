@@ -10,11 +10,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <script src="/resources/node_modules/cytoscape/dist/cytoscape.min.js"></script>
-    <script src="/resources/node_modules/datatables.net-dt/js/dataTables.dataTables.min.js"></script>
+    <!---<script src="/resources/node_modules/datatables.net-dt/js/dataTables.dataTables.min.js"></script>-->
+    <script src="/resources/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
+
+    <link rel="stylesheet" href="/resources/node_modules/datatables.net-dt/css/jquery.dataTables.min.css">
+
 
     <style>
         #graph-container {
-          max-width: 350px;
+          max-width: 100%;
           height: 350px;
           margin: auto;
           border-style: solid;
@@ -30,9 +34,9 @@
     </style>
   </head>
   <body>
-    <div id="container">
+    <div id="container" style="overflow: hidden;">
       <div class="row">
-        <div class="col-md-2 col-xs-4">
+        <div class="col-md-2">
           <div id="control">
             <div class="form-row">
               <div class="form-group">
@@ -46,40 +50,38 @@
               <div class="form-group">
                 <button class="btn btn-primary" id="btn-load">Load</button>
               </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2 col-xs-4">
-          <div id="control">
-            <div class="form-row">
               <div class="form-group">
                 <button class="btn btn-primary" id="btn-algorithm-floyd-warshall">Floyd - Warshall</button>
               </div>
             </div>
           </div>
         </div>
-
-      </div>
-      <div class="row">
-        <div class="col-md-11 col-xs-11" id="draw-container">
+        <div class="col-md-5" id="draw-container">
           <div id="graph-container"></div>
         </div>
-        <div class="col-md-11 col-xs-11" id="result-container">
+        <div class="col-md-5" id="result-container">
           <div id="graph-result-container">
-            <table id='table-matrix-loaded' class="display" style="width:100%">
+            <table id='table-matrix-loaded' class="table table-striped table-bordered compact" style="width:100%">
             </table>
           </div>
         </div>
+
+      </div>
+      <div class="row">
+
+
       </div>
     </div>
   </body>
 
   <script>
     var graph_render = null;
+    var table_matrix = null;
     var graph_values = {};
     var graph_container = 'graph-container';
     var draw_container = 'draw-container';
     var graph_result_container = 'graph-result-container';
+
 
     $("#btn-load").click(function(){
       num_nodes = $("#num-nodes").val();
@@ -107,9 +109,6 @@
           })
       })
       .done(function( data_for_load_graph ) {
-        console.log( "Done!" );
-        console.log( data_for_load_graph );
-
         graph_values = data_for_load_graph.values;
 
         create_graph( data_for_load_graph );
@@ -130,7 +129,6 @@
           })
       })
       .done(function( response ) {
-        console.log( response );
         draw_matrix(response);
       })
       .fail(function( jqXHR, textStatus ) {
@@ -184,12 +182,55 @@
 
     function draw_matrix(matrix) {
 
-      var t = $('#table-matrix-loaded').DataTable();
+      var htmlBODY = "<tbody>";
+      //$('#table-matrix-loaded').html("<tbody></tbody>");
+
+      var vertexes = graph_values.vertex;
+
+      htmlBODY += "<tr><td></td>";
+      for (index_vv = 0; index_vv < vertexes.length; index_vv++) {
+        htmlBODY += "<td><b>" + vertexes[index_vv] + "</b></td>";
+      }
+      htmlBODY += "</tr>";
+
+
+      for (index_row = 0; index_row < matrix.length; index_row++) {
+        row = matrix[index_row];
+        htmlBODY += "<tr>";
+        htmlBODY += "<td><b>" + vertexes[index_row] + "</b></td>";
+
+        for (index = 0; index < row.length; index++) {
+          cell = row[index]
+          htmlBODY += "<td>" + cell + "</td>";
+        }
+
+        htmlBODY += "</tr>";
+      }
+
+      htmlBODY += "</tbody>";
+
+      $('#table-matrix-loaded').html(htmlBODY);
+
+      if ( $.fn.dataTable.isDataTable( '#table-matrix-loaded' ) ) {
+        table_matrix = $('#table-matrix-loaded').DataTable();
+      }
+      else {
+        table_matrix = $('#table-matrix-loaded').DataTable({
+          "paging":   false,
+          "ordering": false,
+          "info":     false,
+          "searching": false
+        });
+      }
+
+
+
+      /*var t = $('#table-matrix-loaded').DataTable();
 
       for (index_row = 0; index_row < matrix.length; index_row++) {
         row = matrix[index_row];
         t.row.add(row).draw( false );
-      }
+      }*/
 
     }
 
