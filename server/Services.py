@@ -1,4 +1,5 @@
 from graph.Graph import Graph
+import numpy as np
 
 
 class Services:
@@ -13,7 +14,10 @@ class Services:
 
         matrix_to_export = []
         for row in matrix_result:
-            matrix_to_export.append([str(a) for a in row])
+            matrix_to_export.append([
+                str(a) if a == np.inf else str(int(a))
+                for a in row
+            ])
 
         return matrix_to_export
 

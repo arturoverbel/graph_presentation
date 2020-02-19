@@ -27,10 +27,10 @@ class Graph(DynamicGraph):
         directed = 'true' if self.directed else 'false'
 
         return {
-            'source': list(np.array([str(x) for x in self.source])),
-            'target': list(np.array([str(x) for x in self.target])),
-            'weight': list(np.array([str(x) for x in self.weight])),
-            'vertex': list(np.array([str(x) for x in self.vertex])),
+            'source': list(np.array([str(int(x)) for x in self.source])),
+            'target': list(np.array([str(int(x)) for x in self.target])),
+            'weight': list(np.array([str(int(x)) for x in self.weight])),
+            'vertex': list(np.array([str(int(x)) for x in self.vertex])),
             'directed': directed,
             'last_vertex_action': self.last_vertex_action,
             'last_vertex_modified': list(self.last_vertex_modified),
@@ -41,6 +41,28 @@ class Graph(DynamicGraph):
                 'target': list(self.last_node_modified['target'])
             }
         }
+
+    @staticmethod
+    def import_values(values):
+        directed = True if values['directed'] == 'true' else False
+
+        new_values = {
+            'source': np.array([int(x) for x in values['source']]),
+            'target': np.array([int(x) for x in values['target']]),
+            'weight': np.array([int(x) for x in values['weight']]),
+            'vertex': np.array([int(x) for x in values['vertex']]),
+            'directed': directed,
+            'last_vertex_action': values['last_vertex_action'],
+            'last_vertex_modified': np.array(values['last_vertex_modified']),
+            'last_node_action': values['last_node_action'],
+            'last_node_modified': {
+                'node': values['last_node_modified']['node'],
+                'source': np.array(values['last_node_modified']['source']),
+                'target': np.array(values['last_node_modified']['target'])
+            }
+        }
+
+        return Graph(new_values['source'], new_values['target'], new_values['weight'], new_values['directed'])
 
 
     @staticmethod

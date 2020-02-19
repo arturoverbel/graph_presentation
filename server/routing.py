@@ -37,3 +37,20 @@ def run_algoritm_floyd_warshall():
     result = graphAlgorithms.run_algoritm_floyd_warshall(values)
 
     return Response(json.dumps(result), mimetype='application/json')
+
+@graph_routing.route('/graph/algorithms/dijkstra', methods=['POST'])
+def run_algoritm_dijkstra():
+    req_data = request.get_json()
+    values = req_data['values']
+    source = req_data['source']
+    result = graphAlgorithms.run_algoritm_dijkstra(values, source)
+
+    return Response(json.dumps(result), mimetype='application/json')
+
+@graph_routing.route('/graph/algorithms/dijkstra-apsp', methods=['POST'])
+def run_algoritm_dijkstra_apsp():
+    req_data = request.get_json()
+    values = req_data['values']
+    result = graphAlgorithms.run_algoritm_dijkstra_apsp(values)
+
+    return Response(json.dumps(result), mimetype='application/json')

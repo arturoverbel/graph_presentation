@@ -1,11 +1,4 @@
-function refresh_graph(graph_container, draw_container) {
-  $('#' + graph_container).remove();
-  $('#' + draw_container).html('<div id="'+graph_container+'"></div>');
-}
-
-function create_graph(data_for_load_graph, graph_container, draw_container) {
-  refresh_graph(graph_container,  draw_container);
-
+function create_graph(data_for_load_graph, graph_container) {
   style_seted = {
     'width': 2,
     'label': 'data(label)',
