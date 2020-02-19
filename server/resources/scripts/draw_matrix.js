@@ -1,4 +1,5 @@
-function draw_matrix(matrix, matrix_container) {
+function draw_matrix(matrix, matrix_container, graph_draw_matrix_flag) {
+  if (graph_draw_matrix_flag == false) return;
 
   var htmlBODY = "<tbody>";
   var htmlHEAD = "<thead>";

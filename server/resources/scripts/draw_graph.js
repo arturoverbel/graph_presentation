@@ -1,4 +1,6 @@
-function create_graph(data_for_load_graph, graph_container) {
+function create_graph(data_for_load_graph, graph_container, graph_draw_flag) {
+  if (graph_draw_flag == false) return;
+  
   style_seted = {
     'width': 2,
     'label': 'data(label)',

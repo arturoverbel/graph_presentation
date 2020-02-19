@@ -51,8 +51,16 @@
                 <input type="number" class="form-control" id="pro-edges" value="0.8">
               </div>
               <div class="form-group">
-                <label for="num-edges">Dirigido</label>
+                <label for="num-edges">Directed</label>
                 <input class="form-check-input" type="checkbox" checked id="graph-directed">
+              </div>
+              <div class="form-group">
+                <label for="graph-draw-flag">Draw Graph</label>
+                <input class="form-check-input" type="checkbox" checked id="graph-draw-flag">
+              </div>
+              <div class="form-group">
+                <label for="graph-draw-matrix-flag">Draw Matrix</label>
+                <input class="form-check-input" type="checkbox" checked id="graph-draw-matrix-flag">
               </div>
               <div class="form-group">
                 <button class="btn btn-primary" id="btn-load">Load Graph</button>
@@ -90,6 +98,7 @@
             <table id='table-matrix-loaded' class="table table-striped table-bordered compact" style="width:100%">
             </table>
           </div>
+          <h4>Time: <strong id="graph-info-result-time"></strong></h4>
         </div>
 
       </div>
@@ -105,6 +114,12 @@
     var graph_container = 'graph-container';
     var matrix_container = 'table-matrix-loaded';
 
+    var graph_draw_flag = $('#graph-draw-flag').is(":checked");
+    var graph_draw_matrix_flag = $('#graph-draw-matrix-flag').is(":checked");
+
+    $('#graph-draw-flag').click(function(){ graph_draw_flag = $(this).is(":checked"); })
+    $('#graph-draw-matrix-flag').click(function(){ graph_draw_matrix_flag = $(this).is(":checked"); })
+
     $("#btn-load").click(function(){
       num_nodes = $("#num-nodes").val();
       pro_edges = $("#pro-edges").val();
@@ -114,7 +129,7 @@
         .then(
           function (response) {
             graph_values = response.values;
-            create_graph( response, graph_container );
+            create_graph( response, graph_container, graph_draw_flag );
             $('#graph-info').html("Graph loaded. Edges: " + graph_values.source.length);
           },
           function (response) {
@@ -123,17 +138,18 @@
           });
     });
 
-    function load_graph_info_result(name_results) {
+    function load_graph_info_result(name_results, time) {
       $("#graph-info-result-title").html("Algorithm Results");
       $("#graph-info-result-name").html(name_results);
+      $("#graph-info-result-time").html(time);
     }
 
     $("#btn-algorithm-floyd-warshall").click(function(){
       $.when( run_algorithm_floyd_warshall(graph_values) )
         .then(
           function (response) {
-            draw_matrix(response, matrix_container);
-            load_graph_info_result("Floyd-Warshall");
+            draw_matrix_lab_graph_generates(response.matrix);
+            load_graph_info_result("Floyd-Warshall", response.time);
           },
           function (response) {
             alert( "Request failed: " + response );
@@ -146,8 +162,8 @@
       $.when( run_algorithm_dijkstra(graph_values, source) )
         .then(
           function (response) {
-            draw_matrix(response, matrix_container);
-            load_graph_info_result("Dijkstra");
+            draw_matrix_lab_graph_generates(response.matrix);
+            load_graph_info_result("Dijkstra", response.time);
           },
           function (response) {
             alert( "Request failed: " + response );
@@ -159,13 +175,17 @@
       $.when( run_algorithm_dijkstra_apsp(graph_values) )
         .then(
           function (response) {
-            draw_matrix(response, matrix_container);
-            load_graph_info_result("Dijkstra APSP");
+            draw_matrix_lab_graph_generates(response.matrix);
+            load_graph_info_result("Dijkstra APSP", response.time);
           },
           function (response) {
             alert( "Request failed: " + response );
           });
     });
+
+    function draw_matrix_lab_graph_generates(matrix) {
+      draw_matrix(matrix, matrix_container, graph_draw_matrix_flag);
+    }
 
   </script>
 </html>

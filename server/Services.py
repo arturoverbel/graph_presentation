@@ -10,6 +10,13 @@ class Services:
 
         return self.export_to_cytoscape(graph, matrix_result)
 
+    def export_algorithm(self, dist, time):
+
+        return {
+            'matrix': self.export_matrix(dist),
+            'time': time
+        }
+
     def export_matrix(self, matrix_result):
 
         matrix_to_export = []
