@@ -11,3 +11,9 @@ class GraphServices(Services):
         graph = Graph.creategraph(num_nodes, probability_edges, directed=directed)
 
         return self.export(graph)
+
+    def dynamic_incremental_random_edge(self, values):
+        graph = Graph.import_values(values)
+        graph.dynamic_incremental_random_edge()
+
+        return self.export(graph)

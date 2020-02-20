@@ -29,6 +29,13 @@ def graph_create():
     graph_result = graphServices.create_graph(num_nodes, probability_edges, directed)
     return Response(json.dumps(graph_result), mimetype='application/json')
 
+@graph_routing.route('/graph/dynamic/incremental-edge', methods=['POST'])
+def dynamic_incremental_random_edge():
+    req_data = request.get_json()
+    values = req_data['values']
+    result = graphServices.dynamic_incremental_random_edge(values)
+
+    return Response(json.dumps(result), mimetype='application/json')
 
 @graph_routing.route('/graph/algorithms/floyd-warshall', methods=['POST'])
 def run_algoritm_floyd_warshall():

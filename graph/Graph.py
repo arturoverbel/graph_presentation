@@ -33,12 +33,13 @@ class Graph(DynamicGraph):
             'vertex': list(np.array([str(int(x)) for x in self.vertex])),
             'directed': directed,
             'last_vertex_action': self.last_vertex_action,
-            'last_vertex_modified': list(self.last_vertex_modified),
+            'last_vertex_modified': list(np.array([str(int(x)) for x in self.last_vertex_modified])),
             'last_node_action': self.last_node_action,
             'last_node_modified': {
                 'node': self.last_node_modified['node'],
-                'source': list(self.last_node_modified['source']),
-                'target': list(self.last_node_modified['target'])
+                'source': list(np.array([str(int(x)) for x in self.last_node_modified['source']])),
+                'target': list(np.array([str(int(x)) for x in self.last_node_modified['target']]))
+
             }
         }
 
