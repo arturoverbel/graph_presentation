@@ -72,7 +72,7 @@
             <hr>
             <div class="form-row">
               <div class="form-group">
-                <button class="btn btn-info" id="btn-algorithm-floyd-warshall">Floyd - Warshall</button>
+                <button class="btn btn-success" id="btn-algorithm-floyd-warshall">Floyd - Warshall</button>
               </div>
             </div>
             <hr>
@@ -82,10 +82,10 @@
                 <input type="number" class="form-control" id="source-dijkstra" value="0">
               </div>
               <div class="form-group">
-                <button class="btn btn-info" id="btn-algorithm-dijkstra">Dijkstra</button>
+                <button class="btn btn-success" id="btn-algorithm-dijkstra">Dijkstra</button>
               </div>
               <div class="form-group">
-                <button class="btn btn-info" id="btn-algorithm-dijkstra-apsp">Dijkstra APSP</button>
+                <button class="btn btn-success" id="btn-algorithm-dijkstra-apsp">Dijkstra APSP</button>
               </div>
             </div>
           </div>
@@ -114,6 +114,7 @@
 
   <script>
     var graph_values = {};
+    var graph_render = null;
     var graph_container = 'graph-container';
     var matrix_container = 'table-matrix-loaded';
 
@@ -132,7 +133,22 @@
         .then(
           function (response) {
             graph_values = response.values;
-            create_graph( response, graph_container, graph_draw_flag );
+            graph_render = create_graph( response, graph_container, graph_draw_flag );
+            $('#graph-info').html("Graph loaded. Edges: " + graph_values.source.length);
+          },
+          function (response) {
+            alert( "Request failed: " + response );
+            $('#graph-info').html("Graph error");
+          });
+    });
+
+    $("#btn-random-edge-incremental").click(function(){
+
+      $.when( load_graph_incremental_random_edge(graph_values) )
+        .then(
+          function (response) {
+            graph_values = response.values;
+            graph_render = graph_update( graph_render, graph_values);
             $('#graph-info').html("Graph loaded. Edges: " + graph_values.source.length);
           },
           function (response) {
