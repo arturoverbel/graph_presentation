@@ -59,50 +59,28 @@
                 <input class="form-check-input" type="checkbox" checked id="graph-directed">
               </div>
               <div class="form-group">
-                <label for="graph-draw-flag">Draw Graph</label>
-                <input class="form-check-input" type="checkbox" checked id="graph-draw-flag">
-              </div>
-              <div class="form-group">
-                <label for="graph-draw-matrix-flag">Draw Matrix</label>
-                <input class="form-check-input" type="checkbox" checked id="graph-draw-matrix-flag">
-              </div>
-              <div class="form-group">
-                <button class="btn btn-primary" id="btn-load">Load Graph</button>
-              </div>
-              <div class="form-group">
-                <button class="btn btn-primary update-graph" id="btn-random-edge-incremental">Incremental Random Edge</button>
-              </div>
-              <div class="form-group">
-                <button class="btn btn-primary update-graph" id="btn-random-edge-decrease">Decrease Random Edge</button>
-              </div>
-              <div class="form-group">
-                <button class="btn btn-primary update-graph" id="btn-random-edge-update">Update Random Edge</button>
+                <button class="btn btn-primary update-graph" id="btn-random-edge-incremental">Analize Incremental Random Edge</button>
               </div>
             </div>
             <div class="form-row">
-              <div class="form-group">
-                <label for="source-dijkstra">Source</label>
-                <input type="number" class="form-control algorithm-sssp" id="source-dijkstra" value="0">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="dijkstra-apsp">
+                <label class="form-check-label" for="dijkstra-apsp">
+                  Dijkstra APSP
+                </label>
               </div>
-              <div class="form-group">
-                <button class="btn btn-warning algorithm-sssp" id="btn-algorithm-dijkstra">Dijkstra</button>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="dijkstra-apsp">
+                <label class="form-check-label" for="dijkstra-apsp">
+                  Floyd-Warshall
+                </label>
               </div>
-            </div>
-            <hr>
-            <div class="form-row">
-              <div class="form-group">
-                <button class="btn btn-success algorithm-apsp" id="btn-algorithm-floyd-warshall">Floyd - Warshall</button>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="dijkstra-apsp">
+                <label class="form-check-label" for="dijkstra-apsp">
+                  RR - BFS truncated
+                </label>
               </div>
-              <div class="form-group">
-                <button class="btn btn-success algorithm-apsp" id="btn-algorithm-dijkstra-apsp">Dijkstra APSP</button>
-              </div>
-            </div>
-            <hr>
-            <div class="form-row">
-              <div class="form-group">
-                <button class="btn btn-danger algorithm-dynamic-apsp" id="btn-rr-bfs-truncated">RR Bfs Truncated</button>
-              </div>
-            </div>
           </div>
         </div>
         <div class="col-md-5" id="draw-container">
@@ -128,177 +106,6 @@
   </body>
 
   <script>
-    var graph_values = null;
-    var graph_matrix_dist_values = null;
-    var graph_render = null;
-    var graph_container = 'graph-container';
-    var matrix_container = 'table-matrix-loaded';
-
-    var graph_draw_flag = $('#graph-draw-flag').is(":checked");
-    var graph_draw_matrix_flag = $('#graph-draw-matrix-flag').is(":checked");
-
-    update_main_layout();
-
-    function load_graph_info_result(name_results, time) {
-      $("#graph-info-result-title").html("Algorithm Results");
-      $("#graph-info-result-name").html(name_results);
-      $("#graph-info-result-time").html(time);
-    }
-
-    function draw_matrix_lab_graph_generates(matrix) {
-      graph_matrix_dist_values = matrix;
-      draw_matrix(matrix, matrix_container, graph_draw_matrix_flag);
-    }
-
-    function update_main_layout() {
-      console.log("asdasd");
-      if( graph_values == null ) {
-        $(".update-graph").addClass("disabled");
-        $(".algorithm-sssp").addClass("disabled");
-        $(".algorithm-apsp").addClass("disabled");
-        $(".algorithm-dynamic-apsp").addClass("disabled");
-      } else {
-        $(".update-graph").removeClass("disabled");
-        $(".algorithm-sssp").removeClass("disabled");
-        $(".algorithm-apsp").removeClass("disabled");
-        if( graph_matrix_dist_values == null) {
-          $(".algorithm-dynamic-apsp").addClass("disabled");
-        }else {
-          $(".algorithm-dynamic-apsp").removeClass("disabled");
-        }
-
-      }
-    }
-
-    $('#graph-draw-flag').click(function(){ graph_draw_flag = $(this).is(":checked"); })
-    $('#graph-draw-matrix-flag').click(function(){ graph_draw_matrix_flag = $(this).is(":checked"); })
-
-    $("#btn-load").click(function(){
-      num_nodes = $("#num-nodes").val();
-      pro_edges = $("#pro-edges").val();
-      directed = $('#graph-directed').is(":checked");
-
-      $.when( load_graph(num_nodes, pro_edges, directed) )
-        .then(
-          function (response) {
-            graph_values = response.values;
-            graph_render = create_graph( response, graph_container, graph_draw_flag );
-            $('#graph-info').html("Graph loaded. Edges: " + graph_values.source.length);
-            update_main_layout()
-          },
-          function (response) {
-            alert( "Request failed: " + response );
-            $('#graph-info').html("Graph error");
-          });
-    });
-
-    $("#btn-random-edge-incremental").click(function(){
-
-      $.when( load_graph_incremental_random_edge(graph_values) )
-        .then(
-          function (response) {
-            graph_values = response.values;
-            graph_update( graph_values);
-            $('#graph-info').html("Graph loaded. Edges: " + graph_values.source.length);
-            update_main_layout()
-          },
-          function (response) {
-            alert( "Request failed: " + response );
-            $('#graph-info').html("Graph error");
-          });
-    });
-
-    $("#btn-random-edge-decrease").click(function(){
-
-      $.when( load_graph_decrease_random_edge(graph_values) )
-        .then(
-          function (response) {
-            graph_values = response.values;
-            graph_update( graph_values);
-            $('#graph-info').html("Graph loaded. Edges: " + graph_values.source.length);
-            update_main_layout()
-          },
-          function (response) {
-            alert( "Request failed: " + response );
-            $('#graph-info').html("Graph error");
-          });
-    });
-
-    $("#btn-random-edge-update").click(function(){
-
-      $.when( load_graph_update_random_edge(graph_values) )
-        .then(
-          function (response) {
-            graph_values = response.values;
-            graph_update( graph_values);
-            $('#graph-info').html("Graph loaded. Edges: " + graph_values.source.length);
-            update_main_layout()
-          },
-          function (response) {
-            alert( "Request failed: " + response );
-            $('#graph-info').html("Graph error");
-          });
-    });
-
-//------------------------------------------------------------------------------------------------
-
-
-
-    $("#btn-algorithm-floyd-warshall").click(function(){
-      $.when( run_algorithm_floyd_warshall(graph_values) )
-        .then(
-          function (response) {
-            draw_matrix_lab_graph_generates(response.matrix);
-            load_graph_info_result("Floyd-Warshall", response.time);
-            update_main_layout()
-          },
-          function (response) {
-            alert( "Request failed: " + response );
-          });
-    });
-
-    $("#btn-algorithm-dijkstra").click(function(){
-      var source = $("#source-dijkstra").val();
-
-      $.when( run_algorithm_dijkstra(graph_values, source) )
-        .then(
-          function (response) {
-            draw_matrix_lab_graph_generates(response.matrix);
-            load_graph_info_result("Dijkstra", response.time);
-            update_main_layout()
-          },
-          function (response) {
-            alert( "Request failed: " + response );
-          });
-    });
-
-    $("#btn-algorithm-dijkstra-apsp").click(function(){
-
-      $.when( run_algorithm_dijkstra_apsp(graph_values) )
-        .then(
-          function (response) {
-            draw_matrix_lab_graph_generates(response.matrix);
-            load_graph_info_result("Dijkstra APSP", response.time);
-            update_main_layout()
-          },
-          function (response) {
-            alert( "Request failed: " + response );
-          });
-    });
-
-    $("#btn-rr-bfs-truncated").click(function(){
-
-      $.when( run_algoritm_rr_bfs_truncated(graph_values, graph_matrix_dist_values) )
-        .then(
-          function (response) {
-            draw_matrix_lab_graph_generates(response.matrix);
-            load_graph_info_result("BFS truncated", response.time);
-            update_main_layout()
-          },
-          function (response) {
-            alert( "Request failed: " + response );
-          });
-    });
 
 
 
