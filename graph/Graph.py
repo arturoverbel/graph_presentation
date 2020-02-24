@@ -54,16 +54,22 @@ class Graph(DynamicGraph):
             'vertex': np.array([int(x) for x in values['vertex']]),
             'directed': directed,
             'last_vertex_action': values['last_vertex_action'],
-            'last_vertex_modified': np.array(values['last_vertex_modified']),
+            'last_vertex_modified': np.array([int(x) for x in values['last_vertex_modified']]),
             'last_node_action': values['last_node_action'],
             'last_node_modified': {
                 'node': values['last_node_modified']['node'],
-                'source': np.array(values['last_node_modified']['source']),
-                'target': np.array(values['last_node_modified']['target'])
+                'source': np.array([int(x) for x in values['last_node_modified']['source']]),
+                'target': np.array([int(x) for x in values['last_node_modified']['target']])
             }
         }
 
-        return Graph(new_values['source'], new_values['target'], new_values['weight'], new_values['directed'])
+        g = Graph(new_values['source'], new_values['target'], new_values['weight'], new_values['directed'])
+        g.last_vertex_action = new_values['last_vertex_action']
+        g.last_vertex_modified = new_values['last_vertex_modified']
+        g.last_node_action = new_values['last_node_action']
+        g.last_node_modified = new_values['last_node_modified']
+
+        return g
 
 
     @staticmethod

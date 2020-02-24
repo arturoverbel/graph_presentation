@@ -9,21 +9,20 @@ graph.print_r()
 print("-------Incremental-----")
 data = graph.dynamic_incremental_random_edge()
 graph.print_r()
+print(data)
 
 print(graph.export_values())
-
-graph.draw()
-exit()
 
 print("-------Decreasing-----")
 data = graph.dynamic_decreasing_random_edge()
 graph.print_r()
-
-print("-------Update Vertex-----")
-data = graph.vertex_update_random()
 print(data)
-graph.print_r()
 
-graph.draw()
+print("-------Update Edge-----")
+data = graph.edge_update_random()
+graph.print_r()
+print(data)
+
+#graph.draw()
 print()
 print("------------------------")

@@ -37,6 +37,24 @@ def dynamic_incremental_random_edge():
 
     return Response(json.dumps(result), mimetype='application/json')
 
+@graph_routing.route('/graph/dynamic/decrease-edge', methods=['POST'])
+def dynamic_decreasing_random_edge():
+    req_data = request.get_json()
+    values = req_data['values']
+    result = graphServices.dynamic_decreasing_random_edge(values)
+
+    return Response(json.dumps(result), mimetype='application/json')
+
+@graph_routing.route('/graph/dynamic/update-edge', methods=['POST'])
+def dynamic_update_random_edge():
+    req_data = request.get_json()
+    values = req_data['values']
+    result = graphServices.dynamic_update_random_edge(values)
+
+    return Response(json.dumps(result), mimetype='application/json')
+
+################################################################################################
+
 @graph_routing.route('/graph/algorithms/floyd-warshall', methods=['POST'])
 def run_algoritm_floyd_warshall():
     req_data = request.get_json()
@@ -59,5 +77,14 @@ def run_algoritm_dijkstra_apsp():
     req_data = request.get_json()
     values = req_data['values']
     result = graphAlgorithms.run_algoritm_dijkstra_apsp(values)
+
+    return Response(json.dumps(result), mimetype='application/json')
+
+@graph_routing.route('/graph/algorithms/rr-bfs-truncated', methods=['POST'])
+def run_algoritm_rr_bfs_truncated():
+    req_data = request.get_json()
+    values = req_data['values']
+    dist = req_data['dist']
+    result = graphAlgorithms.run_algoritm_rr_bfs_truncated(values, dist)
 
     return Response(json.dumps(result), mimetype='application/json')

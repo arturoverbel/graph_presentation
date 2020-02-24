@@ -17,3 +17,15 @@ class GraphServices(Services):
         graph.dynamic_incremental_random_edge()
 
         return self.export(graph)
+
+    def dynamic_decreasing_random_edge(self, values):
+        graph = Graph.import_values(values)
+        graph.dynamic_decreasing_random_edge()
+
+        return self.export(graph)
+
+    def dynamic_update_random_edge(self, values):
+        graph = Graph.import_values(values)
+        graph.edge_update_random()
+
+        return self.export(graph)

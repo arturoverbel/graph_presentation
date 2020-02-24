@@ -16,7 +16,7 @@ print(dist_source)
 dist = Floyd_Warshall(graph)
 print(dist)
 
-graph.vertex_update(source=1, target=0)
+graph.edge_update(source=1, target=0)
 
 print("<--------Dijkstra_Truncated------->\n")
 

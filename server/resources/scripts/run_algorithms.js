@@ -34,3 +34,16 @@ function run_algorithm_dijkstra_apsp(graph_values) {
       })
   });
 }
+
+function run_algoritm_rr_bfs_truncated(graph_values, dist) {
+  return $.ajax({
+      method: "POST",
+      url: "/graph/algorithms/rr-bfs-truncated",
+      dataType: "json",
+      contentType: "application/json; charset=utf-8",
+      data: JSON.stringify({
+         "values": graph_values,
+         dist
+      })
+  });
+}

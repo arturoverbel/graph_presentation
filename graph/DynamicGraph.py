@@ -60,7 +60,10 @@ class DynamicGraph(GraphPro):
         self.last_vertex_modified = returned
         self.last_vertex_action = "DELETE"
 
-        return returned
+        return {
+            "last_vertex_modified": self.last_vertex_modified,
+            "last_vertex_action": self.last_vertex_action
+        }
 
     def dynamic_incremental_random_edge(self, weights=[1, 2, 3, 4, 5, 6, 7, 8, 9]):
 
@@ -95,7 +98,10 @@ class DynamicGraph(GraphPro):
         self.last_vertex_modified = returned
         self.last_vertex_action = "ADD"
 
-        return returned
+        return {
+            "last_vertex_modified": self.last_vertex_modified,
+            "last_vertex_action": self.last_vertex_action
+        }
 
     def dynamic_incremental_random_node(self, num_edges=1, weights=[1, 2, 3, 4, 5, 6, 7, 8, 9]):
         self.clean_vars()
@@ -158,9 +164,12 @@ class DynamicGraph(GraphPro):
             self.last_node_modified['target'] = np.append(self.last_node_modified['target'], target)
 
         self.last_node_action = "DELETE"
-        return self.last_node_modified
+        return {
+            "last_node_modified": self.last_node_modified,
+            "last_node_action": self.last_node_action
+        }
 
-    def vertex_update(self, source, target, weight=1):
+    def edge_update(self, source, target, weight=1):
         self.clean_vars()
         self.weight[np.logical_and(self.source == source, self.target == target)] = weight
         if not self.directed:
@@ -168,9 +177,12 @@ class DynamicGraph(GraphPro):
 
         self.last_vertex_modified = np.array([source, target, weight])
         self.last_vertex_action = "UPDATE"
-        return True
+        return {
+            "last_vertex_modified": self.last_vertex_modified,
+            "last_vertex_action": self.last_vertex_action
+        }
 
-    def vertex_update_random(self, weight=1):
+    def edge_update_random(self, weight=1):
         count_max = 100
         flag = 0
         while True:
@@ -187,4 +199,4 @@ class DynamicGraph(GraphPro):
             if flag >= count_max:
                 return -2
 
-        return self.vertex_update(source, target, weight=weight)
+        return self.edge_update(source, target, weight=weight)

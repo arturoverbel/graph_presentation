@@ -28,6 +28,17 @@ class Services:
 
         return matrix_to_export
 
+    def import_matrix(self, matrix_result):
+
+        matrix_to_import = []
+        for row in matrix_result:
+            matrix_to_import.append([
+                np.inf if a == "inf" else float(int(a))
+                for a in row
+            ])
+
+        return matrix_to_import
+
     def export_to_cytoscape(self, graph, matrix_result=[[]]):
         size_vertex = range(graph.vertex.size)
         size_edges = range(graph.source.size)
@@ -51,7 +62,7 @@ class Services:
                     'label': str(int(graph.weight[i])),
                     'directed': directed
                 },
-                'clasess': 'autorotate'
+                'clasess': 'default'
             })
 
         return {

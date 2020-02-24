@@ -21,3 +21,23 @@ function load_graph_incremental_random_edge(values) {
       data: JSON.stringify({ "values": values })
   });
 }
+
+function load_graph_decrease_random_edge(values) {
+  return $.ajax({
+      method: "POST",
+      url: "/graph/dynamic/decrease-edge",
+      dataType: "json",
+      contentType: "application/json; charset=utf-8",
+      data: JSON.stringify({ "values": values })
+  });
+}
+
+function load_graph_update_random_edge(values) {
+  return $.ajax({
+      method: "POST",
+      url: "/graph/dynamic/update-edge",
+      dataType: "json",
+      contentType: "application/json; charset=utf-8",
+      data: JSON.stringify({ "values": values })
+  });
+}
