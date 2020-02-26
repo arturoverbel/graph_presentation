@@ -4,10 +4,11 @@
     <meta charset="utf-8">
     <title>Labs</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/resources/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/resources/node_modules/datatables.net-dt/css/jquery.dataTables.min.css">
 
     <script src="/resources/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="/resources/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/resources/node_modules/cytoscape/dist/cytoscape.min.js"></script>
     <script src="/resources/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="/resources/node_modules/chart.js/dist/Chart.min.js"></script>
@@ -16,9 +17,6 @@
     <script src="/resources/scripts/run_algorithms.js"></script>
     <script src="/resources/scripts/lab_graph.js"></script>
     <script src="/resources/scripts/draw_chart.js"></script>
-
-    <link rel="stylesheet" href="/resources/node_modules/datatables.net-dt/css/jquery.dataTables.min.css">
-
 
     <style>
         #stadistic-container {
@@ -35,37 +33,49 @@
           margin-left: 0;
           border-width: .2rem;
         }
+
+        .form-group {
+          width: 100%;
+        }
     </style>
   </head>
   <body>
     <div id="container" style="overflow: hidden;">
       <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-3">
           <div id="control">
             <div class="form-row">
               <div class="form-group">
                 <label for="start-num-nodes">Start Nodes Length</label>
                 <input type="number" class="form-control" id="start-num-nodes" value="5">
               </div>
+              <br>
               <div class="form-group">
                 <label for="end-num-nodes">End Nodes Length</label>
                 <input type="number" class="form-control" id="end-num-nodes" value="10">
               </div>
+              <br>
               <div class="form-group">
                 <label for="num-edges">Edges Probability</label>
                 <input type="number" class="form-control" id="pro-edges" value="0.8">
               </div>
+              <br>
               <div class="form-group">
-                <label for="num-edges">Directed</label>
-                <input class="form-check-input" type="checkbox" checked id="graph-directed">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" checked id="graph-directed">
+                  <label for="graph-directed">Directed</label>
+                </div>
               </div>
+              <br>
               <div class="form-group">
                 <label for="epoch">Epoch</label>
                 <input type="number" class="form-control" id="epoch" value="100">
               </div>
 
             </div>
-            <div class="form-row">
+            <hr>
+            <h3>Algorithm to show</h3>
+            <div class="form-group">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" checked id="dijkstra-apsp">
                 <label class="form-check-label" for="dijkstra-apsp">
@@ -94,9 +104,14 @@
                 <button class="btn btn-primary update-graph" id="btn-random-graph-edge-incremental">Analize Incremental Random Edge</button>
               </div>
             </div>
+            <hr>
+            <div class="form-row">
+              <h2><div id="info_lab_title"></div></h2>
+              <h3><div id="info_lab"></div></h3>
+            </div>
           </div>
         </div>
-        <div class="col-md-10" id="draw-container">
+        <div class="col-md-9" id="draw-container">
           <canvas id="stadistic-container"></canvas>
         </div>
 
@@ -107,6 +122,8 @@
   <script>
   var chart_container = 'stadistic-container';
   var box_container = 'draw-container';
+  var info_container = 'info_lab';
+  var spiner = "<div class='spinner-border text-dark'></div>";
 
   $("#btn-random-graph").click(async function(){
     generate_lab([
@@ -132,14 +149,20 @@
     var directed = $("#graph-directed").is(":checked");
     var epoch = parseInt($("#epoch").val());
 
+
+    $('#info_lab_title').html("Running Lab " + spiner);
+
     var result = await lab_graph(
       start_num_nodes,
       end_num_nodes,
       pro_edges,
       directed,
       epoch,
-      algorithms
+      algorithms,
+      info_container
     );
+
+    $('#info_lab_title').html("Lab Finished ");
 
     draw_chart(result, chart_container, box_container)
   }

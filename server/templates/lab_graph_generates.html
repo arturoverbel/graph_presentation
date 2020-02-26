@@ -4,10 +4,11 @@
     <meta charset="utf-8">
     <title>Labs</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/resources/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/resources/node_modules/datatables.net-dt/css/jquery.dataTables.min.css">
 
     <script src="/resources/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="/resources/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/resources/node_modules/cytoscape/dist/cytoscape.min.js"></script>
     <script src="/resources/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
 
@@ -15,8 +16,6 @@
     <script src="/resources/scripts/draw_matrix.js"></script>
     <script src="/resources/scripts/load_graph.js"></script>
     <script src="/resources/scripts/run_algorithms.js"></script>
-
-    <link rel="stylesheet" href="/resources/node_modules/datatables.net-dt/css/jquery.dataTables.min.css">
 
 
     <style>
@@ -34,6 +33,10 @@
           margin-left: 0;
           border-width: .2rem;
         }
+
+        .form-group {
+          width: 100%;
+        }
     </style>
   </head>
   <body>
@@ -46,22 +49,27 @@
                 <label for="num-nodes">Nodes Length</label>
                 <input type="number" class="form-control" id="num-nodes" value="10">
               </div>
+              <br>
               <div class="form-group">
                 <label for="num-edges">Edges Probability</label>
                 <input type="number" class="form-control" id="pro-edges" value="0.8">
               </div>
+              <br>
               <div class="form-group">
-                <label for="num-edges">Directed</label>
-                <input class="form-check-input" type="checkbox" checked id="graph-directed">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" checked id="graph-directed">
+                  <label for="graph-directed">Directed</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" checked id="graph-draw-flag">
+                  <label for="graph-draw-flag">Draw Graph</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" checked id="graph-draw-matrix-flag">
+                  <label for="graph-draw-matrix-flag">Draw Matrix</label>
+                </div>
               </div>
-              <div class="form-group">
-                <label for="graph-draw-flag">Draw Graph</label>
-                <input class="form-check-input" type="checkbox" checked id="graph-draw-flag">
-              </div>
-              <div class="form-group">
-                <label for="graph-draw-matrix-flag">Draw Matrix</label>
-                <input class="form-check-input" type="checkbox" checked id="graph-draw-matrix-flag">
-              </div>
+              <br>
               <div class="form-group">
                 <button class="btn btn-primary" id="btn-load">Load Graph</button>
               </div>
