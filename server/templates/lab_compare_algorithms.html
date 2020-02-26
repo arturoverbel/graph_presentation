@@ -10,17 +10,18 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="/resources/node_modules/cytoscape/dist/cytoscape.min.js"></script>
     <script src="/resources/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/resources/node_modules/chart.js/dist/Chart.min.js"></script>
 
-    <script src="/resources/scripts/draw_graph.js"></script>
-    <script src="/resources/scripts/draw_matrix.js"></script>
     <script src="/resources/scripts/load_graph.js"></script>
     <script src="/resources/scripts/run_algorithms.js"></script>
+    <script src="/resources/scripts/lab_graph.js"></script>
+    <script src="/resources/scripts/draw_chart.js"></script>
 
     <link rel="stylesheet" href="/resources/node_modules/datatables.net-dt/css/jquery.dataTables.min.css">
 
 
     <style>
-        #graph-container {
+        #stadistic-container {
           max-width: 100%;
           height: 500px;
           margin: auto;
@@ -43,12 +44,12 @@
           <div id="control">
             <div class="form-row">
               <div class="form-group">
-                <label for="num-nodes">Start Nodes Length</label>
-                <input type="number" class="form-control" id="num-nodes" value="10">
+                <label for="start-num-nodes">Start Nodes Length</label>
+                <input type="number" class="form-control" id="start-num-nodes" value="5">
               </div>
               <div class="form-group">
-                <label for="num-nodes">End Nodes Length</label>
-                <input type="number" class="form-control" id="num-nodes" value="10">
+                <label for="end-num-nodes">End Nodes Length</label>
+                <input type="number" class="form-control" id="end-num-nodes" value="10">
               </div>
               <div class="form-group">
                 <label for="num-edges">Edges Probability</label>
@@ -59,55 +60,119 @@
                 <input class="form-check-input" type="checkbox" checked id="graph-directed">
               </div>
               <div class="form-group">
-                <button class="btn btn-primary update-graph" id="btn-random-edge-incremental">Analize Incremental Random Edge</button>
+                <label for="epoch">Epoch</label>
+                <input type="number" class="form-control" id="epoch" value="100">
               </div>
+
             </div>
             <div class="form-row">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="dijkstra-apsp">
+                <input class="form-check-input" type="checkbox" value="" checked id="dijkstra-apsp">
                 <label class="form-check-label" for="dijkstra-apsp">
                   Dijkstra APSP
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="dijkstra-apsp">
-                <label class="form-check-label" for="dijkstra-apsp">
+                <input class="form-check-input" type="checkbox" value="" checked id="floyd-warshall-apsp">
+                <label class="form-check-label" for="floyd-warshall-apsp">
                   Floyd-Warshall
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="dijkstra-apsp">
-                <label class="form-check-label" for="dijkstra-apsp">
+                <input class="form-check-input" type="checkbox" value="" checked id="rr-bfs-truncated-apsp">
+                <label class="form-check-label" for="rr-bfs-truncated-apsp">
                   RR - BFS truncated
                 </label>
               </div>
+            </div>
+            <hr>
+            <div class="form-row">
+              <div class="form-group">
+                <button class="btn btn-primary update-graph" id="btn-random-graph">Analize Graph Static</button>
+              </div>
+              <div class="form-group">
+                <button class="btn btn-primary update-graph" id="btn-random-graph-edge-incremental">Analize Incremental Random Edge</button>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-md-5" id="draw-container">
-          <h2><div id="graph-info">Graph empty</div></h2>
-          <div id="graph-container"></div>
+        <div class="col-md-10" id="draw-container">
+          <canvas id="stadistic-container"></canvas>
         </div>
-        <div class="col-md-5" id="result-container">
-          <h2><div id="graph-info-result-title"></div></h2>
-          <h4><div id="graph-info-result-name"></div></h4>
-          <div id="graph-result-container">
-            <table id='table-matrix-loaded' class="table table-striped table-bordered compact" style="width:100%">
-            </table>
-          </div>
-          <h4>Time: <strong id="graph-info-result-time"></strong></h4>
-        </div>
-
-      </div>
-      <div class="row">
-
 
       </div>
     </div>
   </body>
 
   <script>
+  var chart_container = 'stadistic-container';
+  var box_container = 'draw-container';
 
+  $("#btn-random-graph").click(async function(){
+    generate_lab([
+      getInfoDijkstra(),
+      getInfoFloydWarshall()
+    ]);
+  });
 
+  $("#btn-random-graph-edge-incremental").click(async function(){
+
+    generate_lab([
+      getInfoDijkstra(),
+      getInfoFloydWarshall(),
+      getInfoRRBfsTruncated()
+    ]);
+  });
+
+  async function generate_lab(algorithms) {
+    // For labs Graphs
+    var start_num_nodes = parseInt($("#start-num-nodes").val());
+    var end_num_nodes = parseInt($("#end-num-nodes").val());
+    var pro_edges = $("#pro-edges").val();
+    var directed = $("#graph-directed").is(":checked");
+    var epoch = parseInt($("#epoch").val());
+
+    var result = await lab_graph(
+      start_num_nodes,
+      end_num_nodes,
+      pro_edges,
+      directed,
+      epoch,
+      algorithms
+    );
+
+    draw_chart(result, chart_container, box_container)
+  }
+
+  function getInfoDijkstra() {
+    return {
+      checked: $("#dijkstra-apsp").is(":checked"),
+      title: "Dijkstra APSP",
+      name: "dijkstra-apsp",
+      color: 'red',
+      times: []
+    }
+  }
+
+  function getInfoFloydWarshall() {
+    return {
+      checked: $("#floyd-warshall-apsp").is(":checked"),
+      title: "Floyd-Warshall",
+      name: "floyd-warshall",
+      color: 'blue',
+      times: []
+    }
+  }
+
+  function getInfoRRBfsTruncated() {
+    return {
+      checked: $("#rr-bfs-truncated-apsp").is(":checked"),
+      title: "RR - BFS Truncated",
+      name: "rr-bfs-truncated",
+      color: 'orange',
+      times: []
+    }
+  }
 
   </script>
 </html>

@@ -6,6 +6,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chart.js": "^2.9.3",
     "cytoscape": "^3.14.0",
     "datatables.net-dt": "^1.10.20"
   }

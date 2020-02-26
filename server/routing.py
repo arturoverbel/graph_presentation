@@ -17,6 +17,10 @@ def main():
 def lab_graph_generates():
     return render_template('lab_graph_generates.html')
 
+@graph_routing.route('/graph/labs')
+def lab_graph_algorithms():
+    return render_template('lab_compare_algorithms.html')
+
 
 @graph_routing.route('/graph/create', methods=['POST'])
 def graph_create():
@@ -27,6 +31,17 @@ def graph_create():
     directed = req_data['directed']
 
     graph_result = graphServices.create_graph(num_nodes, probability_edges, directed)
+    return Response(json.dumps(graph_result), mimetype='application/json')
+
+@graph_routing.route('/graph/create-incremental-edge', methods=['POST'])
+def create_graph_and_incremental_edge():
+    req_data = request.get_json()
+
+    num_nodes = req_data['num_nodes']
+    probability_edges = req_data['probability_edges']
+    directed = req_data['directed']
+
+    graph_result = graphServices.create_graph_and_incremental_edge(num_nodes, probability_edges, directed)
     return Response(json.dumps(graph_result), mimetype='application/json')
 
 @graph_routing.route('/graph/dynamic/incremental-edge', methods=['POST'])
