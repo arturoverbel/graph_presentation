@@ -26,6 +26,22 @@ async function load_graph_and_incremental_edge(num_nodes, pro_edges, directed) {
   });
 }
 
+async function processs_lab(num_nodes, pro_edges, directed, epoch, algorithm) {
+  return $.ajax({
+      method: "POST",
+      url: "/graph/process-lab",
+      dataType: "json",
+      contentType: "application/json; charset=utf-8",
+      data: JSON.stringify({
+         "num_nodes": parseInt(num_nodes),
+         "probability_edges": parseFloat(pro_edges),
+         directed,
+         epoch,
+         algorithm
+      })
+  });
+}
+
 function load_graph_incremental_random_edge(values) {
   return $.ajax({
       method: "POST",

@@ -1,5 +1,6 @@
 from server.GraphServices import GraphServices
 from server.GraphAlgorithms import GraphAlgorithms
+from server.GraphLab import GraphLab
 from flask import Blueprint, render_template, request
 from flask import Response
 import json
@@ -7,6 +8,7 @@ import json
 graph_routing = Blueprint('graph', __name__, template_folder='templates')
 graphServices = GraphServices()
 graphAlgorithms = GraphAlgorithms()
+graphLab = GraphLab(graphServices, graphAlgorithms)
 
 @graph_routing.route('/')
 def main():
@@ -21,6 +23,7 @@ def lab_graph_generates():
 def lab_graph_algorithms():
     return render_template('lab_compare_algorithms.html')
 
+################################################################################################
 
 @graph_routing.route('/graph/create', methods=['POST'])
 def graph_create():
@@ -42,7 +45,29 @@ def create_graph_and_incremental_edge():
     directed = req_data['directed']
 
     graph_result = graphServices.create_graph_and_incremental_edge(num_nodes, probability_edges, directed)
+
     return Response(json.dumps(graph_result), mimetype='application/json')
+
+@graph_routing.route('/graph/process-lab', methods=['POST'])
+def processs_lab():
+    req_data = request.get_json()
+
+    num_nodes = req_data['num_nodes']
+    probability_edges = req_data['probability_edges']
+    directed = req_data['directed']
+    epoch = req_data['epoch']
+    algorithm = req_data['algorithm']
+
+    graph_result = graphLab.processs(
+        num_nodes,
+        probability_edges,
+        directed,
+        epoch,
+        algorithm
+    )
+    return Response(json.dumps(graph_result), mimetype='application/json')
+
+################################################################################################
 
 @graph_routing.route('/graph/dynamic/incremental-edge', methods=['POST'])
 def dynamic_incremental_random_edge():
