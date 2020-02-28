@@ -5,11 +5,12 @@ from algorithms.dijkstra import *
 from algorithms.rr import *
 from time import time
 
+
 class GraphAlgorithms(Services):
     def __init__(self):
         Services.__init__(self)
 
-    def run_algoritm_floyd_warshall(self, values):
+    def run_algorithm_floyd_warshall(self, values):
         graph = Graph.import_values(values)
         t = time()
         dist = Floyd_Warshall(graph)
@@ -17,7 +18,7 @@ class GraphAlgorithms(Services):
 
         return self.export_algorithm(dist, time_seconds)
 
-    def run_algoritm_dijkstra(self, values, source):
+    def run_algorithm_dijkstra(self, values, source):
         graph = Graph.import_values(values)
         t = time()
         dist = Dijkstra(int(source), graph)
@@ -25,7 +26,7 @@ class GraphAlgorithms(Services):
 
         return self.export_algorithm([dist], time_seconds)
 
-    def run_algoritm_dijkstra_apsp(self, values):
+    def run_algorithm_dijkstra_apsp(self, values):
         graph = Graph.import_values(values)
         t = time()
         dist = Dijkstra_apsp(graph)
@@ -33,7 +34,7 @@ class GraphAlgorithms(Services):
 
         return self.export_algorithm(dist, time_seconds)
 
-    def run_algoritm_rr_bfs_truncated(self, values, dist):
+    def run_algorithm_rr_bfs_truncated(self, values, dist):
         graph = Graph.import_values(values)
         matrix_distances = self.import_matrix(dist)
 

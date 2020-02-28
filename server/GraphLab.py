@@ -2,7 +2,6 @@ from server.Services import Services
 from server.GraphAlgorithms import GraphAlgorithms
 from server.GraphServices import GraphServices
 import statistics
-from time import time
 
 
 class GraphLab(Services):
@@ -16,7 +15,7 @@ class GraphLab(Services):
         self.graphAlgorithms = graphAlgorithms
         self.graphServices = graphServices
 
-    def processs(self, num_nodes, probability_edges, directed, epoch, algorithm):
+    def process(self, num_nodes, probability_edges, directed, epoch, algorithm):
         print("Process Lab. Epoch[" + str(epoch) + "]")
 
         time_list = []
@@ -27,7 +26,7 @@ class GraphLab(Services):
                 probability_edges,
                 directed)
 
-            result_matrix = self.run_algoritm(result_graph, algorithm)
+            result_matrix = self.run_algorithm(result_graph, algorithm)
             time_list.append(result_matrix['time'])
 
         return {
@@ -36,13 +35,13 @@ class GraphLab(Services):
             "epoch": epoch
         }
 
-    def run_algoritm(self, data, algorithm):
+    def run_algorithm(self, data, algorithm):
 
-        if (algorithm == 'dijkstra-apsp'):
-            return self.graphAlgorithms.run_algoritm_dijkstra_apsp(data['graph']['values'])
+        if algorithm == 'dijkstra-apsp':
+            return self.graphAlgorithms.run_algorithm_dijkstra_apsp(data['graph']['values'])
 
-        if (algorithm == 'floyd-warshall'):
-            return self.graphAlgorithms.run_algoritm_floyd_warshall(data['graph']['values'])
+        if algorithm == 'floyd-warshall':
+            return self.graphAlgorithms.run_algorithm_floyd_warshall(data['graph']['values'])
 
-        if (algorithm == 'rr-bfs-truncated'):
-            return self.graphAlgorithms.run_algoritm_rr_bfs_truncated(data['graph']['values'], data['dist'])
+        if algorithm == 'rr-bfs-truncated':
+            return self.graphAlgorithms.run_algorithm_rr_bfs_truncated(data['graph']['values'], data['dist'])

@@ -12,7 +12,9 @@ def send_resources(path):
 
 
 if __name__ == '__main__':
-    if sys.argv[1] == 'production':
+    env = 'develop' if len(sys.argv) == 1 else sys.argv[1]
+
+    if env == 'production':
         app.run(debug=True, host='0.0.0.0', port=int("80"))
     else:
         app.run(debug=True)

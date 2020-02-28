@@ -2,6 +2,7 @@ from graph.Graph import Graph
 from server.Services import Services
 from algorithms.floyd_warshall import *
 
+
 class GraphServices(Services):
     def __init__(self):
         Services.__init__(self)
