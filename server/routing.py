@@ -140,3 +140,13 @@ def run_algorithm_rr_bfs_truncated():
     result = graphAlgorithms.run_algorithm_rr_bfs_truncated(values, dist)
 
     return Response(json.dumps(result), mimetype='application/json')
+
+
+@graph_routing.route('/graph/algorithms/knnb-node-incremental', methods=['POST'])
+def run_algorithm_knnb_node_incremental():
+    req_data = request.get_json()
+    values = req_data['values']
+    dist = req_data['dist']
+    result = graphAlgorithms.run_algorithm_knnb_node_incremental(values, dist)
+
+    return Response(json.dumps(result), mimetype='application/json')
