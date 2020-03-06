@@ -11,7 +11,14 @@ class GraphPro:
 
     undirected = 0
 
-    def __init__(self, source=[], target=[], weight=[], directed=True):
+    def __init__(
+        self,
+        source=[],
+        target=[],
+        weight=[],
+        directed=True,
+        set_vertex_with_num_nodes=0
+    ):
         self.directed = directed
         self.source = np.array(source)
         self.target = np.array(target)
@@ -21,13 +28,20 @@ class GraphPro:
             self.source = np.concatenate([self.source, self.target])
             self.target = np.concatenate([self.target, np.array(source)])
             self.weight = np.concatenate([self.weight, self.weight])
+        
+        if set_vertex_with_num_nodes == 0:
+            self.set_vertex()
+        else:
+            self.set_vertex_with_num_nodes(set_vertex_with_num_nodes)
 
-        self.set_vertex()
 
     def set_vertex(self):
-        vertex = np.unique(self.source)
-        vertex2 = np.unique(self.target)
-        self.vertex = np.unique(np.concatenate([vertex, vertex2]))
+        max_vertex = max(np.concatenate([np.unique(self.source), np.unique(self.target)]))
+        self.vertex = np.arange(max_vertex+1)
+        return self.vertex
+
+    def set_vertex_with_num_nodes(self, num_nodes):
+        self.vertex = np.arange(num_nodes)
         return self.vertex
 
     def draw(self, with_weight=True):

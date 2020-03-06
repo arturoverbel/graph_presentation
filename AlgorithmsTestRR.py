@@ -13,6 +13,9 @@ source = 1
 dist_source = Dijkstra(source, graph)
 print(dist_source)
 
+dist = Dijkstra_apsp(graph)
+print(dist)
+
 dist = Floyd_Warshall(graph)
 print(dist)
 

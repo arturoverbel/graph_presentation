@@ -14,7 +14,6 @@ class GraphServices(Services):
         return self.export(graph)
 
     def create_graph_and_incremental_edge(self, num_nodes, probability_edges, directed):
-        print("Generate. Nodes[" + str(num_nodes) + "] Edges[" + str(probability_edges) + "] Direc[" + str(directed)+ "]")
         graph = Graph.creategraph(num_nodes, probability_edges, directed=directed)
         dist = Floyd_Warshall(graph)
         graph.dynamic_incremental_random_edge()

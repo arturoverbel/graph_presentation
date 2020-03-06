@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def Dijkstra(source, graph):
 
     total_vertex = len(graph.vertex)
@@ -8,26 +9,27 @@ def Dijkstra(source, graph):
     dist = np.zeros(total_vertex)
     dist.fill(np.inf)
 
-    dist[graph.vertex == source] = 0
+    dist[source] = 0
 
     while len(Q) != 0:
 
         min = np.inf
         u = 0
         for q in Q:
-            if dist[graph.vertex == q] <= min:
-                min = dist[graph.vertex == q]
+            if dist[q] <= min:
+                min = dist[q]
                 u = q
 
         Q = np.delete(Q, np.argwhere(Q == u))
 
         for v in graph.target[graph.source == u]:
-            alt = dist[graph.vertex == u] + graph.get_weight(u, v)
+            alt = dist[u] + graph.get_weight(u, v)
             index_v = graph.vertex == v
-            if alt < dist[index_v]:
-                dist[index_v] = alt
+            if alt < dist[v]:
+                dist[v] = alt
 
     return dist
+
 
 def Dijkstra_apsp(graph):
 

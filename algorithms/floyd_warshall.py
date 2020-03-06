@@ -16,11 +16,7 @@ def Floyd_Warshall(graph):
     for k in np.nditer(graph.vertex):
         for i in np.nditer(graph.vertex):
             for j in np.nditer(graph.vertex):
-                index_k = graph.vertex == k
-                index_i = graph.vertex == i
-                index_j = graph.vertex == j
-
-                if dist[index_i, index_j] > dist[index_i, index_k] + dist[index_k, index_j]:
-                    dist[index_i, index_j] = dist[index_i, index_k] + dist[index_k, index_j]
+                if dist[i, j] > dist[i, k] + dist[k, j]:
+                    dist[i, j] = dist[i, k] + dist[k, j]
 
     return dist
