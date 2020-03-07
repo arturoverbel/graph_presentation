@@ -5,8 +5,15 @@ import random
 
 class Graph(DynamicGraph):
 
-    def __init__(self, source=[], target=[], weight=[], directed=True):
-        DynamicGraph.__init__(self, source, target, weight, directed)
+    def __init__(
+        self,
+        source=[],
+        target=[],
+        weight=[],
+        directed=True,
+        set_vertex_with_num_nodes=0
+    ):
+        DynamicGraph.__init__(self, source, target, weight, directed, set_vertex_with_num_nodes)
 
     def print_r(self):
         print("Source: ", self.source)
@@ -75,9 +82,9 @@ class Graph(DynamicGraph):
     @staticmethod
     def creategraph(total_nodes, pro_edges, weights=[1, 2, 3, 4, 5, 6, 7, 8, 9], directed=True):
 
-        source = np.array([])
-        target = np.array([])
-        weight = np.array([])
+        source = []
+        target = []
+        weight = []
 
         for i in range(total_nodes):
             for k in range(i+1, total_nodes):
@@ -94,13 +101,8 @@ class Graph(DynamicGraph):
                 probabilities = probabilities + (1 / len(weights))
                 w = np.random.choice(weights, 1, p=probabilities)[0]
 
-                source = np.append(source, i)
-                target = np.append(target, k)
-                weight = np.append(weight, w)
+                source.append(i)
+                target.append(k)
+                weight.append(w)
 
-                if not directed:
-                    source = np.append(source, k)
-                    target = np.append(target, i)
-                    weight = np.append(weight, w)
-
-        return Graph(source, target, weight)
+        return Graph(source, target, weight, directed, set_vertex_with_num_nodes=total_nodes)

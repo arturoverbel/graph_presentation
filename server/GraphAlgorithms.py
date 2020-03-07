@@ -39,7 +39,6 @@ class GraphAlgorithms(Services):
         graph = Graph.import_values(values)
         matrix_distances = self.import_matrix(dist)
 
-        print(graph.last_vertex_modified)
         t = time()
         dist = Bfs_Truncated_With_Sources(graph, matrix_distances)
         time_seconds = time() - t
@@ -50,7 +49,6 @@ class GraphAlgorithms(Services):
         graph = Graph.import_values(values)
         matrix_distances = self.import_matrix(dist)
 
-        print(graph.last_vertex_modified)
         t = time()
         dist = KNNB_Node_Incremental(graph, matrix_distances)
         time_seconds = time() - t

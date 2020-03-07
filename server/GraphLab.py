@@ -16,7 +16,7 @@ class GraphLab(Services):
         self.graphServices = graphServices
 
     def process(self, num_nodes, probability_edges, directed, epoch, algorithm):
-        print("Process Lab. Epoch[" + str(epoch) + "]")
+        print("Process Lab. NumNodes [" + str(num_nodes) + "]. Algorithm ["+algorithm+"] Epoch[" + str(epoch) + "]")
 
         time_list = []
 

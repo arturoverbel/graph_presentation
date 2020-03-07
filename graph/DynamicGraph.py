@@ -14,8 +14,15 @@ class DynamicGraph(GraphPro):
     }
     last_node_action = ""
 
-    def __init__(self, source=[], target=[], weight=[], directed=True):
-        GraphPro.__init__(self, source, target, weight, directed)
+    def __init__(
+        self,
+        source=[],
+        target=[],
+        weight=[],
+        directed=True,
+        set_vertex_with_num_nodes=0
+    ):
+        GraphPro.__init__(self, source, target, weight, directed, set_vertex_with_num_nodes)
         self.clean_vars()
 
     def clean_vars(self):
