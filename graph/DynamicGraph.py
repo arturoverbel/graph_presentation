@@ -54,17 +54,12 @@ class DynamicGraph(GraphPro):
         self.clean_vars()
 
         index = np.where(np.logical_and(self.source == source, self.target == target))[0][0]
-        returned = np.array([])
 
         self.source = np.delete(self.source, index)
-        returned = np.append(returned, source)
-
         self.target = np.delete(self.target, index)
-        returned = np.append(returned, target)
-
         self.weight = np.delete(self.weight, index)
 
-        self.last_vertex_modified = returned
+        self.last_vertex_modified = np.array([source, target])
         self.last_vertex_action = "DELETE"
 
         return {
@@ -94,15 +89,11 @@ class DynamicGraph(GraphPro):
     def dynamic_incremental_edge(self, source, target, weight=1):
         self.clean_vars()
 
-        returned = np.array([])
         self.source = np.append(self.source, source)
-        returned = np.append(returned, source)
         self.target = np.append(self.target, target)
-        returned = np.append(returned, target)
         self.weight = np.append(self.weight, weight)
-        returned = np.append(returned, weight)
 
-        self.last_vertex_modified = returned
+        self.last_vertex_modified = np.array([source, target, weight])
         self.last_vertex_action = "ADD"
 
         return {

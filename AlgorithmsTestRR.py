@@ -7,7 +7,7 @@ sources = [1, 2, 3, 0, 2, 3]
 targets = [0, 0, 0, 4, 1, 1]
 weights = [3, 2, 4, 1, 3, 2]
 
-graph = Graph(sources, targets, weights, False)
+graph = Graph(sources, targets, weights, True)
 source = 1
 
 dist_source = Dijkstra(source, graph)
@@ -19,7 +19,7 @@ print(dist)
 dist = Floyd_Warshall(graph)
 print(dist)
 
-graph.edge_update(source=1, target=0)
+graph.dynamic_incremental_edge(source=4, target=3, weight=1)
 
 print("<--------Dijkstra_Truncated------->\n")
 

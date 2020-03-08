@@ -28,7 +28,7 @@ class GraphPro:
             self.source = np.concatenate([self.source, self.target])
             self.target = np.concatenate([self.target, np.array(source)])
             self.weight = np.concatenate([self.weight, self.weight])
-        
+
         if set_vertex_with_num_nodes == 0:
             self.set_vertex()
         else:
@@ -58,7 +58,7 @@ class GraphPro:
             if last in list_edges:
                 list_edges.remove(last)
                 if not self.directed:
-                    list_edges.remove((int(self.last_vertex_modified[1]), int(self.last_vertex_modified[0])))
+                    list_edges.remove((self.last_vertex_modified[1], self.last_vertex_modified[0]))
 
         if self.last_node_modified is not None:
             for source in self.last_node_modified['source']:
