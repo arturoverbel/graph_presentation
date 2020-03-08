@@ -45,3 +45,6 @@ class GraphLab(Services):
 
         if algorithm == 'rr-bfs-truncated':
             return self.graphAlgorithms.run_algorithm_rr_bfs_truncated(data['graph']['values'], data['dist'])
+
+        if algorithm == 'even-gazit':
+            return self.graphAlgorithms.run_algorithm_eg(data['graph']['values'], data['dist'])

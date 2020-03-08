@@ -40,7 +40,11 @@
     </style>
   </head>
   <body>
+
     <div id="container" style="overflow: hidden;">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Labs</a>
+      </nav>
       <div class="row">
         <div class="col-md-3">
           <div id="control">
@@ -86,6 +90,12 @@
                 <input class="form-check-input" type="checkbox" value="" checked id="floyd-warshall-apsp">
                 <label class="form-check-label" for="floyd-warshall-apsp">
                   Floyd-Warshall
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" checked id="even-gazit">
+                <label class="form-check-label" for="even-gazit">
+                  Even & Gazit
                 </label>
               </div>
               <div class="form-check">
@@ -137,7 +147,8 @@
     generate_lab([
       getInfoDijkstra(),
       getInfoFloydWarshall(),
-      getInfoRRBfsTruncated()
+      getInfoRRBfsTruncated(),
+      getInfoEG()
     ]);
   });
 
@@ -159,14 +170,15 @@
       directed,
       epoch,
       algorithms,
-      info_container
+      info_container,
+      chart_container,
+      box_container
     );
 
-    console.log(result);
 
     $('#info_lab_title').html("Lab Finished ");
 
-    draw_chart(result, chart_container, box_container)
+    //draw_chart(result, chart_container, box_container)
   }
 
   function getInfoDijkstra() {
@@ -195,6 +207,16 @@
       title: "RR - BFS Truncated",
       name: "rr-bfs-truncated",
       color: 'orange',
+      times: []
+    }
+  }
+
+  function getInfoEG() {
+    return {
+      checked: $("#even-gazit").is(":checked"),
+      title: "Even & Gazit",
+      name: "even-gazit",
+      color: 'green',
       times: []
     }
   }
