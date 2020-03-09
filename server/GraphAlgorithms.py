@@ -5,6 +5,7 @@ from algorithms.dijkstra import *
 from algorithms.knnb import *
 from algorithms.rr import *
 from algorithms.eg import *
+from algorithms.quinca import *
 from time import time
 
 
@@ -62,6 +63,16 @@ class GraphAlgorithms(Services):
 
         t = time()
         dist = Even_Gazit(graph, matrix_distances)
+        time_seconds = time() - t
+
+        return self.export_algorithm(dist, time_seconds)
+
+    def run_algorithm_quinca(self, values, dist):
+        graph = Graph.import_values(values)
+        matrix_distances = self.import_matrix(dist)
+
+        t = time()
+        dist = Quinca(graph, matrix_distances)
         time_seconds = time() - t
 
         return self.export_algorithm(dist, time_seconds)

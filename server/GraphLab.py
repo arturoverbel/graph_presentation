@@ -48,3 +48,6 @@ class GraphLab(Services):
 
         if algorithm == 'even-gazit':
             return self.graphAlgorithms.run_algorithm_eg(data['graph']['values'], data['dist'])
+
+        if algorithm == 'quinca':
+            return self.graphAlgorithms.run_algorithm_quinca(data['graph']['values'], data['dist'])

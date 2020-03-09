@@ -104,6 +104,12 @@
                   RR - BFS truncated
                 </label>
               </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" checked id="quinca">
+                <label class="form-check-label" for="quinca">
+                  QUINCA
+                </label>
+              </div>
             </div>
             <hr>
             <div class="form-row">
@@ -148,7 +154,8 @@
       getInfoDijkstra(),
       getInfoFloydWarshall(),
       getInfoRRBfsTruncated(),
-      getInfoEG()
+      getInfoEG(),
+      getInfoQUINCA()
     ]);
   });
 
@@ -186,7 +193,7 @@
       checked: $("#dijkstra-apsp").is(":checked"),
       title: "Dijkstra APSP",
       name: "dijkstra-apsp",
-      color: 'red',
+      color: 'purple',
       times: []
     }
   }
@@ -217,6 +224,16 @@
       title: "Even & Gazit",
       name: "even-gazit",
       color: 'green',
+      times: []
+    }
+  }
+
+  function getInfoQUINCA() {
+    return {
+      checked: $("#quinca").is(":checked"),
+      title: "QUINCA",
+      name: "quinca",
+      color: 'red',
       times: []
     }
   }
