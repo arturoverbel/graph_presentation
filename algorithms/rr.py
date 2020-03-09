@@ -72,7 +72,7 @@ def Find_Source_Affected(graph, dist):
             if (z not in vis or not vis[z]) and dist[z, v] > dist[z, u] + w_uv:
                 vis[z] = True
                 PQ.append([z])
-                source_affected.append([z])
+                source_affected.append(z)
 
     return source_affected
 
