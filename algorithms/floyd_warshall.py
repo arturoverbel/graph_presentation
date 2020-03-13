@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def Floyd_Warshall(graph):
 
     total_vertex = len(graph.vertex)
@@ -10,12 +11,13 @@ def Floyd_Warshall(graph):
         index_s = graph.vertex == graph.source[idx]
         index_t = graph.vertex == graph.target[idx]
         dist[index_s, index_t] = graph.weight[idx]
-    for index in range(graph.vertex.size):
+
+    for index in graph.vertex:
         dist[index, index] = 0
 
-    for k in np.nditer(graph.vertex):
-        for i in np.nditer(graph.vertex):
-            for j in np.nditer(graph.vertex):
+    for k in graph.vertex:
+        for i in graph.vertex:
+            for j in graph.vertex:
                 if dist[i, j] > dist[i, k] + dist[k, j]:
                     dist[i, j] = dist[i, k] + dist[k, j]
 
