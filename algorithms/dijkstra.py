@@ -21,8 +21,8 @@ def Dijkstra(source, graph):
         start = np.searchsorted(graph.source, u, side='left')
         end = np.searchsorted(graph.source, u, side='right')
 
-        for v in graph.target[start:end]:
-            aux = dist[u] + graph.get_weight(u, v)  ## What is get_weight()? Ain't weights stored in weights array?
+        for index, v in enumerate(graph.target[start:end]):
+            aux = dist[u] + graph.weight[start + index]
             if aux < dist[v]:
                 dist[v] = aux
 
