@@ -3,25 +3,24 @@ import numpy as np
 
 def Dijkstra(source, graph):
 
-    Q = np.array(graph.vertex)
+    Q = list(graph.vertex)
 
-    n = len(graph.vertex)
-    dist = np.zeros(n)
+    dist = np.zeros(len(graph.vertex))
     dist.fill(np.inf)
     dist[source] = 0
 
-    while Q:
+    while len(Q) > 0:
         min, u, index = np.inf, 0, 0
         for i, q in enumerate(Q):
             if dist[q] < min:
                 min, u, index = dist[q], q, i
-        
+
         Q.pop(index)
-        
+
         # Find neighbors indexes of u, assuming sources array is sorted #
         start = np.searchsorted(graph.source, u, side='left')
         end = np.searchsorted(graph.source, u, side='right')
-        
+
         for v in graph.target[start:end]:
             aux = dist[u] + graph.get_weight(u, v)  ## What is get_weight()? Ain't weights stored in weights array?
             if aux < dist[v]:
