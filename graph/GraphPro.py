@@ -29,6 +29,11 @@ class GraphPro:
             self.target = np.concatenate([self.target, np.array(source)])
             self.weight = np.concatenate([self.weight, self.weight])
 
+        idx = self.source.argsort()
+        self.source = self.source[idx]
+        self.target = self.target[idx]
+        self.weight = self.weight[idx]
+
         if set_vertex_with_num_nodes == 0:
             self.set_vertex()
         else:
