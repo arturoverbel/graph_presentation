@@ -1,6 +1,7 @@
 import numpy as np
 from algorithms.rr import *
 
+
 def Quinca(graph, dist):
     dist = np.array(dist)
 
@@ -28,9 +29,12 @@ def Quinca(graph, dist):
                     S[y].append(x)
 
         #enqueue all neighbors that get closer to u
-        for w in graph.target[graph.source == y]:
-            if (w not in vis or not vis[w]) and dist[u, w] > w_uv + dist[v, w] and dist[v, w] == dist[v, y] + graph.get_weight(y, w):
-                #Q.append(y)
+        start = np.searchsorted(graph.source, y, side='left')
+        end = np.searchsorted(graph.source, y, side='right')
+
+        for index, w in enumerate(graph.target[start:end]):
+            if (w not in vis or not vis[w]) and dist[u, w] > w_uv + dist[v, w] and \
+                    dist[v, w] == dist[v, y] + graph.weight[index]:
                 Q.append(w)
                 vis[w] = True
                 P[w] = y
