@@ -20,4 +20,4 @@ print(dist)
 dist = Floyd_Warshall(graph)
 print(dist)
 
-graph.draw()
+#graph.draw()
