@@ -1,6 +1,5 @@
 from graph.DynamicGraph import DynamicGraph
 import numpy as np
-import random
 
 
 class Graph(DynamicGraph):
