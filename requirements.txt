@@ -59,7 +59,7 @@ olefile==0.45.1
 packaging==20.3
 pandas==0.25.2
 pexpect==4.2.1
-Pillow==5.1.0
+Pillow==6.2.0
 plac==0.9.6
 pluggy==0.13.1
 preshed==3.0.2
