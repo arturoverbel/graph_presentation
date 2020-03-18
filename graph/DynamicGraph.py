@@ -62,6 +62,8 @@ class DynamicGraph(GraphPro):
         self.last_vertex_modified = np.array([source, target])
         self.last_vertex_action = "DELETE"
 
+        self.sort_edges()
+
         return {
             "last_vertex_modified": self.last_vertex_modified,
             "last_vertex_action": self.last_vertex_action
@@ -96,6 +98,8 @@ class DynamicGraph(GraphPro):
         self.last_vertex_modified = np.array([source, target, weight])
         self.last_vertex_action = "ADD"
 
+        self.sort_edges()
+
         return {
             "last_vertex_modified": self.last_vertex_modified,
             "last_vertex_action": self.last_vertex_action
@@ -118,6 +122,8 @@ class DynamicGraph(GraphPro):
             targets = np.random.choice(self.vertex, number, replace=False)
             w_targets = np.random.choice(weights, number)
 
+        self.sort_edges()
+
         return self.dynamic_incremental_node(node, sources, w_sources, targets, w_targets)
 
     def dynamic_incremental_node(self, node, sources, w_sources, targets, w_targets):
@@ -136,6 +142,8 @@ class DynamicGraph(GraphPro):
         self.last_node_modified['source'] = sources
         self.last_node_modified['target'] = targets
         self.last_node_action = "ADD"
+
+        self.sort_edges()
 
         return self.last_node_modified
 
@@ -162,6 +170,9 @@ class DynamicGraph(GraphPro):
             self.last_node_modified['target'] = np.append(self.last_node_modified['target'], target)
 
         self.last_node_action = "DELETE"
+
+        self.sort_edges()
+
         return {
             "last_node_modified": self.last_node_modified,
             "last_node_action": self.last_node_action
@@ -175,6 +186,9 @@ class DynamicGraph(GraphPro):
 
         self.last_vertex_modified = np.array([source, target, weight])
         self.last_vertex_action = "UPDATE"
+
+        self.sort_edges()
+
         return {
             "last_vertex_modified": self.last_vertex_modified,
             "last_vertex_action": self.last_vertex_action

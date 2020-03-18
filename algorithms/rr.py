@@ -80,10 +80,7 @@ def Find_Source_Affected(graph, dist):
     while len(PQ) > 0:
         x = PQ.pop(-1)
 
-        start = np.searchsorted(graph.source, x, side='left')
-        end = np.searchsorted(graph.source, x, side='right')
-
-        for z in graph.target[start:end]:
+        for z in graph.source[graph.target == x]:
             if (z not in vis or not vis[z]) and dist[z, v] > dist[z, u] + w_uv:
                 vis[z] = True
                 PQ.append(z)

@@ -29,16 +29,12 @@ class GraphPro:
             self.target = np.concatenate([self.target, np.array(source)])
             self.weight = np.concatenate([self.weight, self.weight])
 
-        idx = self.source.argsort()
-        self.source = self.source[idx]
-        self.target = self.target[idx]
-        self.weight = self.weight[idx]
+        self.sort_edges()
 
         if set_vertex_with_num_nodes == 0:
             self.set_vertex()
         else:
             self.set_vertex_with_num_nodes(set_vertex_with_num_nodes)
-
 
     def set_vertex(self):
         max_vertex = max(np.concatenate([np.unique(self.source), np.unique(self.target)]))
@@ -48,6 +44,12 @@ class GraphPro:
     def set_vertex_with_num_nodes(self, num_nodes):
         self.vertex = np.arange(num_nodes)
         return self.vertex
+
+    def sort_edges(self):
+        idx = self.source.argsort()
+        self.source = self.source[idx]
+        self.target = self.target[idx]
+        self.weight = self.weight[idx]
 
     def draw(self, with_weight=True):
         gr = nx.DiGraph()
