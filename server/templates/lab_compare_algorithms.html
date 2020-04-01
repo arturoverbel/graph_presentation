@@ -110,6 +110,12 @@
                   QUINCA
                 </label>
               </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" checked id="owner">
+                <label class="form-check-label" for="owner">
+                  Owner
+                </label>
+              </div>
             </div>
             <hr>
             <div class="form-row">
@@ -155,7 +161,8 @@
       getInfoFloydWarshall(),
       getInfoRRBfsTruncated(),
       getInfoEG(),
-      getInfoQUINCA()
+      getInfoQUINCA(),
+      getInfoOwner()
     ]);
   });
 
@@ -237,6 +244,16 @@
       title: "QUINCA",
       name: "quinca",
       color: 'red',
+      times: []
+    }
+  }
+
+  function getInfoOwner() {
+    return {
+      checked: $("#owner").is(":checked"),
+      title: "Owner",
+      name: "owner",
+      color: 'grey',
       times: []
     }
   }
