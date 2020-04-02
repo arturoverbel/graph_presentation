@@ -116,6 +116,12 @@
                   Owner
                 </label>
               </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" checked id="forest">
+                <label class="form-check-label" for="forest">
+                  Forest
+                </label>
+              </div>
             </div>
             <hr>
             <div class="form-row">
@@ -162,7 +168,8 @@
       getInfoRRBfsTruncated(),
       getInfoEG(),
       getInfoQUINCA(),
-      getInfoOwner()
+      getInfoOwner(),
+      getInfoForest()
     ]);
   });
 
@@ -254,6 +261,16 @@
       title: "Owner",
       name: "owner",
       color: 'grey',
+      times: []
+    }
+  }
+
+  function getInfoForest() {
+    return {
+      checked: $("#forest").is(":checked"),
+      title: "Forest",
+      name: "forest",
+      color: 'pink',
       times: []
     }
   }

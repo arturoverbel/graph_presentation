@@ -54,3 +54,6 @@ class GraphLab(Services):
 
         if algorithm == 'owner':
             return self.graphAlgorithms.run_algorithm_owner(data['graph']['values'], data['dist'])
+
+        if algorithm == 'forest':
+            return self.graphAlgorithms.run_algorithm_forest(data['graph']['values'], data['dist'])
