@@ -8,22 +8,35 @@ def Forest(source, graph, dist):
     y = graph.last_vertex_modified[1]
     w_xy = graph.last_vertex_modified[2]
 
-    if c_uv >= dist[u, v]:
+    # Phase 1
+    new_weight_y = dist[x] + w_xy
+
+    if dist[y] < new_weight_y:
         return dist
 
-    A = []
-    D = []
+    # Phase 2
+    dist[y] = new_weight_y
+    H = {y: new_weight_y}
 
-    for l in graph.vertex:
-        if (c_uv + dist[v, l]) < dist[u, l]:
-            D.append(l)
-        if (dist[l, u] + c_uv) < dist[l, v]:
-            A.append(l)
+    # Phase 3
+    while len(H) > 0:
+        (u, weight) = min(H.items(), key=lambda xx: xx[1])
+        H.pop(u)
 
-    for j in D:
-        for i in A:
-            sum = dist[i, u] + c_uv + dist[v, j]
-            if sum < dist[i, j]:
-                dist[i, j] = sum
+        start = np.searchsorted(graph.source, u, side='left')
+        end = np.searchsorted(graph.source, u, side='right')
+
+        for index, v in enumerate(graph.target[start:end]):
+            new_weight_uv = dist[u] + graph.weight[start + index]
+            if new_weight_uv < dist[v]:
+                dist[v] = new_weight_uv
+                H[v] = new_weight_uv
+
+    return dist
+
+def Forest_apsp(graph, dist):
+
+    for source in graph.vertex:
+        dist[source] = Forest(source, graph, dist[source])
 
     return dist
