@@ -108,8 +108,7 @@ class DynamicGraph(GraphPro):
     def dynamic_incremental_random_node(self, num_edges=1, weights=[1, 2, 3, 4, 5, 6, 7, 8, 9]):
         self.clean_vars()
         node = np.amax(self.vertex) + 1
-        print(node)
-
+        
         number = math.ceil(num_edges/2)
         sources = np.random.choice(self.vertex, number, replace=False)
         w_sources = np.random.choice(weights, number)

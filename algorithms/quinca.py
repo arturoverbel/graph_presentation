@@ -19,7 +19,6 @@ def Quinca(graph, dist):
 
     while len(Q) > 0:
         y = Q.pop(-1)
-        print("Y: ", y)
         # update distances for source nodes
         for x in S[P[y]]:
             if dist[x, y] > dist[x, u] + w_uv + dist[v, y]:
@@ -28,7 +27,6 @@ def Quinca(graph, dist):
                     if y not in S:
                         S[y] = []
                     S[y].append(x)
-                    print("S(" + str(y) + ") <- ", x)
 
         #enqueue all neighbors that get closer to u
         start = np.searchsorted(graph.source, y, side='left')

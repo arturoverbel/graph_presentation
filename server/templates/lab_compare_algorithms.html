@@ -60,6 +60,11 @@
               </div>
               <br>
               <div class="form-group">
+                <label for="step">Step</label>
+                <input type="number" class="form-control" id="step" value="1">
+              </div>
+              <br>
+              <div class="form-group">
                 <label for="num-edges">Edges Probability</label>
                 <input type="number" class="form-control" id="pro-edges" value="0.8">
               </div>
@@ -180,6 +185,7 @@
     var pro_edges = $("#pro-edges").val();
     var directed = $("#graph-directed").is(":checked");
     var epoch = parseInt($("#epoch").val());
+    var step = parseInt($("#step").val());
 
 
     $('#info_lab_title').html("Running Lab " + spiner);
@@ -190,6 +196,7 @@
       pro_edges,
       directed,
       epoch,
+      step,
       algorithms,
       info_container,
       chart_container,

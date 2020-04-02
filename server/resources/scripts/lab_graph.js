@@ -4,6 +4,7 @@ async function lab_graph_faster(
   pro_edges,
   directed,
   epoch,
+  step,
   algorithms,
   info_container,
   chart_container,
@@ -12,14 +13,14 @@ async function lab_graph_faster(
 
   var result_lab = { nodes: [], algorithms };
 
-  for (var num_nodes = start_num_nodes; num_nodes <= end_num_nodes; num_nodes++) {
+  indexing = -1;
+  for (var num_nodes = start_num_nodes; num_nodes <= end_num_nodes; num_nodes+=step) {
+    indexing++;
 
     result_lab.nodes.push(num_nodes);
     algorithms.map(function(x){x.times.push(0); return x} );
 
-    var indexing = num_nodes - start_num_nodes;
-
-    $('#' + info_container).html("Num NODES: " + num_nodes + ". Epoch (" + epoch + ")");
+    $('#' + info_container).html(`Num NODES: ${num_nodes}. Epoch (${epoch})`);
     for(var algorithm_index = 0; algorithm_index < algorithms.length; algorithm_index++) {
       var algorithm = algorithms[algorithm_index];
       if (!algorithm.checked) continue;
