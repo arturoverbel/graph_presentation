@@ -19,7 +19,9 @@ result_before_dist = Floyd_Warshall(graph)
 
 graph.dynamic_incremental_edge(source=4, target=3, weight=1)
 
+print(result_before_dist)
 result_after_dist = Floyd_Warshall(graph)
+print(result_after_dist)
 
 
 def test_eg():

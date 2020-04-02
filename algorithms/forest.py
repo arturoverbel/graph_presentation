@@ -1,12 +1,12 @@
 import numpy as np
 
 
-def Owner(graph, dist):
+def Forest(source, graph, dist):
     dist = np.array(dist)
 
-    u = graph.last_vertex_modified[0]
-    v = graph.last_vertex_modified[1]
-    c_uv = graph.last_vertex_modified[2]
+    x = graph.last_vertex_modified[0]
+    y = graph.last_vertex_modified[1]
+    w_xy = graph.last_vertex_modified[2]
 
     if c_uv >= dist[u, v]:
         return dist
