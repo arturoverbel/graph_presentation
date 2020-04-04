@@ -3,13 +3,9 @@ from algorithms.rr import *
 
 
 def Quinca(graph, dist):
-    dist = np.array(dist)
+    u, v, w_uv = graph.last_edge_updated
 
-    u = graph.last_vertex_modified[0]
-    v = graph.last_vertex_modified[1]
-    w_uv = graph.last_vertex_modified[2]
-
-    S = {v: Find_Source_Affected(graph, dist.tolist())}
+    S = {v: Find_Source_Affected(graph, dist)}
 
     dist[u, v] = w_uv
 
@@ -28,12 +24,10 @@ def Quinca(graph, dist):
                         S[y] = []
                     S[y].append(x)
 
-        #enqueue all neighbors that get closer to u
-        start = np.searchsorted(graph.source, y, side='left')
-        end = np.searchsorted(graph.source, y, side='right')
+        y_targets, y_weights = graph.get_targets_from_source(y, return_weight=True)
 
-        for index, w in enumerate(graph.target[start:end]):
-            w_yw = graph.weight[start + index]
+        for index, w in enumerate(y_targets):
+            w_yw = y_weights[index]
             if (w not in vis or not vis[w]) and dist[u, w] > w_uv + dist[v, w] and \
                     dist[v, w] == dist[v, y] + w_yw:
                 Q.append(w)

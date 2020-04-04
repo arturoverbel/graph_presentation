@@ -57,10 +57,10 @@ function create_graph(data_for_load_graph, graph_container, graph_draw_flag) {
 }
 
 function graph_update(values) {
-  if( values.last_vertex_action == "ADD" ) {
-    console.log(values.last_vertex_modified);
-    var source = values.last_vertex_modified[0];
-    var target = values.last_vertex_modified[1];
+  if( values.last_node_action == "ADD" ) {
+    console.log(values.last_edge_updated);
+    var source = values.last_edge_updated[0];
+    var target = values.last_edge_updated[1];
 
     return graph_render.add([
       {
@@ -69,7 +69,7 @@ function graph_update(values) {
           id: source+"-"+target,
           source,
           target,
-          label: values.last_vertex_modified[2]
+          label: values.last_edge_updated[2]
         },
         clasess: "added",
         style: {
@@ -82,19 +82,19 @@ function graph_update(values) {
     ]);
   }
 
-  else if( values.last_vertex_action == "DELETE" ) {
-    console.log(values.last_vertex_modified);
-    var source = values.last_vertex_modified[0];
-    var target = values.last_vertex_modified[1];
+  else if( values.last_node_action == "DELETE" ) {
+    console.log(values.last_edge_updated);
+    var source = values.last_edge_updated[0];
+    var target = values.last_edge_updated[1];
 
     return graph_render.remove("#" + source + "-" + target);
   }
 
-  else if( values.last_vertex_action == "UPDATE" ) {
-    console.log(values.last_vertex_modified);
-    var source = values.last_vertex_modified[0];
-    var target = values.last_vertex_modified[1];
-    var weight = values.last_vertex_modified[2];
+  else if( values.last_node_action == "UPDATE" ) {
+    console.log(values.last_edge_updated);
+    var source = values.last_edge_updated[0];
+    var target = values.last_edge_updated[1];
+    var weight = values.last_edge_updated[2];
 
     return graph_render.$("#" + source + "-" + target).data("label", weight);
   }

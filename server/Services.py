@@ -40,15 +40,15 @@ class Services:
         return matrix_to_import
 
     def export_to_cytoscape(self, graph, matrix_result=[[]]):
-        size_vertex = range(graph.vertex.size)
+        size_nodes = range(graph.nodes.size)
         size_edges = range(graph.source.size)
         directed = 'true' if graph.directed else 'false'
 
         nodes = []
-        for i in size_vertex:
+        for i in size_nodes:
             nodes.append({
                 'data': {
-                    'id': str(int(graph.vertex[i]))
+                    'id': str(int(graph.nodes[i]))
                 }
             })
 

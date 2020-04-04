@@ -3,9 +3,9 @@ import numpy as np
 
 def Dijkstra(source, graph):
 
-    Q = list(graph.vertex)
+    Q = list(graph.nodes)
 
-    dist = np.zeros(len(graph.vertex))
+    dist = np.zeros(len(graph.nodes))
     dist.fill(np.inf)
     dist[source] = 0
 
@@ -17,12 +17,10 @@ def Dijkstra(source, graph):
 
         Q.pop(index)
 
-        # Find neighbors indexes of u, assuming sources array is sorted #
-        start = np.searchsorted(graph.source, u, side='left')
-        end = np.searchsorted(graph.source, u, side='right')
+        u_targets, u_weights = graph.get_targets_from_source(u, return_weight=True)
 
-        for index, v in enumerate(graph.target[start:end]):
-            aux = dist[u] + graph.weight[start + index]
+        for index, v in enumerate(u_targets):
+            aux = dist[u] + u_weights[index]
             if aux < dist[v]:
                 dist[v] = aux
 
@@ -31,8 +29,8 @@ def Dijkstra(source, graph):
 
 def Dijkstra_apsp(graph):
 
-    result = np.full((graph.vertex.size, graph.vertex.size), np.inf)
-    for i, v in enumerate(graph.vertex):
+    result = np.full((graph.nodes.size, graph.nodes.size), np.inf)
+    for i, v in enumerate(graph.nodes):
         result[i] = Dijkstra(v, graph)
 
     return result

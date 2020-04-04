@@ -1,8 +1,8 @@
-from graph.DynamicGraph import DynamicGraph
+from graph.DynamicIncrementalGraph import DynamicIncrementalGraph
 import numpy as np
 
 
-class Graph(DynamicGraph):
+class Graph(DynamicIncrementalGraph):
 
     def __init__(
         self,
@@ -10,15 +10,15 @@ class Graph(DynamicGraph):
         target=[],
         weight=[],
         directed=True,
-        set_vertex_with_num_nodes=0
+        set_nodes_with_num_nodes=0
     ):
-        DynamicGraph.__init__(self, source, target, weight, directed, set_vertex_with_num_nodes)
+        DynamicIncrementalGraph.__init__(self, source, target, weight, directed, set_nodes_with_num_nodes)
 
     def print_r(self):
         print("Source: ", self.source)
         print("Target: ", self.target)
         print("Weight: ", self.weight)
-        print("Vertex: ", self.vertex)
+        print("Vertex: ", self.nodes)
 
     def get_weight(self, n1, n2):
         if n1 == n2:
@@ -36,15 +36,15 @@ class Graph(DynamicGraph):
             'source': list(np.array([str(int(x)) for x in self.source])),
             'target': list(np.array([str(int(x)) for x in self.target])),
             'weight': list(np.array([str(int(x)) for x in self.weight])),
-            'vertex': list(np.array([str(int(x)) for x in self.vertex])),
+            'nodes': list(np.array([str(int(x)) for x in self.nodes])),
             'directed': directed,
-            'last_vertex_action': self.last_vertex_action,
-            'last_vertex_modified': list(np.array([str(int(x)) for x in self.last_vertex_modified])),
+            'last_edge_action': self.last_edge_action,
+            'last_edge_updated': list(np.array([str(int(x)) for x in self.last_edge_updated])),
             'last_node_action': self.last_node_action,
-            'last_node_modified': {
-                'node': self.last_node_modified['node'],
-                'source': list(np.array([str(int(x)) for x in self.last_node_modified['source']])),
-                'target': list(np.array([str(int(x)) for x in self.last_node_modified['target']]))
+            'last_node_updated': {
+                'node': self.last_node_updated['node'],
+                'source': list(np.array([str(int(x)) for x in self.last_node_updated['source']])),
+                'target': list(np.array([str(int(x)) for x in self.last_node_updated['target']]))
 
             }
         }
@@ -57,23 +57,23 @@ class Graph(DynamicGraph):
             'source': np.array([int(x) for x in values['source']]),
             'target': np.array([int(x) for x in values['target']]),
             'weight': np.array([int(x) for x in values['weight']]),
-            'vertex': np.array([int(x) for x in values['vertex']]),
+            'nodes': np.array([int(x) for x in values['nodes']]),
             'directed': directed,
-            'last_vertex_action': values['last_vertex_action'],
-            'last_vertex_modified': np.array([int(x) for x in values['last_vertex_modified']]),
+            'last_edge_action': values['last_edge_action'],
+            'last_edge_updated': np.array([int(x) for x in values['last_edge_updated']]),
             'last_node_action': values['last_node_action'],
-            'last_node_modified': {
-                'node': values['last_node_modified']['node'],
-                'source': np.array([int(x) for x in values['last_node_modified']['source']]),
-                'target': np.array([int(x) for x in values['last_node_modified']['target']])
+            'last_node_updated': {
+                'node': values['last_node_updated']['node'],
+                'source': np.array([int(x) for x in values['last_node_updated']['source']]),
+                'target': np.array([int(x) for x in values['last_node_updated']['target']])
             }
         }
 
         g = Graph(new_values['source'], new_values['target'], new_values['weight'], new_values['directed'])
-        g.last_vertex_action = new_values['last_vertex_action']
-        g.last_vertex_modified = new_values['last_vertex_modified']
+        g.last_edge_action = new_values['last_edge_action']
+        g.last_edge_updated = new_values['last_edge_updated']
         g.last_node_action = new_values['last_node_action']
-        g.last_node_modified = new_values['last_node_modified']
+        g.last_node_updated = new_values['last_node_updated']
 
         return g
 
@@ -104,4 +104,4 @@ class Graph(DynamicGraph):
                 target.append(k)
                 weight.append(w)
 
-        return Graph(source, target, weight, directed, set_vertex_with_num_nodes=total_nodes)
+        return Graph(source, target, weight, directed, set_nodes_with_num_nodes=total_nodes)

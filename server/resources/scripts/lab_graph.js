@@ -20,7 +20,7 @@ async function lab_graph_faster(
     result_lab.nodes.push(num_nodes);
     algorithms.map(function(x){x.times.push(0); return x} );
 
-    $('#' + info_container).html(`Num NODES: ${num_nodes}. Epoch (${epoch})`);
+    $('#' + info_container).html(`Num NODES: ${num_nodes}. Repeticiones (${epoch})`);
     for(var algorithm_index = 0; algorithm_index < algorithms.length; algorithm_index++) {
       var algorithm = algorithms[algorithm_index];
       if (!algorithm.checked) continue;

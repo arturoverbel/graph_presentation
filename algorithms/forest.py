@@ -2,11 +2,7 @@ import numpy as np
 
 
 def Forest(source, graph, dist):
-    dist = np.array(dist)
-
-    x = graph.last_vertex_modified[0]
-    y = graph.last_vertex_modified[1]
-    w_xy = graph.last_vertex_modified[2]
+    x, y, w_xy = graph.last_edge_updated
 
     # Phase 1
     new_weight_y = dist[x] + w_xy
@@ -23,11 +19,10 @@ def Forest(source, graph, dist):
         (u, weight) = min(H.items(), key=lambda xx: xx[1])
         H.pop(u)
 
-        start = np.searchsorted(graph.source, u, side='left')
-        end = np.searchsorted(graph.source, u, side='right')
+        u_targets, u_weights = graph.get_targets_from_source(u, return_weight=True)
 
-        for index, v in enumerate(graph.target[start:end]):
-            new_weight_uv = dist[u] + graph.weight[start + index]
+        for index, v in enumerate(u_targets):
+            new_weight_uv = dist[u] + u_weights[index]
             if new_weight_uv < dist[v]:
                 dist[v] = new_weight_uv
                 H[v] = new_weight_uv
@@ -36,7 +31,7 @@ def Forest(source, graph, dist):
 
 def Forest_apsp(graph, dist):
 
-    for source in graph.vertex:
+    for source in graph.nodes:
         dist[source] = Forest(source, graph, dist[source])
 
     return dist

@@ -2,11 +2,7 @@ import numpy as np
 
 
 def Owner(graph, dist):
-    dist = np.array(dist)
-
-    u = graph.last_vertex_modified[0]
-    v = graph.last_vertex_modified[1]
-    c_uv = graph.last_vertex_modified[2]
+    u, v, c_uv = graph.last_edge_updated
 
     if c_uv >= dist[u, v]:
         return dist
@@ -14,7 +10,7 @@ def Owner(graph, dist):
     A = []
     D = []
 
-    for l in graph.vertex:
+    for l in graph.nodes:
         if (c_uv + dist[v, l]) < dist[u, l]:
             D.append(l)
         if (dist[l, u] + c_uv) < dist[l, v]:

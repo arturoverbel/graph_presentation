@@ -367,7 +367,7 @@ weight (int) [opcional]: Peso del arco
 Edge)}\label{actualizar-un-arco-update-edge}
 
     Para actualizar un arco por su peso utilizamos el método
-\textbf{vertex\_update} con los siguientes parámetros:
+\textbf{nodes\_update} con los siguientes parámetros:
 
 \begin{verbatim}
 source (int): Nodo fuente del arco a actualizar
@@ -376,7 +376,7 @@ weight (int) [default=1] [optional]: Peso del arco a actualizar
 \end{verbatim}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}4}]:} \PY{n}{graph}\PY{o}{.}\PY{n}{vertex\PYZus{}update}\PY{p}{(}\PY{n}{source}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{target}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}4}]:} \PY{n}{graph}\PY{o}{.}\PY{n}{nodes\PYZus{}update}\PY{p}{(}\PY{n}{source}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{target}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
         \PY{n}{graph}\PY{o}{.}\PY{n}{draw}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
@@ -409,7 +409,7 @@ target (int): Nodo destino del arco a eliminar
     { \hspace*{\fill} \\}
     
     \subsubsection{Insertar un nodo (Incremental
-vertex)}\label{insertar-un-nodo-incremental-vertex}
+nodes)}\label{insertar-un-nodo-incremental-nodes}
 
     Para insertar un nodo al grafo utilizamos el método
 \textbf{dynamic\_incremental\_node} con los siguientes parámetros:
@@ -427,7 +427,7 @@ w_targets ([int]): Pesos de los arcos de la lista de nodos objetivos
     \begin{Verbatim}[commandchars=\\\{\}]
 {\color{incolor}In [{\color{incolor}6}]:} \PY{n}{graph}\PY{o}{.}\PY{n}{print\PYZus{}r}\PY{p}{(}\PY{p}{)}
         \PY{n}{graph}\PY{o}{.}\PY{n}{dynamic\PYZus{}incremental\PYZus{}node}\PY{p}{(}\PY{n}{node}\PY{o}{=}\PY{l+m+mi}{6}\PY{p}{,} \PY{n}{sources}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{]}\PY{p}{,} \PY{n}{w\PYZus{}sources}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{]}\PY{p}{,} \PY{n}{targets}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{,} \PY{n}{w\PYZus{}targets}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
-        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}\PYZhy{}Incremental vertex\PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}\PYZhy{}Incremental nodes\PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
         \PY{n}{graph}\PY{o}{.}\PY{n}{print\PYZus{}r}\PY{p}{(}\PY{p}{)}
         \PY{n}{graph}\PY{o}{.}\PY{n}{draw}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
@@ -438,7 +438,7 @@ Source:  [1 2 3 0 5 1 3 3]
 Target:  [0 0 0 5 0 3 1 5]
 Weight:  [2 2 1 1 1 2 2 1]
 Vertex:  [0 1 2 3 5]
----Incremental vertex---
+---Incremental nodes---
 Source:  [1 2 3 0 5 1 3 3 2 0 5 6]
 Target:  [0 0 0 5 0 3 1 5 6 6 6 5]
 Weight:  [2 2 1 1 1 2 2 1 2 4 5 2]
@@ -452,7 +452,7 @@ Vertex:  [0 1 2 3 5 6]
     { \hspace*{\fill} \\}
     
     \subsubsection{Eliminar un nodo (Decreasing
-vertex)}\label{eliminar-un-nodo-decreasing-vertex}
+nodes)}\label{eliminar-un-nodo-decreasing-nodes}
 
     Para elimnar un nodo al grafo utilizamos el método
 \textbf{dynamic\_decreasing\_node} con los siguientes parámetros:
@@ -558,10 +558,10 @@ edge)}\label{eliminar-un-arco-aleatorio-random-delete-edge}
 edge)}\label{actualizar-arco-aleatorio-random-update-edge}
 
     Para actualizar el peso de un arco aleatorio del grafo utilizamos el
-método \textbf{vertex\_update\_random}, sin parámetros.
+método \textbf{nodes\_update\_random}, sin parámetros.
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}11}]:} \PY{n}{random\PYZus{}graph}\PY{o}{.}\PY{n}{vertex\PYZus{}update\PYZus{}random}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}11}]:} \PY{n}{random\PYZus{}graph}\PY{o}{.}\PY{n}{nodes\PYZus{}update\PYZus{}random}\PY{p}{(}\PY{p}{)}
          \PY{n}{random\PYZus{}graph}\PY{o}{.}\PY{n}{draw}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
@@ -572,7 +572,7 @@ método \textbf{vertex\_update\_random}, sin parámetros.
     { \hspace*{\fill} \\}
     
     \subsubsection{Insertar nodo aleatorio (Random insert
-vertex)}\label{insertar-nodo-aleatorio-random-insert-vertex}
+nodes)}\label{insertar-nodo-aleatorio-random-insert-nodes}
 
     Para insertar un nodo aleatorio al grafo utilizamos el método
 \textbf{dynamic\_incremental\_random\_node} con los siguientes
@@ -600,7 +600,7 @@ weights ([int]) [opcional]: Lista de los pesos para asignar aleatoriamente a los
     { \hspace*{\fill} \\}
     
     \subsubsection{Eliminar nodo aleatorio (random delete
-vertex)}\label{eliminar-nodo-aleatorio-random-delete-vertex}
+nodes)}\label{eliminar-nodo-aleatorio-random-delete-nodes}
 
     Para eliminar un nodo aleatorio al grafo utilizamos el método
 \textbf{dynamic\_decreasing\_random\_node}, no posee parámetros

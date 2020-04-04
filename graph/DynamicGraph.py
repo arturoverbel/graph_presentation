@@ -5,9 +5,9 @@ from graph.GraphPro import GraphPro
 
 
 class DynamicGraph(GraphPro):
-    last_vertex_modified = np.array([])
-    last_vertex_action = ""
-    last_node_modified = {
+    last_edge_updated = np.array([])
+    last_edge_action = ""
+    last_node_updated = {
         'node': None,
         'source': np.array([]),
         'target': np.array([]),
@@ -20,15 +20,15 @@ class DynamicGraph(GraphPro):
         target=[],
         weight=[],
         directed=True,
-        set_vertex_with_num_nodes=0
+        set_nodes_with_num_nodes=0
     ):
-        GraphPro.__init__(self, source, target, weight, directed, set_vertex_with_num_nodes)
+        GraphPro.__init__(self, source, target, weight, directed, set_nodes_with_num_nodes)
         self.clean_vars()
 
     def clean_vars(self):
-        self.last_vertex_modified = np.array([])
-        self.last_vertex_action = ""
-        self.last_node_modified = {
+        self.last_edge_updated = np.array([])
+        self.last_edge_action = ""
+        self.last_node_updated = {
             'node': None,
             'source': np.array([]),
             'target': np.array([]),
@@ -39,7 +39,7 @@ class DynamicGraph(GraphPro):
         count_max = 100
         flag = 0
         while True:
-            source = np.random.choice(self.vertex, 1)[0]
+            source = np.random.choice(self.nodes, 1)[0]
             choisen = self.target[source == self.source]
             if choisen.size != 0:
                 target = np.random.choice(choisen, 1)[0]
@@ -59,14 +59,14 @@ class DynamicGraph(GraphPro):
         self.target = np.delete(self.target, index)
         self.weight = np.delete(self.weight, index)
 
-        self.last_vertex_modified = np.array([source, target])
-        self.last_vertex_action = "DELETE"
+        self.last_edge_updated = np.array([source, target])
+        self.last_edge_action = "DELETE"
 
-        self.sort_edges()
+        self.sort_sources()
 
         return {
-            "last_vertex_modified": self.last_vertex_modified,
-            "last_vertex_action": self.last_vertex_action
+            "last_edge_updated": self.last_edge_updated,
+            "last_edge_action": self.last_edge_action
         }
 
     def dynamic_incremental_random_edge(self, weights=[1, 2, 3, 4, 5, 6, 7, 8, 9]):
@@ -74,10 +74,10 @@ class DynamicGraph(GraphPro):
         count_max = 100
         flag = 0
         while True:
-            source = np.random.choice(self.vertex, 1)[0]
-            index_for_target = np.invert(np.logical_or(np.in1d(self.vertex, self.target[source == self.source]), self.vertex == source))
+            source = np.random.choice(self.nodes, 1)[0]
+            index_for_target = np.invert(np.logical_or(np.in1d(self.nodes, self.target[source == self.source]), self.nodes == source))
 
-            choisen = self.vertex[index_for_target]
+            choisen = self.nodes[index_for_target]
             if choisen.size != 0:
                 target = np.random.choice(choisen, 1)[0]
                 break
@@ -95,22 +95,22 @@ class DynamicGraph(GraphPro):
         self.target = np.append(self.target, target)
         self.weight = np.append(self.weight, weight)
 
-        self.last_vertex_modified = np.array([source, target, weight])
-        self.last_vertex_action = "ADD"
+        self.last_edge_updated = np.array([source, target, weight])
+        self.last_edge_action = "ADD"
 
-        self.sort_edges()
+        self.sort_sources()
 
         return {
-            "last_vertex_modified": self.last_vertex_modified,
-            "last_vertex_action": self.last_vertex_action
+            "last_edge_updated": self.last_edge_updated,
+            "last_edge_action": self.last_edge_action
         }
 
     def dynamic_incremental_random_node(self, num_edges=1, weights=[1, 2, 3, 4, 5, 6, 7, 8, 9]):
         self.clean_vars()
-        node = np.amax(self.vertex) + 1
-        
+        node = np.amax(self.nodes) + 1
+
         number = math.ceil(num_edges/2)
-        sources = np.random.choice(self.vertex, number, replace=False)
+        sources = np.random.choice(self.nodes, number, replace=False)
         w_sources = np.random.choice(weights, number)
 
         number = num_edges - number
@@ -118,16 +118,16 @@ class DynamicGraph(GraphPro):
             targets = []
             w_targets = []
         else:
-            targets = np.random.choice(self.vertex, number, replace=False)
+            targets = np.random.choice(self.nodes, number, replace=False)
             w_targets = np.random.choice(weights, number)
 
-        self.sort_edges()
+        self.sort_sources()
 
         return self.dynamic_incremental_node(node, sources, w_sources, targets, w_targets)
 
     def dynamic_incremental_node(self, node, sources, w_sources, targets, w_targets):
         self.clean_vars()
-        if self.vertex[self.vertex == node].size > 0:
+        if self.nodes[self.nodes == node].size > 0:
             return -1
 
         sources = np.array(sources)
@@ -135,27 +135,27 @@ class DynamicGraph(GraphPro):
         self.source = np.concatenate((self.source, sources, np.full(targets.size, node)))
         self.target = np.concatenate((self.target, np.full(sources.size, node), targets))
         self.weight = np.concatenate((self.weight, w_sources, w_targets))
-        self.vertex = np.append(self.vertex, node)
+        self.nodes = np.append(self.nodes, node)
 
-        self.last_node_modified['node'] = node
-        self.last_node_modified['source'] = sources
-        self.last_node_modified['target'] = targets
+        self.last_node_updated['node'] = node
+        self.last_node_updated['source'] = sources
+        self.last_node_updated['target'] = targets
         self.last_node_action = "ADD"
 
-        self.sort_edges()
+        self.sort_sources()
 
-        return self.last_node_modified
+        return self.last_node_updated
 
     def dynamic_decreasing_random_node(self):
-        node = np.random.choice(self.vertex, 1)[0]
+        node = np.random.choice(self.nodes, 1)[0]
         return self.dynamic_decreasing_node(node)
 
     def dynamic_decreasing_node(self, node):
         self.clean_vars()
-        if self.vertex[self.vertex == node].size == 0:
+        if self.nodes[self.nodes == node].size == 0:
             return -1
 
-        self.last_node_modified['node'] = node
+        self.last_node_updated['node'] = node
         while True:
             indexes = np.where(np.logical_or(self.source == node, self.target == node))[0]
             if len(indexes) == 0:
@@ -165,15 +165,15 @@ class DynamicGraph(GraphPro):
             self.source = np.delete(self.source, indexes[0])
             self.target = np.delete(self.target, indexes[0])
 
-            self.last_node_modified['source'] = np.append(self.last_node_modified['source'], source)
-            self.last_node_modified['target'] = np.append(self.last_node_modified['target'], target)
+            self.last_node_updated['source'] = np.append(self.last_node_updated['source'], source)
+            self.last_node_updated['target'] = np.append(self.last_node_updated['target'], target)
 
         self.last_node_action = "DELETE"
 
-        self.sort_edges()
+        self.sort_sources()
 
         return {
-            "last_node_modified": self.last_node_modified,
+            "last_node_updated": self.last_node_updated,
             "last_node_action": self.last_node_action
         }
 
@@ -183,23 +183,23 @@ class DynamicGraph(GraphPro):
         if not self.directed:
             self.weight[np.logical_and(self.source == target, self.target == source)] = weight
 
-        self.last_vertex_modified = np.array([source, target, weight])
-        self.last_vertex_action = "UPDATE"
+        self.last_edge_updated = np.array([source, target, weight])
+        self.last_edge_action = "UPDATE"
 
-        self.sort_edges()
+        self.sort_sources()
 
         return {
-            "last_vertex_modified": self.last_vertex_modified,
-            "last_vertex_action": self.last_vertex_action
+            "last_edge_updated": self.last_edge_updated,
+            "last_edge_action": self.last_edge_action
         }
 
     def edge_update_random(self, weight=1):
         count_max = 100
         flag = 0
         while True:
-            source = np.random.choice(self.vertex, 1)[0]
-            index_for_target = np.logical_or(np.in1d(self.vertex, self.target[source == self.source]), self.vertex == source)
-            choisen = self.vertex[index_for_target]
+            source = np.random.choice(self.nodes, 1)[0]
+            index_for_target = np.logical_or(np.in1d(self.nodes, self.target[source == self.source]), self.nodes == source)
+            choisen = self.nodes[index_for_target]
 
             if choisen.size != 0:
                 target = np.random.choice(choisen, 1)[0]

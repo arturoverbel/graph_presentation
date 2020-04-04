@@ -23,15 +23,15 @@ result_apsp = np.array([
 
 
 def test_dijkstra():
-    dist_sssp = Dijkstra(1, static_graph)
-    np.testing.assert_array_equal(dist_sssp, [2., 0., 3., 2., 3.])
+    dist_sssp = np.array(Dijkstra(1, static_graph))
+    np.testing.assert_array_equal(dist_sssp, np.array([2., 0., 3., 2., 3.]))
 
 
 def test_dijkstra_apsp():
-    dist = Dijkstra_apsp(static_graph)
-    np.testing.assert_array_equal(dist, result_apsp)
+    dist = np.array(Dijkstra_apsp(static_graph))
+    np.testing.assert_array_equal(dist, np.array(result_apsp))
 
 
 def test_floyd_warshall():
-    dist = Floyd_Warshall(static_graph)
+    dist = np.array(Floyd_Warshall(static_graph))
     np.testing.assert_array_equal(dist, result_apsp)
