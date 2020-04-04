@@ -137,17 +137,29 @@
               <div class="form-group">
                 <button class="btn btn-primary update-graph" id="btn-random-graph-edge-incremental">Analize Incremental Random Edge</button>
               </div>
+
+              <div class="form-group">
+                <button class="btn btn-danger update-graph disabled" id="btn-random-graph-node-incremental" disabled>Analize Incremental Random Node</button>
+              </div>
+
+              <div class="form-group">
+                <button class="btn btn-danger update-graph disabled " id="btn-random-graph-weight-decrease" disabled>Analize Decrease Random Weight</button>
+              </div>
             </div>
-            <hr>
-            <div class="form-row">
-              <h2><div id="info_lab_title"></div></h2>
-              <h3><div id="info_lab"></div></h3>
-            </div>
+
           </div>
         </div>
-        <div class="col-md-9" id="draw-container">
-          <canvas id="stadistic-container"></canvas>
+        <div class="col-md-9">
+          <div class="col-md-12" id="draw-container">
+            <canvas id="stadistic-container"></canvas>
+          </div>
+          <hr>
+          <div class="form-row">
+            <h2><div id="info_lab_title"></div></h2>
+            <h3><div id="info_lab"></div></h3>
+          </div>
         </div>
+
 
       </div>
     </div>
@@ -163,7 +175,7 @@
     generate_lab([
       getInfoDijkstra(),
       getInfoFloydWarshall()
-    ]);
+    ], 'insert_random_edge');
   });
 
   $("#btn-random-graph-edge-incremental").click(async function(){
@@ -176,10 +188,37 @@
       getInfoQUINCA(),
       getInfoOwner(),
       getInfoForest()
-    ]);
+    ], 'insert_random_edge');
   });
 
-  async function generate_lab(algorithms) {
+  $("#btn-random-graph-node-incremental").click(async function(){
+
+    generate_lab([
+      getInfoDijkstra(),
+      getInfoFloydWarshall(),
+      getInfoRRBfsTruncated(),
+      getInfoEG(),
+      getInfoQUINCA(),
+      getInfoOwner(),
+      getInfoForest()
+    ], 'insert_random_node');
+  });
+
+  $("#btn-random-graph-weight-decrease").click(async function(){
+
+    generate_lab([
+      getInfoDijkstra(),
+      getInfoFloydWarshall(),
+      getInfoRRBfsTruncated(),
+      getInfoEG(),
+      getInfoQUINCA(),
+      getInfoOwner(),
+      getInfoForest()
+    ], 'decrease_random_weight');
+  });
+
+  async function generate_lab(algorithms, type) {
+
     // For labs Graphs
     var start_num_nodes = parseInt($("#start-num-nodes").val());
     var end_num_nodes = parseInt($("#end-num-nodes").val());
@@ -198,6 +237,7 @@
       directed,
       epoch,
       step,
+      type,
       algorithms,
       info_container,
       chart_container,

@@ -15,17 +15,14 @@ class GraphLab(Services):
         self.graphAlgorithms = graphAlgorithms
         self.graphServices = graphServices
 
-    def process(self, num_nodes, probability_edges, directed, epoch, algorithm):
+    def process(self, num_nodes, probability_edges, directed, epoch, type, algorithm):
         print("Process Lab. NumNodes [" + str(num_nodes) + "]")
         print("Algorithm ["+algorithm+"] Repeticiones[" + str(epoch) + "]")
 
         time_list = []
 
         for i in range(epoch):
-            result_graph = self.graphServices.create_graph_and_incremental_edge(
-                num_nodes,
-                probability_edges,
-                directed)
+            result_graph = self.incremental_process(num_nodes, probability_edges, directed, type)
 
             result_matrix = self.run_algorithm(result_graph, algorithm)
             time_list.append(result_matrix['time'])
@@ -35,6 +32,32 @@ class GraphLab(Services):
             "num_nodes": num_nodes,
             "epoch": epoch
         }
+
+    def incremental_process(
+        self,
+        num_nodes,
+        probability_edges,
+        directed,
+        type="insert_random_edge"
+    ):
+        if type == 'insert_random_edge':
+            return self.graphServices.create_graph_and_insert_random_edge(
+                num_nodes,
+                probability_edges,
+                directed)
+
+        if type == 'insert_random_node':
+            return self.graphServices.create_graph_and_insert_random_node(
+                num_nodes,
+                probability_edges,
+                directed)
+
+        if type == 'decrease_random_weight':
+            return self.graphServices.create_graph_and_decrease_random_weight(
+                num_nodes,
+                probability_edges,
+                directed)
+
 
     def run_algorithm(self, data, algorithm):
 

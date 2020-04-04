@@ -26,7 +26,7 @@ async function load_graph_and_incremental_edge(num_nodes, pro_edges, directed) {
   });
 }
 
-async function processs_lab(num_nodes, pro_edges, directed, epoch, algorithm) {
+async function processs_lab(num_nodes, pro_edges, directed, epoch, type, algorithm) {
   return $.ajax({
       method: "POST",
       url: "/graph/process-lab",
@@ -37,6 +37,7 @@ async function processs_lab(num_nodes, pro_edges, directed, epoch, algorithm) {
          "probability_edges": parseFloat(pro_edges),
          directed,
          epoch,
+         type,
          algorithm
       })
   });

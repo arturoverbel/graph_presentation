@@ -5,6 +5,7 @@ async function lab_graph_faster(
   directed,
   epoch,
   step,
+  type,
   algorithms,
   info_container,
   chart_container,
@@ -25,7 +26,7 @@ async function lab_graph_faster(
       var algorithm = algorithms[algorithm_index];
       if (!algorithm.checked) continue;
 
-      var response = await processs_lab(num_nodes, pro_edges, directed, epoch, algorithm.name);
+      var response = await processs_lab(num_nodes, pro_edges, directed, epoch, type, algorithm.name);
       algorithms[algorithm_index].times[indexing] = response.mean;
 
     }

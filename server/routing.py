@@ -61,6 +61,7 @@ def process_lab():
     probability_edges = req_data['probability_edges']
     directed = req_data['directed']
     epoch = req_data['epoch']
+    type = req_data['type']
     algorithm = req_data['algorithm']
 
     graph_result = graphLab.process(
@@ -68,6 +69,7 @@ def process_lab():
         probability_edges,
         directed,
         epoch,
+        type,
         algorithm
     )
     return Response(json.dumps(graph_result), mimetype='application/json')

@@ -13,10 +13,30 @@ class GraphServices(Services):
 
         return self.export(graph)
 
-    def create_graph_and_incremental_edge(self, num_nodes, probability_edges, directed):
+    def create_graph_and_insert_random_edge(self, num_nodes, probability_edges, directed):
         graph = Graph.creategraph(num_nodes, probability_edges, directed=directed)
         dist = Floyd_Warshall(graph)
-        graph.dynamic_incremental_random_edge()
+        graph.insert_random_edge()
+
+        return {
+            "graph": self.export(graph),
+            "dist": self.export_matrix(dist)
+        }
+
+    def create_graph_and_insert_random_node(self, num_nodes, probability_edges, directed):
+        graph = Graph.creategraph(num_nodes, probability_edges, directed=directed)
+        dist = Floyd_Warshall(graph)
+        graph.insert_random_node()
+
+        return {
+            "graph": self.export(graph),
+            "dist": self.export_matrix(dist)
+        }
+
+    def create_graph_and_decrease_random_weight(self, num_nodes, probability_edges, directed):
+        graph = Graph.creategraph(num_nodes, probability_edges, directed=directed)
+        dist = Floyd_Warshall(graph)
+        graph.decrease_random_weight()
 
         return {
             "graph": self.export(graph),
