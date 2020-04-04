@@ -19,8 +19,8 @@ def Dijkstra(source, graph):
 
         u_targets, u_weights = graph.get_targets_from_source(u, return_weight=True)
 
-        for index, v in enumerate(u_targets):
-            aux = dist[u] + u_weights[index]
+        for v, w_uv in zip(u_targets, u_weights):
+            aux = dist[u] + w_uv
             if aux < dist[v]:
                 dist[v] = aux
 

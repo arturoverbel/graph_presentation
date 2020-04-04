@@ -26,7 +26,7 @@ print("<--------Dijkstra_Truncated------->\n")
 #dist_source_rr = Dijkstra_Truncated(graph, dist_source)
 #print(dist_source_rr)
 
-sources_affected = Find_Source_Affected(graph, dist)
+sources_affected = Find_Affected_Sources(graph, dist)
 print(sources_affected)
 
 print("<--------Bfs_Truncated------->\n")

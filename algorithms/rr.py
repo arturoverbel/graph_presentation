@@ -4,7 +4,6 @@ import numpy as np
 def Dijkstra_Truncated(graph, dist_source):
     u, v, w_uv = graph.last_edge_updated
 
-    dist_source = np.array(dist_source)
     if dist_source[v] <= dist_source[u] + w_uv:
         return
 
@@ -17,23 +16,23 @@ def Dijkstra_Truncated(graph, dist_source):
 
         u_targets, u_weights = graph.get_targets_from_source(u, return_weight=True)
 
-        for index, w in enumerate(u_targets):
-            if dist_source[w] <= weight + u_weights[index]:
+        for z, weigth_uv in zip(u_targets, u_weights):
+            if dist_source[z] <= weight + weigth_uv:
                 continue
 
-            new_weight = weight + graph.weight[start + index]
-            dist_source[w] = new_weight
-            PQ[w] = new_weight
+            new_weight = weight + weigth_uv
+            dist_source[z] = new_weight
+            PQ[z] = new_weight
 
     return dist_source
 
 
 def Bfs_Truncated(graph, source, dist):
     u, v, w_uv = graph.last_edge_updated
-    vis = { i : False for i in graph.nodes }
-
     if dist[source, v] <= dist[source, u] + w_uv:
         return dist
+
+    vis = [False for i in graph.nodes]
 
     dist[source, v] = dist[source, v] + w_uv
 
@@ -44,42 +43,41 @@ def Bfs_Truncated(graph, source, dist):
         y = Q.pop(0)
         dist[source, y] = dist[source, u] + w_uv + dist[v, y]
 
-        for w in graph.get_targets_from_source(y):
-            if not vis[w] and dist[source, w] > dist[source, u] + w_uv + dist[v, w]:
-                vis[w] = True
-                Q.append(w)
+        for z in graph.get_targets_from_source(y):
+            if not vis[z] and dist[source, z] > dist[source, u] + w_uv + dist[v, z]:
+                vis[z] = True
+                Q.append(z)
 
     return dist
 
 
-def Find_Source_Affected(graph, dist):
+def Find_Affected_Sources(graph, dist):
     u, v, w_uv = graph.last_edge_updated
-    vis = { i : False for i in graph.nodes }
-
-    source_affected = []
+    sources_affected = []
 
     if dist[u, v] <= w_uv:
-        return source_affected
+        return sources_affected
 
-    dist[u, v] = dist[u, v] + w_uv
+    vis = [False for i in graph.nodes]
 
-    PQ = [v]
+    Q = [v]
     vis[v] = True
 
-    while len(PQ) > 0:
-        x = PQ.pop(-1)
+    while len(Q) > 0:
+        x = Q.pop(0)
 
+        # TODO it can be better?
         for z in graph.source[graph.target == x]:
             if not vis[z] and dist[z, v] > dist[z, u] + w_uv:
                 vis[z] = True
-                PQ.append(z)
-                source_affected.append(z)
+                Q.append(z)
+                sources_affected.append(z)
 
-    return source_affected
+    return sources_affected
 
 def Bfs_Truncated_With_Sources(graph, dist):
 
-    for source in Find_Source_Affected(graph, dist):
+    for source in Find_Affected_Sources(graph, dist):
         dist = Bfs_Truncated(graph, source, dist)
 
     return dist

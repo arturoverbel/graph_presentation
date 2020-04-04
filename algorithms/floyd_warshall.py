@@ -12,9 +12,9 @@ def Floyd_Warshall(graph):
 
     for k in graph.nodes:
         for i in graph.nodes:
+            if k == i:
+                dist[k, i] = 0
             for j in graph.nodes:
-                if k == i:
-                    dist[k, i] = 0
                 if dist[i, j] > dist[i, k] + dist[k, j]:
                     dist[i, j] = dist[i, k] + dist[k, j]
 
