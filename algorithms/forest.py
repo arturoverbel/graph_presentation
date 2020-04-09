@@ -1,5 +1,5 @@
 import numpy as np
-
+from collections import defaultdict
 
 def Forest(source, graph, dist):
     x, y, w_xy = graph.last_edge_updated
@@ -12,7 +12,9 @@ def Forest(source, graph, dist):
 
     # Phase 2
     dist[y] = new_weight_y
-    H = {y: new_weight_y}
+
+    H = defaultdict(int)
+    H[y] = new_weight_y
 
     # Phase 3
     while len(H) > 0:

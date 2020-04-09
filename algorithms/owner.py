@@ -1,5 +1,5 @@
 import numpy as np
-
+from collections import deque
 
 def Owner(graph, dist):
     u, v, c_uv = graph.last_edge_updated
@@ -7,8 +7,8 @@ def Owner(graph, dist):
     if c_uv >= dist[u, v]:
         return dist
 
-    A = []
-    D = []
+    A = deque()
+    D = deque()
 
     for l in graph.nodes:
         if (c_uv + dist[v, l]) < dist[u, l]:

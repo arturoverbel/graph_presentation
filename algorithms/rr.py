@@ -1,5 +1,5 @@
 import numpy as np
-
+from collections import defaultdict
 
 def Dijkstra_Truncated(graph, dist_source):
     u, v, w_uv = graph.last_edge_updated
@@ -8,7 +8,9 @@ def Dijkstra_Truncated(graph, dist_source):
         return
 
     dist_source[v] = dist_source[u] + w_uv
-    PQ = {v: dist_source[v]}
+    
+    PQ = defaultdict(int)
+    S[v] = Find_Affected_Sources(graph, dist_source[v])
 
     while len(PQ) > 0:
         (y, weight) = min(PQ.items(), key=lambda x: x[1])
