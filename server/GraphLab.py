@@ -46,6 +46,11 @@ class GraphLab(Services):
                 probability_edges,
                 directed)
 
+        if type == 'insert_worst_edge':
+            return self.graphServices.create_graph_and_insert_worst_edge(
+                num_nodes,
+                directed)
+
         if type == 'insert_random_node':
             return self.graphServices.create_graph_and_insert_random_node(
                 num_nodes,

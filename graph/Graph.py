@@ -1,5 +1,6 @@
 from graph.DynamicIncrementalGraph import DynamicIncrementalGraph
 import numpy as np
+from itertools import combinations
 
 
 class Graph(DynamicIncrementalGraph):
@@ -105,3 +106,25 @@ class Graph(DynamicIncrementalGraph):
                 weight.append(w)
 
         return Graph(source, target, weight, directed, set_nodes_with_num_nodes=total_nodes)
+
+    @staticmethod
+    def creategraph_for_worst_escenary_edge_insert(total_nodes, directed=True):
+
+        mid_nodes = total_nodes//2
+        nodes1 = np.arange(mid_nodes)
+        nodes2 = np.arange(mid_nodes, total_nodes)
+
+        perm1 = list(combinations(nodes1, 2))
+        perm2 = list(combinations(nodes2, 2))
+
+        sources_targets1 = list(map(list, zip(*perm1)))
+        sources_targets2 = list(map(list, zip(*perm2)))
+
+        sources = sources_targets1[0]
+        sources.extend(sources_targets2[0])
+
+        targets = sources_targets1[1]
+        targets.extend(sources_targets2[1])
+        weights = np.full(shape=len(sources), fill_value=1, dtype=np.int)
+
+        return Graph(sources, targets, weights, directed, set_nodes_with_num_nodes=total_nodes)

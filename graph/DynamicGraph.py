@@ -88,6 +88,13 @@ class DynamicGraph(GraphPro):
         w = np.random.choice(weights)
         return self.dynamic_incremental_edge(source, target, w)
 
+    def dynamic_incremental_edge_middle(self, weight=1):
+        self.clean_vars()
+
+        mid_node = len(self.nodes) // 2
+
+        return self.dynamic_incremental_edge(mid_node-1, mid_node, weight)
+
     def dynamic_incremental_edge(self, source, target, weight=1):
         self.clean_vars()
 
