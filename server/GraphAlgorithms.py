@@ -6,7 +6,7 @@ from algorithms.knnb import *
 from algorithms.rr import *
 from algorithms.eg import *
 from algorithms.quinca import *
-from algorithms.owner import *
+from algorithms.abm import *
 from algorithms.forest import *
 from time import time
 
@@ -79,12 +79,12 @@ class GraphAlgorithms(Services):
 
         return self.export_algorithm(dist, time_seconds)
 
-    def run_algorithm_owner(self, values, dist):
+    def run_algorithm_abm(self, values, dist):
         graph = Graph.import_values(values)
         matrix_distances = self.import_matrix(dist)
 
         t = time()
-        dist = Owner(graph, np.array(matrix_distances))
+        dist = ABM_Updated(graph, np.array(matrix_distances))
         time_seconds = time() - t
 
         return self.export_algorithm(dist, time_seconds)

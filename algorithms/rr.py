@@ -1,5 +1,6 @@
 import numpy as np
 from collections import defaultdict
+from collections import deque
 
 def Dijkstra_Truncated(graph, dist_source):
     u, v, w_uv = graph.last_edge_updated
@@ -8,7 +9,7 @@ def Dijkstra_Truncated(graph, dist_source):
         return
 
     dist_source[v] = dist_source[u] + w_uv
-    
+
     PQ = defaultdict(int)
     S[v] = Find_Affected_Sources(graph, dist_source[v])
 
@@ -38,11 +39,11 @@ def Bfs_Truncated(graph, source, dist):
 
     dist[source, v] = dist[source, v] + w_uv
 
-    Q = [v]
+    Q = deque([v])
     vis[v] = True
 
     while len(Q) > 0:
-        y = Q.pop(0)
+        y = Q.popleft()
         dist[source, y] = dist[source, u] + w_uv + dist[v, y]
 
         for z in graph.get_targets_from_source(y):
@@ -55,18 +56,18 @@ def Bfs_Truncated(graph, source, dist):
 
 def Find_Affected_Sources(graph, dist):
     u, v, w_uv = graph.last_edge_updated
-    sources_affected = []
+    sources_affected = deque([])
 
     if dist[u, v] <= w_uv:
         return sources_affected
 
     vis = [False for i in graph.nodes]
 
-    Q = [v]
+    Q = deque([v])
     vis[v] = True
 
     while len(Q) > 0:
-        x = Q.pop(0)
+        x = Q.popleft()
 
         # TODO it can be better?
         for z in graph.source[graph.target == x]:

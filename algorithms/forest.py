@@ -1,20 +1,18 @@
 import numpy as np
 from collections import defaultdict
 
-def Forest(source, graph, dist):
+def Forest(source, graph, t_dist):
     x, y, w_xy = graph.last_edge_updated
 
     # Phase 1
-    new_weight_y = dist[x] + w_xy
-
-    if dist[y] < new_weight_y:
-        return dist
+    if t_dist[y] < t_dist[x] + w_xy:
+        return t_dist
 
     # Phase 2
-    dist[y] = new_weight_y
+    t_dist[y] = t_dist[x] + w_xy
 
     H = defaultdict(int)
-    H[y] = new_weight_y
+    H[y] = t_dist[y]
 
     # Phase 3
     while len(H) > 0:
@@ -24,12 +22,11 @@ def Forest(source, graph, dist):
         u_targets, u_weights = graph.get_targets_from_source(u, return_weight=True)
 
         for index, v in enumerate(u_targets):
-            new_weight_uv = dist[u] + u_weights[index]
-            if new_weight_uv < dist[v]:
-                dist[v] = new_weight_uv
-                H[v] = new_weight_uv
+            if t_dist[u] + u_weights[index] < t_dist[v]:
+                t_dist[v] = t_dist[u] + u_weights[index]
+                H[v] = t_dist[v]
 
-    return dist
+    return t_dist
 
 def Forest_apsp(graph, dist):
 

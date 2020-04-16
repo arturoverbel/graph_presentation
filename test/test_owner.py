@@ -5,7 +5,7 @@ myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../')
 
 from graph.Graph import Graph
-from algorithms.owner import *
+from algorithms.abm import *
 from algorithms.floyd_warshall import *
 
 sources = [1, 2, 3, 0, 2, 3]
@@ -19,6 +19,6 @@ graph.dynamic_incremental_edge(source=4, target=3, weight=1)
 
 result_after_dist = np.array(Floyd_Warshall(graph))
 
-def test_owner():
-    dist_owner = Owner(graph, result_before_dist)
-    np.testing.assert_array_equal(dist_owner, result_after_dist)
+def test_abm():
+    dist_abm = ABM_Updated(graph, result_before_dist)
+    np.testing.assert_array_equal(dist_abm, result_after_dist)

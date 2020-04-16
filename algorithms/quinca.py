@@ -6,6 +6,9 @@ from collections import deque
 def Quinca(graph, dist):
     u, v, w_uv = graph.last_edge_updated
 
+    if dist[u, v] <= w_uv:
+        return dist
+
     S = defaultdict(list)
     S[v] = Find_Affected_Sources(graph, dist)
 
@@ -14,11 +17,10 @@ def Quinca(graph, dist):
     Q = deque([v])
     P = {v: v}
     vis = [False for i in graph.nodes]
-    vis [v] = True
-
+    vis[v] = True
 
     while len(Q) > 0:
-        y = Q.pop()
+        y = Q.popleft()
         # update distances for source nodes
         for x in S[P[y]]:
             if dist[x, y] > dist[x, u] + w_uv + dist[v, y]:

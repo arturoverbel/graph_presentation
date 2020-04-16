@@ -117,9 +117,9 @@
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" checked id="owner">
-                <label class="form-check-label" for="owner">
-                  Owner
+                <input class="form-check-input" type="checkbox" value="" checked id="abm">
+                <label class="form-check-label" for="abm">
+                  ABM Updated
                 </label>
               </div>
               <div class="form-check">
@@ -189,7 +189,7 @@
       getInfoRRBfsTruncated(),
       getInfoEG(),
       getInfoQUINCA(),
-      getInfoOwner(),
+      getInfoABM_Updated(),
       getInfoForest()
     ], 'insert_random_edge');
   });
@@ -202,7 +202,7 @@
       getInfoRRBfsTruncated(),
       getInfoEG(),
       getInfoQUINCA(),
-      getInfoOwner(),
+      getInfoABM_Updated(),
       getInfoForest()
     ], 'insert_worst_edge');
   });
@@ -215,7 +215,7 @@
       getInfoRRBfsTruncated(),
       getInfoEG(),
       getInfoQUINCA(),
-      getInfoOwner(),
+      getInfoABM_Updated(),
       getInfoForest()
     ], 'insert_random_node');
   });
@@ -228,7 +228,7 @@
       getInfoRRBfsTruncated(),
       getInfoEG(),
       getInfoQUINCA(),
-      getInfoOwner(),
+      getInfoABM_Updated(),
       getInfoForest()
     ], 'decrease_random_weight');
   });
@@ -319,11 +319,11 @@
     }
   }
 
-  function getInfoOwner() {
+  function getInfoABM_Updated() {
     return {
-      checked: $("#owner").is(":checked"),
-      title: "Owner",
-      name: "owner",
+      checked: $("#abm").is(":checked"),
+      title: "ABM Updated",
+      name: "abm",
       color: 'grey',
       times: []
     }

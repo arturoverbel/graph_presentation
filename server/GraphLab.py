@@ -81,8 +81,8 @@ class GraphLab(Services):
         if algorithm == 'quinca':
             return self.graphAlgorithms.run_algorithm_quinca(data['graph']['values'], data['dist'])
 
-        if algorithm == 'owner':
-            return self.graphAlgorithms.run_algorithm_owner(data['graph']['values'], data['dist'])
+        if algorithm == 'abm':
+            return self.graphAlgorithms.run_algorithm_abm(data['graph']['values'], data['dist'])
 
         if algorithm == 'forest':
             return self.graphAlgorithms.run_algorithm_forest(data['graph']['values'], data['dist'])
