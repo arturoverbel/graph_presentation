@@ -8,17 +8,17 @@ def ABM_Updated(graph, dist):
     if c_uv >= dist[u, v]:
         return dist
 
-    AA = deque()
-    DD = deque()
+    affected_sources = deque()
+    affected_targets = deque()
 
     for k in graph.nodes:
         if (c_uv + dist[v, k]) < dist[u, k]:
-            DD.append(k)
+            affected_targets.append(k)
         if (dist[k, u] + c_uv) < dist[k, v]:
-            AA.append(k)
+            affected_sources.append(k)
 
-    for j in DD:
-        for i in AA:
+    for j in affected_targets:
+        for i in affected_sources:
             sum = dist[i, u] + c_uv + dist[v, j]
             if sum < dist[i, j]:
                 dist[i, j] = sum
