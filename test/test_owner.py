@@ -20,5 +20,5 @@ graph.dynamic_incremental_edge(source=4, target=3, weight=1)
 result_after_dist = np.array(Floyd_Warshall(graph))
 
 def test_abm():
-    dist_abm = ABM_Updated(graph, result_before_dist)
+    dist_abm = ABM_Update(graph, result_before_dist)
     np.testing.assert_array_equal(dist_abm, result_after_dist)

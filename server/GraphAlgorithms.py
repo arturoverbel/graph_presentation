@@ -84,7 +84,7 @@ class GraphAlgorithms(Services):
         matrix_distances = self.import_matrix(dist)
 
         t = time()
-        dist = ABM_Updated(graph, np.array(matrix_distances))
+        dist = ABM_Update(graph, np.array(matrix_distances))
         time_seconds = time() - t
 
         return self.export_algorithm(dist, time_seconds)

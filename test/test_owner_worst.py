@@ -16,5 +16,5 @@ graph.dynamic_incremental_edge_middle()
 result_after_dist = np.array(Floyd_Warshall(graph))
 
 def test_abm_worst():
-    dist_abm = ABM_Updated(graph, result_before_dist)
+    dist_abm = ABM_Update(graph, result_before_dist)
     np.testing.assert_array_equal(dist_abm, result_after_dist)

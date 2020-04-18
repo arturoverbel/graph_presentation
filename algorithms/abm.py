@@ -1,8 +1,8 @@
 import numpy as np
 from collections import deque
 
-# Affected Block Matriz = ABM Updated
-def ABM_Updated(graph, dist):
+# Affected Block Matriz = ABM Update
+def ABM_Update(graph, dist):
     u, v, c_uv = graph.last_edge_updated
 
     if c_uv >= dist[u, v]:
