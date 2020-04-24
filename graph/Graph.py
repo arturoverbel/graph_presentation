@@ -21,6 +21,13 @@ class Graph(DynamicIncrementalGraph):
         print("Weight: ", self.weight)
         print("Vertex: ", self.nodes)
 
+    def stats(self):
+        edges = len(self.source)
+        nodes = len(self.nodes)
+        print("Total Nodes: ", nodes)
+        print("Total Edges: ", edges)
+        print("Density:", edges / (nodes*nodes))
+
     def get_weight(self, n1, n2):
         if n1 == n2:
             return 0
