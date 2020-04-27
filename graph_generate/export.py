@@ -16,7 +16,7 @@ if len(sys.argv) == 3:
     num_nodes = int(sys.argv[1])
     probability_edges = float(sys.argv[2]) * 2
     pp = int(float(sys.argv[2]) * 100)
-    filename = "graph_" + str(num_nodes) + "_" + str(pp) + ".json"
+    filename = "synthetics/graph_" + str(num_nodes) + "_" + str(sys.argv[2]) + ".json"
 else:
     print("Faltan argumentos")
     exit()
