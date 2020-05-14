@@ -16,14 +16,20 @@ else:
     print("Faltan argumentos")
     exit()
 
-print("Filename: ", filename)
+file = "synthetics/" + filename
+
+
+print("Filename: ", file)
+
 data_import = {}
-with open(filename) as json_file:
+with open(file) as json_file:
     data_import = json.load(json_file)
 
-graph = Graph.import_values(data_import)
+print(data_import)
 
-graph.insert_random_edge()
+#graph = Graph.import_values(data_import)
+
+#graph.insert_random_edge()
 
 
-graph.stats()
+#graph.stats()
