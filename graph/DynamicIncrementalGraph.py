@@ -34,6 +34,15 @@ class DynamicIncrementalGraph(DynamicGraph):
             "last_edge_action": self.last_edge_action
         }
 
+    def insert_worst_edge(self, weight=1):
+        self.clean_vars()
+
+        result_found = self.find_source_target_worst_scenary_incremental_edge()
+        source = result_found['source']
+        target = result_found['target']
+
+        return self.insert_edge(source, target, weight)
+
     def insert_random_edge(self, weights=[1, 2, 3, 4, 5, 6, 7, 8, 9]):
 
         count_max = 100
@@ -111,6 +120,15 @@ class DynamicIncrementalGraph(DynamicGraph):
             "last_edge_updated": self.last_edge_updated,
             "last_edge_action": self.last_edge_action
         }
+
+    def decrease_worst_weight(self, weight=1):
+        self.clean_vars()
+
+        result_found = self.find_edge_worst_scenary_update_edge()
+        source = result_found['source']
+        target = result_found['target']
+
+        return self.decrease_weight(source, target, weight=weight)
 
     def decrease_random_weight(self, weight=1):
         count_max = 100

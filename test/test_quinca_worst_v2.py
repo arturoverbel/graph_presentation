@@ -8,10 +8,10 @@ from graph.Graph import Graph
 from algorithms.quinca import *
 from algorithms.floyd_warshall import *
 
-graph = Graph.creategraph(100, .8)
+graph = Graph.creategraph_for_worst_escenary_edge_insert(30)
 result_before_dist = np.array(Floyd_Warshall(graph))
 
-graph.insert_worst_edge()
+graph.dynamic_incremental_edge_middle()
 
 result_after_dist = np.array(Floyd_Warshall(graph))
 

@@ -1,5 +1,6 @@
 import numpy as np
 import math
+from collections import deque
 
 from graph.GraphPro import GraphPro
 
@@ -218,3 +219,74 @@ class DynamicGraph(GraphPro):
                 return -2
 
         return self.edge_update(source, target, weight=weight)
+
+    def find_source_target_worst_scenary_incremental_edge(self):
+        max = 0
+        source_worst_scenary = 0
+        for node in self.nodes:
+            total = self.find_total(node, "sources")
+            if total > max:
+                source_worst_scenary = node
+                max = total
+
+        max = 0
+        target_worst_scenary = 0
+        for node in self.nodes:
+            total = self.find_total(node, "targets")
+            if total > max:
+                target_worst_scenary = node
+                max = total
+
+        return {
+            "source": source_worst_scenary,
+            "target": target_worst_scenary
+        }
+
+    def find_edge_worst_scenary_update_edge(self):
+        node_sources = {}
+        for node in self.nodes:
+            total = self.find_total(node, "sources")
+            node_sources[node] = total
+
+        node_targets = {}
+        for node in self.nodes:
+            total = self.find_total(node, "targets")
+            node_targets[node] = total
+
+        max_path_long = 0
+        node_source = 0
+        node_target = 0
+        for x in self.nodes:
+            for y in self.nodes:
+                if x == y:
+                    continue
+
+                total_path_long = node_sources[x] + node_targets[y]
+                if total_path_long > max_path_long:
+                    max_path_long = total_path_long
+                    node_source = x
+                    node_target = y
+
+        return {
+            "source": node_source,
+            "target": node_target
+        }
+
+    def find_total(self, node, to_find="sources"):
+        sources = 0
+        vis = [False for i in self.nodes]
+        Q = deque([node])
+        vis[node] = True
+
+        while len(Q) > 0:
+            x = Q.popleft()
+
+            list = self.source[self.target == x] if to_find == 'sources' else self.target[self.source == x]
+
+            for z in list:
+                if not vis[z]:
+                    vis[z] = True
+                    Q.append(z)
+                    sources += 1
+
+        return sources
