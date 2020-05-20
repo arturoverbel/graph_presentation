@@ -27,14 +27,24 @@ def import_matrix(matrix_result):
 
 def calculate_and_export(calculate, dist_before):
     results = []
+
+    type = "random_insert_edge"
+    if "update_edge" in filename:
+        type = "worst_update_edge"
+    elif "worst" in filename:
+        type = "worst_insert_edge"
+
     for algorithm_name in calculate.list()['incremental']:
         result_run = calculate.run_algorithm(algorithm_name, dist_before)
         results.append({
             "algorithm": algorithm_name,
-            "time": result_run['time']
+            "mean_times": result_run['mean_times'],
+            "stdev_times": result_run['stdev_times'],
+            "nodes": len(calculate.graph.nodes),
+            "edges": len(calculate.graph.source),
+            "density": calculate.graph.get_density(),
+            "type": type
         })
-
-    print(results)
 
     file_result = "results/" + filename
     with open(file_result, 'w') as outfile:
@@ -65,9 +75,6 @@ if len(sys.argv) >= 2:
 type_incremental = "insert_edge"
 if len(sys.argv) >= 3:
     type_incremental = sys.argv[2]
-
-
-
 
     print(files)
     print("Load ", len(files), "files")

@@ -28,6 +28,11 @@ class Graph(DynamicIncrementalGraph):
         print("Total Edges: ", edges)
         print("Density:", edges / (nodes*nodes))
 
+    def get_density(self):
+        edges = len(self.source)
+        nodes = len(self.nodes)
+        return edges / (nodes*nodes)
+
     def get_weight(self, n1, n2):
         if n1 == n2:
             return 0

@@ -41,20 +41,27 @@ if len(sys.argv) >= 4:
     type_incremental = sys.argv[3]
 
 
-
+print("Creating graph...")
 graph = Graph.creategraph(num_nodes, probability_edges)
+print("Graph created")
+print("FW running...")
 dist = Floyd_Warshall(graph)
+print("FW Done")
 
 prefix = ""
 if type_incremental == "update_edge":
     prefix = "update_edge_"
+    print("Decreasing worst weight...")
     graph.decrease_worst_weight()
 elif type_incremental == "worst_insert_edge":
     prefix = "worst_"
+    print("Inserting worst edge...")
     graph.insert_worst_edge()
 else:
+    print("Inserting random edge...")
     graph.insert_random_edge(weights=[1])
 
+print("Incremental done")
 graph_values = {
     "graph": graph.export_values(),
     "dist": export_matrix(dist)
@@ -62,9 +69,9 @@ graph_values = {
 
 filename = "synthetics/graph_" + prefix + str(num_nodes) + "_" + str(sys.argv[2]) + ".json"
 
-print("-------------------------")
-print("Filename: " + filename)
-graph.stats()
+print("Exporting ", filename, "...")
 
 with open(filename, 'w') as outfile:
     json.dump(graph_values, outfile)
+
+print("----------------------")

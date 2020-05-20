@@ -7,12 +7,14 @@ from algorithms.eg import *
 from algorithms.quinca import *
 from algorithms.abm import *
 from algorithms.forest import *
-from time import time
 
+from time import time
+import statistics
 
 class Algorithm():
 
     def __init__(self, values):
+        self.attempt = 30
         self.graph = Graph.import_values(values)
 
 
@@ -66,56 +68,78 @@ class Algorithm():
         return self.export_algorithm([dist], time_seconds)
 
     def run_algorithm_dijkstra_apsp(self):
-        t = time()
-        dist = Dijkstra_apsp(self.graph)
-        time_seconds = time() - t
+        times = []
+        for tried in range(self.attempt):
+            t = time()
+            dist = Dijkstra_apsp(self.graph)
+            time_seconds = time() - t
+            times.append(time_seconds)
 
-        return self.export_algorithm(np.array(dist), time_seconds)
+        return self.export_algorithm(np.array(dist), times)
 
     def run_algorithm_rr_bfs_truncated(self, dist):
-        t = time()
-        dist = Bfs_Truncated_With_Sources(self.graph, dist)
-        time_seconds = time() - t
+        times = []
+        for tried in range(self.attempt):
+            t = time()
+            dist = Bfs_Truncated_With_Sources(self.graph, dist)
+            time_seconds = time() - t
+            times.append(time_seconds)
 
-        return self.export_algorithm(dist, time_seconds)
+        return self.export_algorithm(np.array(dist), times)
 
     def run_algorithm_knnb_node_incremental(self, dist):
-        t = time()
-        dist = KNNB_Node_Incremental(self.graph, dist)
-        time_seconds = time() - t
+        times = []
+        for tried in range(self.attempt):
+            t = time()
+            dist = KNNB_Node_Incremental(self.graph, dist)
+            time_seconds = time() - t
+            times.append(time_seconds)
 
-        return self.export_algorithm(dist, time_seconds)
+        return self.export_algorithm(np.array(dist), times)
 
     def run_algorithm_eg(self, dist):
-        t = time()
-        dist = Even_Gazit(self.graph, dist)
-        time_seconds = time() - t
+        times = []
+        for tried in range(self.attempt):
+            t = time()
+            dist = Even_Gazit(self.graph, dist)
+            time_seconds = time() - t
+            times.append(time_seconds)
 
-        return self.export_algorithm(dist, time_seconds)
+        return self.export_algorithm(np.array(dist), times)
 
     def run_algorithm_quinca(self, dist):
-        t = time()
-        dist = Quinca(self.graph, dist)
-        time_seconds = time() - t
+        times = []
+        for tried in range(self.attempt):
+            t = time()
+            dist = Quinca(self.graph, dist)
+            time_seconds = time() - t
+            times.append(time_seconds)
 
-        return self.export_algorithm(dist, time_seconds)
+        return self.export_algorithm(np.array(dist), times)
 
     def run_algorithm_abm(self, dist):
-        t = time()
-        dist = ABM_Update(self.graph, dist)
-        time_seconds = time() - t
+        times = []
+        for tried in range(self.attempt):
+            t = time()
+            dist = ABM_Update(self.graph, dist)
+            time_seconds = time() - t
+            times.append(time_seconds)
 
-        return self.export_algorithm(dist, time_seconds)
+        return self.export_algorithm(np.array(dist), times)
 
     def run_algorithm_forest(self, dist):
-        t = time()
-        dist = Forest_apsp(self.graph, dist)
-        time_seconds = time() - t
+        times = []
+        for tried in range(self.attempt):
+            t = time()
+            dist = Forest_apsp(self.graph, dist)
+            time_seconds = time() - t
+            times.append(time_seconds)
 
-        return self.export_algorithm(dist, time_seconds)
+        return self.export_algorithm(np.array(dist), times)
 
-    def export_algorithm(self, dist, time):
+    def export_algorithm(self, dist, times):
         return {
             'matrix': dist,
-            'time': time
+            'mean_times': statistics.mean(times),
+            'stdev_times': statistics.mean(times),
         }
