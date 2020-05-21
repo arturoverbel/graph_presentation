@@ -25,14 +25,15 @@ def import_matrix(matrix_result):
     return np.array(matrix_to_import)
 
 
-def calculate_and_export(calculate, dist_before):
+def calculate_and_export(calculate, type, dist_before):
     results = []
 
-    type = "random_insert_edge"
-    if "update_edge" in filename:
-        type = "worst_update_edge"
-    elif "worst" in filename:
-        type = "worst_insert_edge"
+    if type == "decrease_worst_edge":
+        calculate.graph.decrease_worst_weight()
+    elif type == "insert_worst_edge":
+        calculate.graph.insert_worst_edge()
+    else:
+        calculate.graph.insert_random_edge(weights=[1])
 
     for algorithm_name in calculate.list()['incremental']:
         result_run = calculate.run_algorithm(algorithm_name, dist_before)
@@ -60,24 +61,24 @@ def import_file(filename):
 
     return data_import
 
+type_incremental = "insert_edge"
+if len(sys.argv) >= 2:
+    type_incremental = sys.argv[1]
+
 
 files = []
 
-if len(sys.argv) < 2:
+if len(sys.argv) < 3:
     for f in os.listdir(basePath):
         if os.path.isfile(os.path.join(basePath, f)) and f.endswith(".json"):
             files.append(f)
 
-if len(sys.argv) >= 2:
-    filename = sys.argv[1]
+if len(sys.argv) >= 3:
+    filename = sys.argv[2]
     files.append(filename)
 
-type_incremental = "insert_edge"
-if len(sys.argv) >= 3:
-    type_incremental = sys.argv[2]
 
-    print(files)
-    print("Load ", len(files), "files")
+print("Load ", len(files), "files")
 
 print("================== Init LAB =======================")
 for filename in files:
@@ -85,7 +86,8 @@ for filename in files:
 
     dist_before = import_matrix(data_import['dist'])
     calculate = Algorithm(data_import['graph'])
+
     calculate.graph.stats()
 
-    calculate_and_export(calculate, dist_before)
+    calculate_and_export(calculate, type_incremental, dist_before)
     print("----------------------------------------")
