@@ -9,6 +9,7 @@ def Even_Gazit(graph, dist):
 
     dist[u, v] = w_uv
 
+
     for x in graph.nodes:
         for y in graph.nodes:
             sum = dist[x, u] + w_uv + dist[v, y]
@@ -16,3 +17,5 @@ def Even_Gazit(graph, dist):
                 dist[x, y] = sum
 
     return dist
+
+    # n2

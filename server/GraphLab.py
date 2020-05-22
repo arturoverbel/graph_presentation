@@ -16,19 +16,20 @@ class GraphLab(Services):
         self.graphServices = graphServices
 
     def process(self, num_nodes, probability_edges, directed, epoch, type, algorithm):
-        print("Process Lab. NumNodes [" + str(num_nodes) + "]")
-        print("Algorithm ["+algorithm+"] Repeticiones[" + str(epoch) + "]")
-
         time_list = []
+
 
         for i in range(epoch):
             result_graph = self.incremental_process(num_nodes, probability_edges, directed, type)
+            result_matrix = self.run_algorithm(result_graph, algorithm)
 
+        for i in range(epoch):
             result_matrix = self.run_algorithm(result_graph, algorithm)
             time_list.append(result_matrix['time'])
 
+        meanTimes = statistics.mean(time_list) * 1000
         return {
-            "mean": statistics.mean(time_list),
+            "mean": meanTimes,
             "num_nodes": num_nodes,
             "epoch": epoch
         }

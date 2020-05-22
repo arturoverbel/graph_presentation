@@ -24,3 +24,5 @@ def ABM_Update(graph, dist):
                 dist[i, j] = sum
 
     return dist
+
+    # n + n2

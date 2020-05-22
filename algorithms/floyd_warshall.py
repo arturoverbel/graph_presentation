@@ -12,7 +12,6 @@ def Floyd_Warshall(graph):
 
     total = len(graph.nodes)
     for k in graph.nodes:
-        print(k, "from (", total, ")")
         for i in graph.nodes:
             if k == i:
                 dist[k, i] = 0
