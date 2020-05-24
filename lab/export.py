@@ -3,12 +3,14 @@ import sys
 import json
 import sys
 import numpy as np
+from time import time
 
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../')
 
 from graph.Graph import Graph
 from algorithms.floyd_warshall import *
+from algorithms.dijkstra import *
 
 def export_matrix(matrix_result):
 
@@ -36,38 +38,23 @@ if len(sys.argv) >= 3:
     pp = int(float(sys.argv[2]) * 100)
 
 
-
-if len(sys.argv) >= 4:
-    type_incremental = sys.argv[3]
-
-
 print("Creating graph...")
 graph = Graph.creategraph(num_nodes, probability_edges)
 print("Graph created")
-print("FW running...")
-dist = Floyd_Warshall(graph)
-print("FW Done")
+print("Running calculate dist...")
+t = time()
+#dist = Floyd_Warshall(graph)
+dist = Dijkstra_apsp(graph)
+time_seconds = time() - t
+print("Dist [] Done")
 
-prefix = ""
-if type_incremental == "update_edge":
-    prefix = "update_edge_"
-    print("Decreasing worst weight...")
-    graph.decrease_worst_weight()
-elif type_incremental == "worst_insert_edge":
-    prefix = "worst_"
-    print("Inserting worst edge...")
-    graph.insert_worst_edge()
-else:
-    print("Inserting random edge...")
-    graph.insert_random_edge(weights=[1])
-
-print("Incremental done")
 graph_values = {
     "graph": graph.export_values(),
-    "dist": export_matrix(dist)
+    "dist": export_matrix(dist),
+    'time_fw': time_seconds
 }
 
-filename = "synthetics/graph_" + prefix + str(num_nodes) + "_" + str(sys.argv[2]) + ".json"
+filename = "synthetics/graph_" + str(num_nodes) + "_" + str(sys.argv[2]) + ".json"
 
 print("Exporting ", filename, "...")
 
