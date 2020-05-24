@@ -76,6 +76,7 @@ class GraphAlgorithms(Services):
         t = time()
         dist = Quinca(graph, np.array(matrix_distances))
         time_seconds = time() - t
+        print("TIME QUINCA: ", time_seconds * 1000)
 
         return self.export_algorithm(dist, time_seconds)
 
@@ -86,6 +87,7 @@ class GraphAlgorithms(Services):
         t = time()
         dist = ABM_Update(graph, np.array(matrix_distances))
         time_seconds = time() - t
+        print("TIME ABM: ", time_seconds * 1000)
 
         return self.export_algorithm(dist, time_seconds)
 

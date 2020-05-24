@@ -47,7 +47,7 @@ def calculate_and_export(calculate, type, dist_before):
             "type": type
         })
 
-    file_result = "results/" + filename
+    file_result = "results/" + filename.replace("graph", type)
     with open(file_result, 'w') as outfile:
         json.dump(results, outfile)
 

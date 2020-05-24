@@ -39,19 +39,19 @@ class Algorithm():
             return self.run_algorithm_floyd_warshall()
 
         if algorithm == 'rr-bfs-truncated':
-            return self.run_algorithm_rr_bfs_truncated(dist)
+            return self.run_algorithm_rr_bfs_truncated(dist.copy())
 
         if algorithm == 'even-gazit':
-            return self.run_algorithm_eg(dist)
+            return self.run_algorithm_eg(dist.copy())
 
         if algorithm == 'quinca':
-            return self.run_algorithm_quinca(dist)
+            return self.run_algorithm_quinca(dist.copy())
 
         if algorithm == 'abm':
-            return self.run_algorithm_abm( dist)
+            return self.run_algorithm_abm(dist.copy())
 
         if algorithm == 'forest':
-            return self.run_algorithm_forest(dist)
+            return self.run_algorithm_forest(dist.copy())
 
     def run_algorithm_floyd_warshall(self):
         t = time()
@@ -140,6 +140,6 @@ class Algorithm():
     def export_algorithm(self, dist, times):
         return {
             'matrix': dist,
-            'mean_times': statistics.mean(times),
-            'stdev_times': statistics.mean(times),
+            'mean_times': statistics.mean(times) * 1000,
+            'stdev_times': statistics.stdev(times),
         }
