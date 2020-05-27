@@ -99,7 +99,7 @@ class Graph(DynamicIncrementalGraph):
         weight = []
 
         for i in range(total_nodes):
-            for k in range(i+1, total_nodes):
+            for k in range(total_nodes):
                 if k == i:
                     continue
 

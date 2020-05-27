@@ -32,6 +32,8 @@ def calculate_and_export(calculate, type, dist_before):
         calculate.graph.decrease_worst_weight()
     elif type == "insert_worst_edge":
         calculate.graph.insert_worst_edge()
+    elif type == "decrease_edge":
+        calculate.graph.decrease_random_weight()
     else:
         calculate.graph.insert_random_edge(weights=[1])
 

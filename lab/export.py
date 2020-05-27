@@ -34,7 +34,7 @@ if len(sys.argv) < 3:
 
 if len(sys.argv) >= 3:
     num_nodes = int(sys.argv[1])
-    probability_edges = float(sys.argv[2]) * 2
+    probability_edges = float(sys.argv[2])
     pp = int(float(sys.argv[2]) * 100)
 
 
