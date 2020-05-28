@@ -44,7 +44,7 @@ type_incremental = "insert_edge"
 if len(sys.argv) >= 4:
     type_incremental = sys.argv[3]
 
-filename = "graph_"+ str(num_nodes) +"_" + str(probability_edges) + "_" + type_incremental + ".json"
+filename = "graph_"+ str(num_nodes) +"_" + str(probability_edges) + ".json"
 
 results = []
 
