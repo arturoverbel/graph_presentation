@@ -39,31 +39,31 @@ class Algorithm():
             return self.run_algorithm_floyd_warshall()
 
         if algorithm == 'rr-bfs-truncated':
-            return self.run_algorithm_rr_bfs_truncated(dist.copy())
+            return self.run_algorithm_rr_bfs_truncated(dist)
 
         if algorithm == 'even-gazit':
-            return self.run_algorithm_eg(dist.copy())
+            return self.run_algorithm_eg(dist)
 
         if algorithm == 'quinca':
-            return self.run_algorithm_quinca(dist.copy())
+            return self.run_algorithm_quinca(dist)
 
         if algorithm == 'abm':
-            return self.run_algorithm_abm(dist.copy())
+            return self.run_algorithm_abm(dist)
 
         if algorithm == 'forest':
-            return self.run_algorithm_forest(dist.copy())
+            return self.run_algorithm_forest(dist)
 
     def run_algorithm_floyd_warshall(self):
         t = time()
-        dist = Floyd_Warshall(self.graph)
-        time_seconds = time() - t
+        Floyd_Warshall(self.graph)
+        time_seconds = (time() - t) * 1000
 
         return self.export_algorithm(dist, time_seconds)
 
     def run_algorithm_dijkstra(self, source):
         t = time()
-        dist = Dijkstra(int(source), self.graph)
-        time_seconds = time() - t
+        Dijkstra(int(source), self.graph)
+        time_seconds = (time() - t) * 1000
 
         return self.export_algorithm([dist], time_seconds)
 
@@ -71,8 +71,8 @@ class Algorithm():
         times = []
         for tried in range(self.attempt):
             t = time()
-            dist = Dijkstra_apsp(self.graph)
-            time_seconds = time() - t
+            Dijkstra_apsp(self.graph)
+            time_seconds = (time() - t) * 1000
             times.append(time_seconds)
 
         return self.export_algorithm(np.array(dist), times)
@@ -81,8 +81,8 @@ class Algorithm():
         times = []
         for tried in range(self.attempt):
             t = time()
-            dist = Bfs_Truncated_With_Sources(self.graph, dist)
-            time_seconds = time() - t
+            Bfs_Truncated_With_Sources(self.graph, dist.copy())
+            time_seconds = (time() - t) * 1000
             times.append(time_seconds)
 
         return self.export_algorithm(np.array(dist), times)
@@ -91,8 +91,8 @@ class Algorithm():
         times = []
         for tried in range(self.attempt):
             t = time()
-            dist = KNNB_Node_Incremental(self.graph, dist)
-            time_seconds = time() - t
+            KNNB_Node_Incremental(self.graph, dist.copy())
+            time_seconds = (time() - t) * 1000
             times.append(time_seconds)
 
         return self.export_algorithm(np.array(dist), times)
@@ -101,8 +101,8 @@ class Algorithm():
         times = []
         for tried in range(self.attempt):
             t = time()
-            dist = Even_Gazit(self.graph, dist)
-            time_seconds = time() - t
+            Even_Gazit(self.graph, dist.copy())
+            time_seconds = (time() - t) * 1000
             times.append(time_seconds)
 
         return self.export_algorithm(np.array(dist), times)
@@ -111,8 +111,8 @@ class Algorithm():
         times = []
         for tried in range(self.attempt):
             t = time()
-            dist = Quinca(self.graph, dist)
-            time_seconds = time() - t
+            Quinca(self.graph, dist.copy())
+            time_seconds = (time() - t) * 1000
             times.append(time_seconds)
 
         return self.export_algorithm(np.array(dist), times)
@@ -121,8 +121,8 @@ class Algorithm():
         times = []
         for tried in range(self.attempt):
             t = time()
-            dist = ABM_Update(self.graph, dist)
-            time_seconds = time() - t
+            ABM_Update(self.graph, dist.copy())
+            time_seconds = (time() - t) * 1000
             times.append(time_seconds)
 
         return self.export_algorithm(np.array(dist), times)
@@ -131,15 +131,11 @@ class Algorithm():
         times = []
         for tried in range(self.attempt):
             t = time()
-            dist = Forest_apsp(self.graph, dist)
-            time_seconds = time() - t
+            Forest_apsp(self.graph, dist.copy())
+            time_seconds = (time() - t) * 1000
             times.append(time_seconds)
 
         return self.export_algorithm(np.array(dist), times)
 
     def export_algorithm(self, dist, times):
-        return {
-            'matrix': dist,
-            'mean_times': statistics.mean(times) * 1000,
-            'stdev_times': statistics.stdev(times),
-        }
+        return times

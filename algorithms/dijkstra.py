@@ -32,7 +32,6 @@ def Dijkstra_apsp(graph):
     result = np.full((graph.nodes.size, graph.nodes.size), np.inf)
     total = len(graph.nodes)
     for i, v in enumerate(graph.nodes):
-        print(v, "from (", total, ")")
         result[i] = Dijkstra(v, graph)
 
     return result

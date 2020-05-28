@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import numpy as np
+import pandas as pd
 
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../')
@@ -38,20 +39,24 @@ def calculate_and_export(calculate, type, dist_before):
         calculate.graph.insert_random_edge(weights=[1])
 
     for algorithm_name in calculate.list()['incremental']:
-        result_run = calculate.run_algorithm(algorithm_name, dist_before)
-        results.append({
-            "algorithm": algorithm_name,
-            "mean_times": result_run['mean_times'],
-            "stdev_times": result_run['stdev_times'],
-            "nodes": len(calculate.graph.nodes),
-            "edges": len(calculate.graph.source),
-            "density": calculate.graph.get_density(),
-            "type": type
-        })
+        times = calculate.run_algorithm(algorithm_name, dist_before)
+        for time in times:
+            results.append({
+                "algorithm": algorithm_name,
+                "time": time,
+                "nodes": len(calculate.graph.nodes),
+                "edges": len(calculate.graph.source),
+                "density": calculate.graph.get_density(),
+                "type": type
+            })
 
-    file_result = "results/" + filename.replace("graph", type)
-    with open(file_result, 'w') as outfile:
-        json.dump(results, outfile)
+    df = pd.DataFrame(results)
+    filenameFinal = filename.replace("graph", type)
+    filenameFinal = filenameFinal.replace("json", "csv")
+    filenameFinal = 'results_csv/' + filenameFinal
+    print("To export: ", filenameFinal)
+    df.to_csv (filenameFinal, index=False, header=True)
+
 
 def import_file(filename):
     file = basePath + filename
