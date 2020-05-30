@@ -63,7 +63,7 @@ for i in range(num_try):
         graph.insert_random_edge(weights=[1])
 
     calculate = Algorithm(graph.export_values())
-    calculate.attempt = 10
+    calculate.attempt = 30
 
     for algorithm_name in calculate.list()['incremental']:
         times = calculate.run_algorithm(algorithm_name, dist_before)
