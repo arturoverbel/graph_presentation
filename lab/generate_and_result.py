@@ -25,10 +25,13 @@ def export_matrix(matrix_result):
 
     return matrix_to_export
 
-num_try = 20
+num_try = 30
 num_nodes = 100
 probability_edges = 0.1
 type_incremental = "insert_edge"
+
+labExec = False
+saveFileExec = True
 
 
 if len(sys.argv) < 3:
@@ -63,23 +66,38 @@ for i in range(num_try):
         graph.insert_random_edge(weights=[1])
 
     calculate = Algorithm(graph.export_values())
-    calculate.attempt = 30
+    calculate.attempt = 10
 
-    for algorithm_name in calculate.list()['incremental']:
-        times = calculate.run_algorithm(algorithm_name, dist_before)
-        for time in times:
-            results.append({
-                "algorithm": algorithm_name,
-                "time": time,
-                "nodes": len(calculate.graph.nodes),
-                "edges": len(calculate.graph.source),
-                "density": calculate.graph.get_density(),
-                "type": type_incremental
-            })
+    if saveFileExec:
+        graph_values = {
+            "graph": graph.export_values(),
+            "dist": export_matrix(dist_before)
+        }
+        filename = "synthetics_many/g_" + str(num_nodes) + "_" + str(probability_edges) + "_" + str(i) + ".json"
+        print("Exporting ", filename, "...")
+        with open(filename, 'w') as outfile:
+            json.dump(graph_values, outfile)
 
-df = pd.DataFrame(results)
-filenameFinal = filename.replace("graph", type_incremental)
-filenameFinal = filenameFinal.replace("json", "csv")
-filenameFinal = 'results_many_random/' + filenameFinal
-print("To export: ", filenameFinal)
-df.to_csv (filenameFinal, index=False, header=True)
+    if labExec:
+        for algorithm_name in calculate.list()['incremental']:
+            times = calculate.run_algorithm(algorithm_name, dist_before)
+            for time in times:
+                results.append({
+                    "algorithm": algorithm_name,
+                    "time": time,
+                    "nodes": len(calculate.graph.nodes),
+                    "edges": len(calculate.graph.source),
+                    "density": calculate.graph.get_density(),
+                    "type": type_incremental
+                })
+
+if labExec:
+    df = pd.DataFrame(results)
+    filenameFinal = filename.replace("graph", type_incremental)
+    filenameFinal = filenameFinal.replace("json", "csv")
+    filenameFinal = 'results_many_random/' + filenameFinal
+    print("To export: ", filenameFinal)
+    df.to_csv (filenameFinal, index=False, header=True)
+
+print("END")
+print("-------------------")

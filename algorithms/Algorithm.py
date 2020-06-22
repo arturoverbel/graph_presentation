@@ -22,10 +22,10 @@ class Algorithm():
         return {
             'static': ['dijkstra-apsp', 'floyd-warshall'],
             'incremental': [
+                'abm',
                 'rr-bfs-truncated',
                 'even-gazit',
                 'quinca',
-                'abm',
                 'forest'
             ]
         }
