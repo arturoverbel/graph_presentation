@@ -221,37 +221,42 @@ class DynamicGraph(GraphPro):
         return self.edge_update(source, target, weight=weight)
 
     def find_source_target_worst_scenary_incremental_edge(self):
-        max = 0
-        source_worst_scenary = 0
+        node_sources = {}
+        node_targets = {}
         for node in self.nodes:
-            total = self.find_total(node, "sources")
-            if total > max:
-                source_worst_scenary = node
-                max = total
+            node_sources[node] = self.find_total(node, "sources")
+            node_targets[node] = self.find_total(node, "targets")
 
-        max = 0
-        target_worst_scenary = 0
-        for node in self.nodes:
-            total = self.find_total(node, "targets")
-            if total > max:
-                target_worst_scenary = node
-                max = total
+        print(node_sources)
+        print(node_targets)
+        max_path_long = 0
+        node_source = 0
+        node_target = 0
+        for x in self.nodes:
+            for y in self.nodes:
+                if x == y:
+                    continue
+
+                if self.get_weight(x, y) != np.inf:
+                    continue
+
+                total_path_long = node_sources[x] * node_targets[y]
+                if total_path_long > max_path_long:
+                    max_path_long = total_path_long
+                    node_source = x
+                    node_target = y
 
         return {
-            "source": source_worst_scenary,
-            "target": target_worst_scenary
+            "source": node_source,
+            "target": node_target
         }
 
     def find_edge_worst_scenary_update_edge(self):
         node_sources = {}
-        for node in self.nodes:
-            total = self.find_total(node, "sources")
-            node_sources[node] = total
-
         node_targets = {}
         for node in self.nodes:
-            total = self.find_total(node, "targets")
-            node_targets[node] = total
+            node_sources[node] = self.find_total(node, "sources")
+            node_targets[node] = self.find_total(node, "targets")
 
         max_path_long = 0
         node_source = 0
@@ -259,6 +264,9 @@ class DynamicGraph(GraphPro):
         for x in self.nodes:
             for y in self.nodes:
                 if x == y:
+                    continue
+
+                if self.get_weight(x, y) == np.inf:
                     continue
 
                 total_path_long = node_sources[x] + node_targets[y]
