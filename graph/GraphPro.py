@@ -61,6 +61,7 @@ class GraphPro:
         return self.target[start:end]
 
     def draw(self, with_weight=True):
+        f = plt.figure()
         gr = nx.DiGraph()
         gr.add_weighted_edges_from(self.export())
 
@@ -127,6 +128,9 @@ class GraphPro:
         labels = dict()
         for i in list_nodes:
             labels[i] = str(i)
+
+
         nx.draw_networkx_labels(gr, pos, labels)
+        f.savefig("graph.png", dpi=150)
 
         plt.show()
