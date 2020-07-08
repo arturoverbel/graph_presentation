@@ -227,8 +227,6 @@ class DynamicGraph(GraphPro):
             node_sources[node] = self.find_total(node, "sources")
             node_targets[node] = self.find_total(node, "targets")
 
-        print(node_sources)
-        print(node_targets)
         max_path_long = 0
         node_source = 0
         node_target = 0
