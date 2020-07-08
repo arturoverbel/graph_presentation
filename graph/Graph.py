@@ -119,24 +119,41 @@ class Graph(DynamicIncrementalGraph):
 
         return Graph(source, target, weight, directed, set_nodes_with_num_nodes=total_nodes)
 
+    """
+    Comprueba si la matriz de distancia y la de predecesores, coinciden
+    """
     @staticmethod
-    def creategraph_for_worst_escenary_edge_insert(total_nodes, directed=True):
+    def testDistPred(dist, pred):
 
-        mid_nodes = total_nodes//2
-        nodes1 = np.arange(mid_nodes)
-        nodes2 = np.arange(mid_nodes, total_nodes)
+        for node_source in range(len(dist)):
+            for node_target in range(len(dist)):
+                if node_source == node_target:
+                    continue
 
-        perm1 = list(combinations(nodes1, 2))
-        perm2 = list(combinations(nodes2, 2))
+                pred_list = pred[node_source]
+                distance_must = dist[node_source, node_target]
+                target = node_target
 
-        sources_targets1 = list(map(list, zip(*perm1)))
-        sources_targets2 = list(map(list, zip(*perm2)))
+                if distance_must == np.inf:
+                    if pred_list[target] == -1:
+                        continue
+                    else:
+                        print(f'({node_source}, {node_target}) must be -1')
+                        return False
 
-        sources = sources_targets1[0]
-        sources.extend(sources_targets2[0])
+                distance = 0
+                while True:
+                    predecesor = pred_list[target]
+                    source = predecesor
 
-        targets = sources_targets1[1]
-        targets.extend(sources_targets2[1])
-        weights = np.full(shape=len(sources), fill_value=1, dtype=np.int)
+                    if predecesor != -1:
+                        distance += dist[predecesor, target]
 
-        return Graph(sources, targets, weights, directed, set_nodes_with_num_nodes=total_nodes)
+                    if source == -1:
+                        if distance_must != distance:
+                            print(f'({node_source}, {node_target}) not distance coincidence')
+                            return False
+                        break
+                    target = source
+
+        return True

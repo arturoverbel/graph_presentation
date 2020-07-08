@@ -23,10 +23,10 @@ class GraphServices(Services):
             "dist": self.export_matrix(dist)
         }
 
-    def create_graph_and_insert_worst_edge(self, num_nodes, directed):
-        graph = Graph.creategraph_for_worst_escenary_edge_insert(num_nodes, directed=directed)
+    def create_graph_and_insert_worst_edge(self, num_nodes, probability_edges=0.5, directed):
+        graph = Graph.creategraph(num_nodes, probability_edges, directed=directed)
         dist = Floyd_Warshall(graph)
-        graph.dynamic_incremental_edge_middle()
+        graph.insert_random_edge()
 
         return {
             "graph": self.export(graph),
