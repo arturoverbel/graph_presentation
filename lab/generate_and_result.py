@@ -1,10 +1,11 @@
-import os
-import sys
-import json
-import sys
-import numpy as np
+from folder import get_folder
 from time import time
 import pandas as pd
+import numpy as np
+import json
+import sys
+import sys
+import os
 
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../')
@@ -25,79 +26,98 @@ def export_matrix(matrix_result):
 
     return matrix_to_export
 
-num_try = 30
-num_nodes = 100
-probability_edges = 0.1
-type_incremental = "insert_edge"
 
-labExec = False
-saveFileExec = True
+def run(
+    type_incremental,
+    num_nodes,
+    probability_edges,
+    num_try=30,
+    attempt=10,
+    saveFileExec=True,
+    labExec=True,
+    printer=True
+):
+    ## Define params
+    labExec = bool(labExec)
+    saveFileExec = bool(saveFileExec)
+    num_nodes = int(num_nodes)
+    num_try = int(num_try)
+    attempt = int(attempt)
+    probability_edges = float(probability_edges)
+    results = []
+
+    dirGraphs =  get_folder("synthetics", type_incremental, num_nodes, probability_edges)
+    dirResults =  get_folder("results", type_incremental, num_nodes, probability_edges)
+
+    if printer:
+        print("=============================================")
+        print("Num nodes: ", num_nodes)
+        print("Probability Edge: ", probability_edges)
+        print("Graph count: ", num_try)
+        print("Try algorithms: ", num_try)
+        print("Exporting graphs: ", saveFileExec)
+        print("Exec algorithms: ", labExec)
+        print("\n")
 
 
-if len(sys.argv) < 3:
-    print("Faltan argumentos")
-    exit()
+    ### Define lab for exec
 
-if len(sys.argv) >= 3:
-    num_nodes = int(sys.argv[1])
-    probability_edges = float(sys.argv[2])
-    pp = int(float(sys.argv[2]) * 100)
+    for i in range(num_try):
+        print("Loading graph [" + str(num_nodes) + ", " + str(probability_edges) + "]", i, " of ", num_try)
+        graph = Graph.creategraph(num_nodes, probability_edges)
+        dist_before = Dijkstra_apsp(graph)
 
-type_incremental = "insert_edge"
-if len(sys.argv) >= 4:
-    type_incremental = sys.argv[3]
+        if type_incremental == "decrease_worst_edge":
+            graph.decrease_worst_weight()
+        elif type_incremental == "insert_worst_edge":
+            graph.insert_worst_edge()
+        elif type_incremental == "decrease_edge":
+            graph.decrease_random_weight()
+        else:
+            graph.insert_random_edge(weights=[1])
 
-filename = "graph_"+ str(num_nodes) +"_" + str(probability_edges) + ".json"
+        calculate = Algorithm(graph.export_values())
+        calculate.attempt = attempt
 
-results = []
+        ### Save graph
 
-for i in range(num_try):
-    print("Loading graph [" + str(num_nodes) + ", " + str(probability_edges) + "]", i, " of ", num_try)
-    graph = Graph.creategraph(num_nodes, probability_edges)
-    dist_before = Dijkstra_apsp(graph)
+        if saveFileExec:
+            graph_values = {
+                "graph": graph.export_values(),
+                "dist": export_matrix(dist_before)
+            }
+            filename = dirGraphs + "g_" + str(i) + ".json"
 
-    if type_incremental == "decrease_worst_edge":
-        graph.decrease_worst_weight()
-    elif type_incremental == "insert_worst_edge":
-        graph.insert_worst_edge()
-    elif type_incremental == "decrease_edge":
-        graph.decrease_random_weight()
-    else:
-        graph.insert_random_edge(weights=[1])
+            with open(filename, 'w') as outfile:
+                json.dump(graph_values, outfile)
 
-    calculate = Algorithm(graph.export_values())
-    calculate.attempt = 10
+        ### Exec lab and save on results[]
 
-    if saveFileExec:
-        graph_values = {
-            "graph": graph.export_values(),
-            "dist": export_matrix(dist_before)
-        }
-        filename = "synthetics_many/g_" + str(num_nodes) + "_" + str(probability_edges) + "_" + str(i) + ".json"
-        print("Exporting ", filename, "...")
-        with open(filename, 'w') as outfile:
-            json.dump(graph_values, outfile)
+        if labExec:
+            for algorithm_name in calculate.list()['incremental']:
+                times = calculate.run_algorithm(algorithm_name, dist_before)
+                for time in times:
+                    results.append({
+                        "algorithm": algorithm_name,
+                        "time": time,
+                        "nodes": len(calculate.graph.nodes),
+                        "edges": len(calculate.graph.source),
+                        "density": probability_edges,
+                        "type": type_incremental
+                    })
+
+    ### Set Data Frame
+    df = pd.DataFrame(results)
+    filename = dirResults + "result.csv"
 
     if labExec:
-        for algorithm_name in calculate.list()['incremental']:
-            times = calculate.run_algorithm(algorithm_name, dist_before)
-            for time in times:
-                results.append({
-                    "algorithm": algorithm_name,
-                    "time": time,
-                    "nodes": len(calculate.graph.nodes),
-                    "edges": len(calculate.graph.source),
-                    "density": calculate.graph.get_density(),
-                    "type": type_incremental
-                })
+        if printer:
+            print("To export: ", filename)
+        df.to_csv (filename, index=False, header=True)
 
-if labExec:
-    df = pd.DataFrame(results)
-    filenameFinal = filename.replace("graph", type_incremental)
-    filenameFinal = filenameFinal.replace("json", "csv")
-    filenameFinal = 'results_many_random/' + filenameFinal
-    print("To export: ", filenameFinal)
-    df.to_csv (filenameFinal, index=False, header=True)
+    print("END")
 
-print("END")
-print("-------------------")
+    return {
+        "dataframe": df,
+        "filename": filename
+    }
