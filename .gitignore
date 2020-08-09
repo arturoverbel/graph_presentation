@@ -4,5 +4,3 @@ test/__pycache__/
 venv/
 .idea/
 .idea/*
-
-*.png

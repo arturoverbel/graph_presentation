@@ -121,14 +121,17 @@ class DynamicIncrementalGraph(DynamicGraph):
             "last_edge_action": self.last_edge_action
         }
 
-    def decrease_worst_weight(self, weight=1):
+    def decrease_worst_weight(self):
         self.clean_vars()
 
         result_found = self.find_edge_worst_scenary_update_edge()
         source = result_found['source']
         target = result_found['target']
 
-        return self.decrease_weight(source, target, weight=weight)
+        weight_current = self.get_weight(source, target)
+        weight_new = 0 if weight_current > 0 else -1
+
+        return self.decrease_weight(source, target, weight=weight_new)
 
     def decrease_random_weight(self, weight=1):
         count_max = 100
