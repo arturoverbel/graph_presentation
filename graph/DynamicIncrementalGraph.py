@@ -143,7 +143,9 @@ class DynamicIncrementalGraph(DynamicGraph):
 
             if choisen.size != 0:
                 target = np.random.choice(choisen, 1)[0]
-                if self.get_weight(source, target) > 1:
+                weight_current = self.get_weight(source, target)
+                if weight_current > 1:
+                    weight = 0 if weight_current > 0 else -1
                     break
 
             flag = flag + 1
