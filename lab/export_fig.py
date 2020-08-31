@@ -139,7 +139,7 @@ def draw_plot_seaborn_bar(
 
     dir = get_folder("figs", type_incremental, num_nodes)
     groupF = 'density' if densityGroup else 'algorithms'
-    densityF = 'small' if densityTypes == 0 else 'large'
+    densityF = '0.0x' if densityTypes == 0 else '0.x'
 
     densityValues = list(dict.fromkeys(data['density'].values.tolist()))
     if densityTypes == 0:
@@ -150,7 +150,8 @@ def draw_plot_seaborn_bar(
     if densityValues:
         data = data.loc[data['density'].isin(densityValues)]
 
-    filename = dir + "fig_" + type_incremental + "_" + str(num_nodes) + "_" + groupF + "_" + densityF
+    #filename = dir + "fig_" + type_incremental + "_" + str(num_nodes) + "_" + groupF + "_" + densityF
+    filename = dir + "n=" + str(num_nodes) + "p=" + densityF + "," + "g=" + groupF + "," + type_incremental
     dataToPrint = None
     #colors_g = [(0.21568627450980393, 0.47058823529411764, 0.7490196078431373), '#fb5607', '#8a5a44', '#8338ec', '#edc4b3']
 

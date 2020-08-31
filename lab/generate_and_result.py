@@ -65,7 +65,12 @@ def run(
     for i in range(num_try):
         print("Loading graph [" + str(num_nodes) + ", " + str(probability_edges) + "]", i, " of ", num_try)
         graph = Graph.creategraph(num_nodes, probability_edges)
+
+        t = time()
         dist_before = Dijkstra_apsp(graph)
+        #dist_before = Dijkstpython3 lab.py decrease_edge 1000 0.5ra_apsp(graph) if probability_edges < 0.1 else Floyd_Warshall(graph)
+        time_seconds = (time() - t) * 1000
+        print(time_seconds)
 
         if type_incremental == "decrease_worst_edge":
             graph.decrease_worst_weight()
@@ -96,10 +101,10 @@ def run(
         if labExec:
             for algorithm_name in calculate.list()['incremental']:
                 times = calculate.run_algorithm(algorithm_name, dist_before)
-                for time in times:
+                for timee in times:
                     results.append({
                         "algorithm": algorithm_name,
-                        "time": time,
+                        "time": timee,
                         "nodes": len(calculate.graph.nodes),
                         "edges": len(calculate.graph.source),
                         "density": probability_edges,
