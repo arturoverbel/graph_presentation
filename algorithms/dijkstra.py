@@ -9,6 +9,9 @@ def Dijkstra(source, graph):
     dist.fill(np.inf)
     dist[source] = 0
 
+    print("---")
+    print(dist)
+
     while len(Q) > 0:
         min, u, index = np.inf, 0, 0
         for i, q in enumerate(Q):
@@ -23,6 +26,8 @@ def Dijkstra(source, graph):
             aux = dist[u] + w_uv
             if aux < dist[v]:
                 dist[v] = aux
+                print("---")
+                print(dist)
 
     return dist
 
