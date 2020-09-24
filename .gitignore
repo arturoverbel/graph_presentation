@@ -1,6 +1,7 @@
 graph/__pycache__/
 algorithms/__pycache__/
 test/__pycache__/
+lab/__pycache__/
 venv/
 .idea/
 .idea/*
