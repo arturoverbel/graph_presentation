@@ -3,6 +3,7 @@ from algorithms.rr import *
 from collections import defaultdict
 from collections import deque
 
+
 def Quinca(graph, dist):
     u, v, w_uv = graph.last_edge_updated
 
@@ -27,7 +28,6 @@ def Quinca(graph, dist):
                 dist[x, y] = dist[x, u] + w_uv + dist[v, y]
                 if y != v:
                     S[y].append(x)
-
 
         y_targets, y_weights = graph.get_targets_from_source(y, return_weight=True)
 

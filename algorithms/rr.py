@@ -2,6 +2,7 @@ import numpy as np
 from collections import defaultdict
 from collections import deque
 
+
 def Dijkstra_Truncated(graph, dist_source):
     u, v, w_uv = graph.last_edge_updated
 
@@ -78,8 +79,8 @@ def Find_Affected_Sources(graph, dist):
 
     return sources_affected
 
-def Bfs_Truncated_With_Sources(graph, dist):
 
+def Bfs_Truncated_With_Sources(graph, dist):
     for source in Find_Affected_Sources(graph, dist):
         dist = Bfs_Truncated(graph, source, dist)
 

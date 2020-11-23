@@ -30,6 +30,8 @@ print(dist)
 
 print(graph.insert_worst_edge())
 
+
+"""
 t = time()
 Even_Gazit(graph, dist.copy())
 print( "Time: ", (time() - t) * 1000 )
@@ -40,15 +42,20 @@ Bfs_Truncated_With_Sources(graph, dist.copy())
 print( "Time: ", (time() - t) * 1000 )
 #0.18024
 
+
 t = time()
 Quinca(graph, dist.copy())
 print( "Time: ", (time() - t) * 1000 )
 #0.1494
 
+
+
 t = time()
 Forest_apsp(graph, dist.copy())
 print( "Time: ", (time() - t) * 1000 )
 #0.1442
+"""
+
 
 t = time()
 ABM_Update(graph, dist.copy())

@@ -1,5 +1,5 @@
-import numpy as np
 from collections import deque
+
 
 # Affected Block Matriz = ABM Update
 def ABM_Update(graph, dist):
@@ -24,5 +24,3 @@ def ABM_Update(graph, dist):
                 dist[i, j] = sum
 
     return dist
-
-    # n + n2

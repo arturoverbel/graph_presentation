@@ -1,6 +1,7 @@
 import numpy as np
 import heapq 
 
+
 def Forest(source, graph, t_dist):
     x, y, w_xy = graph.last_edge_updated
 
@@ -27,8 +28,8 @@ def Forest(source, graph, t_dist):
 
     return t_dist
 
-def Forest_apsp(graph, dist):
 
+def Forest_apsp(graph, dist):
     for source in graph.nodes:
         dist[source] = Forest(source, graph, dist[source])
 
