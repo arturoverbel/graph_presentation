@@ -49,7 +49,8 @@ class GraphPro:
         idx = self.source.argsort()
         self.source = self.source[idx]
         self.target = self.target[idx]
-        self.weight = self.weight[idx]
+        if len(self.weight) != 0:
+            self.weight = self.weight[idx]
 
     def get_targets_from_source(self, source, return_weight=False):
         start = np.searchsorted(self.source, source, side='left')
