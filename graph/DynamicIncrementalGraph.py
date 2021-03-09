@@ -22,9 +22,14 @@ class DynamicIncrementalGraph(DynamicGraph):
 
         self.source = np.append(self.source, source)
         self.target = np.append(self.target, target)
-        self.weight = np.append(self.weight, weight)
 
-        self.last_edge_updated = np.array([source, target, weight])
+        add_last_edge_updated = [source, target]
+        if len(self.weight) != 0:
+            self.weight = np.append(self.weight, weight)
+        else:
+            add_last_edge_updated.append(weight)
+
+        self.last_edge_updated = np.array(add_last_edge_updated)
         self.last_edge_action = "ADD"
 
         self.sort_sources()
