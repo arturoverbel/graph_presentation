@@ -14,29 +14,58 @@ class DynamicIncrementalGraph(DynamicGraph):
         directed=True,
         set_nodes_with_num_nodes=0
     ):
+        self.set_action_to_graph = True
         DynamicGraph.__init__(self, source, target, weight, directed, set_nodes_with_num_nodes)
+        self.clean_vars()
+
+    def action_incremental(self, type_incremental, set_action_to_graph=True):
+        self.set_action_to_graph = set_action_to_graph
+
+        if type_incremental == "decrease_worst_edge":
+            d = self.decrease_worst_weight()
+        elif type_incremental == "insert_worst_edge":
+            d = self.insert_worst_edge()
+        elif type_incremental == "decrease_edge":
+            d = self.decrease_random_weight()
+        else:
+            # type_incremental == insert_edge
+            d = self.insert_random_edge(weights=[1])
+
+        return d
+
+    def reverse_action_incremental(self):
+        if self.last_edge_action == "ADD":
+            n1 = self.last_edge_updated[0]
+            n2 = self.last_edge_updated[1]
+
+            idx = np.where(np.logical_and(self.source == n1, self.target == n2))[0][0]
+
+            self.source = np.delete(self.source, [idx])
+            self.target = np.delete(self.target, [idx])
+
         self.clean_vars()
 
     def insert_edge(self, source, target, weight=1):
         self.clean_vars()
 
-        self.source = np.append(self.source, source)
-        self.target = np.append(self.target, target)
+        last_edge_updated = np.array([source, target, weight])
+        last_edge_action = "ADD"
 
-        add_last_edge_updated = [source, target]
-        if len(self.weight) != 0:
-            self.weight = np.append(self.weight, weight)
-        else:
-            add_last_edge_updated.append(weight)
+        if self.set_action_to_graph:
+            self.source = np.append(self.source, source)
+            self.target = np.append(self.target, target)
 
-        self.last_edge_updated = np.array(add_last_edge_updated)
-        self.last_edge_action = "ADD"
+            if len(self.weight) != 0:
+                self.weight = np.append(self.weight, weight)
 
-        self.sort_sources()
+            self.last_edge_updated = last_edge_updated
+            self.last_edge_action = last_edge_action
+
+            self.sort_sources()
 
         return {
-            "last_edge_updated": self.last_edge_updated,
-            "last_edge_action": self.last_edge_action
+            "last_edge_updated": last_edge_updated.tolist(),
+            "last_edge_action": last_edge_action
         }
 
     def insert_worst_edge(self, weight=1):
@@ -112,18 +141,23 @@ class DynamicIncrementalGraph(DynamicGraph):
         if weight > self.get_weight(source, target):
             return -2
 
-        self.weight[np.logical_and(self.source == source, self.target == target)] = weight
-        if not self.directed:
-            self.weight[np.logical_and(self.source == target, self.target == source)] = weight
+        last_edge_updated = np.array([source, target, weight])
+        last_edge_action = "DECREASE"
 
-        self.last_edge_updated = np.array([source, target, weight])
-        self.last_edge_action = "DECREASE"
+        if self.set_action_to_graph:
+            if len(self.weight) != 0:
+                self.weight[np.logical_and(self.source == source, self.target == target)] = weight
+                if not self.directed:
+                    self.weight[np.logical_and(self.source == target, self.target == source)] = weight
 
-        self.sort_sources()
+            self.last_edge_updated = last_edge_updated
+            self.last_edge_action = last_edge_action
+
+            self.sort_sources()
 
         return {
-            "last_edge_updated": self.last_edge_updated,
-            "last_edge_action": self.last_edge_action
+            "last_edge_updated": last_edge_updated.tolist(),
+            "last_edge_action": last_edge_action
         }
 
     def decrease_worst_weight(self):
@@ -148,13 +182,13 @@ class DynamicIncrementalGraph(DynamicGraph):
 
             if choisen.size != 0:
                 target = np.random.choice(choisen, 1)[0]
-                weight_current = self.get_weight(source, target)
-                if weight_current > 1:
-                    weight = 0 if weight_current > 0 else -1
-                    break
+                if source == target:
+                    continue
+                weight = 1 if len(self.weight) != 0 else 0
+                break
 
             flag = flag + 1
             if flag >= count_max:
                 return -2
 
-        return self.edge_update(source, target, weight=weight)
+        return self.decrease_weight(source, target, weight=weight)

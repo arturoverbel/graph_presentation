@@ -78,10 +78,10 @@ class ExportLabReal(LabReal):
             json.dump(graph_values, fp)
             print("File " + name + " exported")
 
-    def export_lab_real(self):
+    def export_lab_real(self, filename=""):
         # self.delete_file_testing()
         incremental_actions = get_incremental_action()
-        self.import_all_files()
+        self.import_all_files(filename=filename)
 
         for filename in self.files:
             if self.check_file_exist(filename):

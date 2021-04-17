@@ -3,9 +3,9 @@ from module.export_lab_real import ExportLabReal
 from module.calculate_lab_real import CalculateLabReal
 
 
-def export():
+def export(filename=""):
     lab = ExportLabReal(testing=True)
-    lab.export_lab_real()
+    lab.export_lab_real(filename)
 
 
 def calculate():
@@ -17,11 +17,15 @@ def calculate():
 Start Run
 """
 exec_command = "export"
-if len(sys.argv) == 2:
+if len(sys.argv) >= 2:
     exec_command = sys.argv[1]
 
 if exec_command == "export":
-    export()
+    filename = ""
+    if len(sys.argv) >= 3:
+        filename = sys.argv[2]
+
+    export(filename)
     exit()
 
 if exec_command == "calculate":

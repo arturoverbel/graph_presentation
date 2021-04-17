@@ -66,12 +66,18 @@ class LabReal:
             if os.path.isfile(item) and f.endswith(extension):
                 os.remove(item)
 
-    def import_all_files(self, path="", extension=".txt"):
-        if path == "":
-            path = self.basePath
+    def import_all_files(self, filename="", extension=".txt"):
+        self.files = []
+        path = self.basePath
 
         if not path.endswith("/"):
             path += "/"
+
+        if filename != "":
+            file = path + filename
+            self.files.append(file)
+
+            return self.files
 
         for f in os.listdir(path):
             item = os.path.join(path, f)
@@ -79,3 +85,5 @@ class LabReal:
                 self.files.append(path + f)
             if os.path.isdir(item):
                 self.import_all_files(item)
+
+        return self.files

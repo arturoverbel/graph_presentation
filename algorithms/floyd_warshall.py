@@ -6,7 +6,7 @@ def Floyd_Warshall(graph):
     dist = np.full((graph.nodes.size, graph.nodes.size), np.inf)
 
     for idx in range(graph.source.size):
-        dist[graph.source[idx], graph.target[idx]] = graph.weight[idx]
+        dist[graph.source[idx], graph.target[idx]] = graph.get_weight_idx(idx)
 
     for k in graph.nodes:
         for i in graph.nodes:

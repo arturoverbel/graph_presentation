@@ -2,21 +2,28 @@ from graph.Graph import Graph
 from algorithms.floyd_warshall import *
 from algorithms.dijkstra import *
 from algorithms.knnb import *
-from algorithms.rr import *
 from algorithms.eg import *
 from algorithms.quinca import *
 from algorithms.abm import *
 from algorithms.forest import *
 
 from time import time
-import statistics
 
-class Algorithm():
+
+def get_incremental_action():
+    return [
+        'insert_edge',
+        'decrease_edge',
+        'insert_worst_edge',
+        'decrease_worst_edge'
+    ]
+
+
+class Algorithm:
 
     def __init__(self, values):
         self.attempt = 30
         self.graph = Graph.import_values(values)
-
 
     def list(self):
         return {
@@ -58,14 +65,14 @@ class Algorithm():
         Floyd_Warshall(self.graph)
         time_seconds = (time() - t) * 1000
 
-        return self.export_algorithm(dist, time_seconds)
+        return self.export_algorithm(time_seconds)
 
     def run_algorithm_dijkstra(self, source):
         t = time()
         Dijkstra(int(source), self.graph)
         time_seconds = (time() - t) * 1000
 
-        return self.export_algorithm([dist], time_seconds)
+        return self.export_algorithm(time_seconds)
 
     def run_algorithm_dijkstra_apsp(self):
         times = []
@@ -75,7 +82,7 @@ class Algorithm():
             time_seconds = (time() - t) * 1000
             times.append(time_seconds)
 
-        return self.export_algorithm(np.array(dist), times)
+        return self.export_algorithm(times)
 
     def run_algorithm_rr_bfs_truncated(self, dist):
         times = []

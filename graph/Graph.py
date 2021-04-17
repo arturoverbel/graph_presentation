@@ -1,6 +1,5 @@
 from graph.DynamicIncrementalGraph import DynamicIncrementalGraph
 import numpy as np
-from itertools import combinations
 
 
 class Graph(DynamicIncrementalGraph):
@@ -44,12 +43,13 @@ class Graph(DynamicIncrementalGraph):
             'target': list(np.array([str(int(x)) for x in self.target])),
             'weight': list(np.array([str(int(x)) for x in self.weight])),
             'nodes': list(np.array([str(int(x)) for x in self.nodes])),
+            'density': self.get_density(),
             'directed': directed,
             'last_edge_action': self.last_edge_action,
             'last_edge_updated': list(np.array([str(int(x)) for x in self.last_edge_updated])),
             'last_node_action': self.last_node_action,
             'last_node_updated': {
-                'node': self.last_node_updated['node'],
+                'node': "None" if self.last_node_updated['node'] is None else self.last_node_updated['node'],
                 'source': list(np.array([str(int(x)) for x in self.last_node_updated['source']])),
                 'target': list(np.array([str(int(x)) for x in self.last_node_updated['target']]))
 

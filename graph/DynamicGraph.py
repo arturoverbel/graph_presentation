@@ -187,9 +187,11 @@ class DynamicGraph(GraphPro):
 
     def edge_update(self, source, target, weight=1):
         self.clean_vars()
-        self.weight[np.logical_and(self.source == source, self.target == target)] = weight
-        if not self.directed:
-            self.weight[np.logical_and(self.source == target, self.target == source)] = weight
+
+        if len(self.weight) != 0:
+            self.weight[np.logical_and(self.source == source, self.target == target)] = weight
+            if not self.directed:
+                self.weight[np.logical_and(self.source == target, self.target == source)] = weight
 
         self.last_edge_updated = np.array([source, target, weight])
         self.last_edge_action = "UPDATE"

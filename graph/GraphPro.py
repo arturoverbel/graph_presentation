@@ -37,13 +37,24 @@ class GraphPro:
             self.set_nodes_with_num_nodes(set_nodes_with_num_nodes)
 
     def get_weight(self, n1, n2):
+        edges_found = np.logical_and(self.source == n1, self.target == n2)
+        if not max(edges_found):
+            return np.inf
+
         if len(self.weight) == 0:
             return 1
 
         if n1 == n2:
             return 0
-        w = self.weight[np.logical_and(self.source == n1, self.target == n2)]
+        w = self.weight[edges_found]
+
         return np.inf if w.size == 0 else w[0]
+
+    def get_weight_idx(self, idx):
+        if len(self.weight) == 0:
+            return 1
+
+        return self.weight[idx]
 
     def set_nodes(self):
         max_nodes = max(np.concatenate([np.unique(self.source), np.unique(self.target)]))
@@ -65,10 +76,14 @@ class GraphPro:
         start = np.searchsorted(self.source, source, side='left')
         end = np.searchsorted(self.source, source, side='right')
 
+        targets_result = self.target[start:end]
         if return_weight:
-            return self.target[start:end], self.weight[start:end]
+            if len(self.weight) == 0:
+                return targets_result, [1] * len(targets_result)
 
-        return self.target[start:end]
+            return targets_result, self.weight[start:end]
+
+        return targets_result
 
     def draw(self, with_weight=True):
         f = plt.figure()
