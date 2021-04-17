@@ -14,7 +14,7 @@ from algorithms.Algorithm import get_incremental_action
 
 class ExportLabReal(LabReal):
     def __init__(self, testing=False):
-        self.export_only_new = True
+        self.export_only_new = False
         LabReal.__init__(self, testing)
 
     def return_name_file_exported(self, filename):
@@ -22,6 +22,9 @@ class ExportLabReal(LabReal):
         return f'{self.baseExportedPath}graph,file={filename.replace("/", "_")}'
 
     def check_file_exist(self, filename):
+        if not self.export_only_new:
+            return False
+
         name_file = self.return_name_file_exported(filename)
 
         if os.path.exists(name_file):
@@ -78,6 +81,16 @@ class ExportLabReal(LabReal):
             json.dump(graph_values, fp)
             print("File " + name + " exported")
 
+    def export_data(self, dist_before: list, filename: str, file_result: str):
+
+        folder = self.get_folder_results(filename)
+        print(f'Exporting {file_result} ...')
+        name_dist_result = f'{folder}/{file_result}.json'
+
+        with open(name_dist_result, 'w') as fp:
+            json.dump(dist_before, fp)
+            print(f'file {file_result} exported')
+
     def export_lab_real(self, filename=""):
         # self.delete_file_testing()
         incremental_actions = get_incremental_action()
@@ -88,9 +101,10 @@ class ExportLabReal(LabReal):
                 continue
 
             graph, dist = self.import_file(filename)
+            self.export_data(dist.tolist(), filename, "dist")
+
             actions_incremental = []
 
             for action_incremental in incremental_actions:
-                actions_incremental.append(self.calculate_action_incremental(graph, action_incremental))
-
-            self.export_graph(graph, dist, filename, actions_incremental)
+                action = self.calculate_action_incremental(graph, action_incremental)
+                self.export_data(action, filename, f'incremental_{action_incremental}')

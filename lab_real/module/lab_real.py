@@ -87,3 +87,16 @@ class LabReal:
                 self.import_all_files(item)
 
         return self.files
+
+    def get_folder_results(self, filename: str):
+        filename = filename.replace(".txt", "")
+        filename = filename.replace(".json", "")
+
+        filename = filename.replace("/", "_")
+
+        folder_name = f'{self.baseExportedPath}{filename}'
+
+        if not os.path.exists(f'{self.baseExportedPath}{filename}'):
+            os.makedirs(folder_name)
+
+        return folder_name
