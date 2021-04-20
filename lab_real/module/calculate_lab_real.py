@@ -95,7 +95,7 @@ class CalculateLabReal(LabReal):
             json.dump(results, fp)
             print(f'File {file_to_save} exported')
 
-    def calculate(self):
+    def calculate(self, attempt=2):
         for action in get_incremental_action():
-            self.calculate_action_incremental(action=action, attempt=2)
+            self.calculate_action_incremental(action=action, attempt=attempt)
 

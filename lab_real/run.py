@@ -8,9 +8,9 @@ def export(filename: str):
     lab.export_lab_real(filename)
 
 
-def calculate(filename=""):
+def calculate(filename="", attempt=2):
     lab_calc = CalculateLabReal(filename, testing=True)
-    lab_calc.calculate()
+    lab_calc.calculate(attempt)
 
 
 """
@@ -30,12 +30,23 @@ if exec_command == "export":
 
 if exec_command == "calculate":
     filename = ""
+    attempt = 2
+
+    if len(sys.argv) < 3:
+        print("Falta argumento filename")
+        exit()
+
     if len(sys.argv) >= 3:
         filename = sys.argv[2]
-    else:
-        print("Falta argumento filename")
 
-    calculate(filename)
+    if len(sys.argv) < 4:
+        print("Falta argumento attemp")
+        exit()
+
+    if len(sys.argv) >= 4:
+        attempt = int(sys.argv[3])
+
+    calculate(filename, attempt)
     exit()
 
 print("Don't recognize the command argv: ", exec_command)
