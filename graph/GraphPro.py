@@ -57,6 +57,9 @@ class GraphPro:
         return self.weight[idx]
 
     def set_nodes(self):
+        if len(self.source) == 0:
+            return 0
+
         max_nodes = max(np.concatenate([np.unique(self.source), np.unique(self.target)]))
         self.nodes = np.arange(max_nodes+1)
         return self.nodes

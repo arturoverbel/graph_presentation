@@ -21,9 +21,12 @@ def get_incremental_action():
 
 class Algorithm:
 
-    def __init__(self, values):
+    def __init__(self, values=None):
         self.attempt = 30
-        self.graph = Graph.import_values(values)
+
+        self.graph = Graph()
+        if values is not None:
+            self.graph = Graph.import_values(values)
 
     def list(self):
         return {
@@ -36,6 +39,9 @@ class Algorithm:
                 'forest'
             ]
         }
+
+    def set_graph(self, graph: Graph):
+        self.graph = graph
 
     def run_algorithm(self, algorithm, dist=[[]]):
 
