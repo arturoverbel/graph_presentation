@@ -4,8 +4,8 @@ from module.calculate_lab_real import CalculateLabReal
 
 
 def export(filename: str):
-    lab = ExportLabReal(filename, testing=True)
-    lab.export_lab_real()
+    lab = ExportLabReal(testing=True)
+    lab.export_lab_real(filename)
 
 
 def calculate(filename=""):
