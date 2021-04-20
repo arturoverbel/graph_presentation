@@ -1,7 +1,9 @@
 import os
 import sys
 import json
+import numpy as np
 from module.lab_real import LabReal
+from algorithms.Algorithm import get_incremental_action
 
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../../')
@@ -10,48 +12,90 @@ from algorithms.Algorithm import Algorithm
 
 
 class CalculateLabReal(LabReal):
-    def __init__(self, testing=False):
+    def __init__(self, filename="", testing=False):
         LabReal.__init__(self, testing)
 
-    def create_graph_and_calculate(self, file="", attempt=2):
-        print("-----------------------")
-        print("Filename: ", file)
+        files = self.import_all_files(filename)
+        self.filename = files[0]
+        self.graph, self.dist = self.import_graph_and_dist()
 
-        # file_stream = open(file, "r")
-        # print(type(file_stream))
+        fileJson = self.filename.replace("txt", "json")
+        json_file = open(fileJson)
+        self.data_info = json.load(json_file)
+        self.density = self.data_info['edges'] / self.data_info['nodes'] * self.data_info['nodes']
 
-        json_file = open(file)
-        data_json = json.load(json_file)
-
-        calculate = Algorithm(data_json['graph'])
+    def calculate_action_incremental(self, action="insert_edge", attempt=2):
+        calculate = Algorithm()
+        calculate.set_graph(self.graph)
         calculate.attempt = attempt
 
-        results = []
+        action_incremental = self.import_action_incremental(action)
+        self.use_action_incremental(action_incremental)
+
         for algorithm_name in calculate.list()['incremental']:
-            times = calculate.run_algorithm(algorithm_name, LabReal.import_matrix(data_json['dist']))
+            results = []
+
+            times = calculate.run_algorithm(algorithm_name, np.array(self.dist))
             for time_insta in times:
                 results.append({
                     "algorithm": algorithm_name,
                     "time": time_insta,
                     "nodes": len(calculate.graph.nodes),
                     "edges": len(calculate.graph.source),
-                    "density": data_json['graph']['density'],
-                    "type": data_json['type_incremental']
+                    "density": self.density,
+                    "type": action
                 })
 
-        return self.export_results(results, file)
+            self.export_results(results, algorithm_name, action)
 
-    def export_results(self, results: [], filename: str):
+    def use_action_incremental(self, action):
+        if action['last_edge_action'] == "ADD":
+            self.graph.insert_edge(
+                action['last_edge_updated'][0],
+                action['last_edge_updated'][1],
+                action['last_edge_updated'][2]
+            )
 
-        name = filename.replace(self.baseExportedPath, self.baseResultsPath)
-        print(f'Exporting {name} ...')
+        elif action['last_edge_action'] == "DECREASE":
+            self.graph.decrease_weight(
+                action['last_edge_updated'][0],
+                action['last_edge_updated'][1],
+                action['last_edge_updated'][2]
+            )
 
-        with open(name, 'w') as fp:
+    def import_graph_and_dist(self):
+        print("-----------------------")
+        print("Filename: ", self.filename)
+
+        file_stream = open(self.filename, "r")
+        print("Creating graph ... ")
+        graph = self.create_graph(file_stream)
+
+        dist = self.get_dist_by_filename(self.filename)
+
+        return graph, dist
+
+    def import_action_incremental(self, action="insert_edge"):
+        folder = self.get_folder_results(self.filename)
+
+        file_incremental = f'{folder}/incremental_{action}.json'
+
+        json_file = open(file_incremental)
+        data_info = json.load(json_file)
+
+        return data_info
+
+    def export_results(self, results: [], algorithm_name: str, action: str):
+
+        folder = self.get_folder_calculated(self.filename)
+        file_to_save = f'{folder}/{algorithm_name}__{action}.json'
+        print(f'Exporting {file_to_save} ...')
+
+        with open(file_to_save, 'w') as fp:
             json.dump(results, fp)
-            print(f'File {name} exported')
+            print(f'File {file_to_save} exported')
 
     def calculate(self):
-        self.import_all_files(path=self.baseExportedPath, extension=".json")
+        for action in get_incremental_action():
+            self.calculate_action_incremental(action=action, attempt=2)
 
-        for filename in self.files:
-            self.create_graph_and_calculate(filename, attempt=2)

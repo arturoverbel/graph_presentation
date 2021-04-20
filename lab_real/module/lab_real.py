@@ -1,6 +1,7 @@
 import os
 import sys
 import numpy as np
+import json
 
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../../')
@@ -96,7 +97,29 @@ class LabReal:
 
         folder_name = f'{self.baseExportedPath}{filename}'
 
-        if not os.path.exists(f'{self.baseExportedPath}{filename}'):
+        if not os.path.exists(folder_name):
             os.makedirs(folder_name)
 
         return folder_name
+
+    def get_folder_calculated(self, filename: str):
+        filename = filename.replace(".txt", "")
+        filename = filename.replace(".json", "")
+
+        filename = filename.replace("/", "_")
+
+        folder_name = f'{self.baseResultsPath}{filename}'
+
+        if not os.path.exists(folder_name):
+            os.makedirs(folder_name)
+
+        return folder_name
+
+    def get_dist_by_filename(self, filename: str):
+        folder = self.get_folder_results(filename)
+        file = f'{folder}/dist.json'
+
+        json_file = open(file)
+        dist = json.load(json_file)
+
+        return dist

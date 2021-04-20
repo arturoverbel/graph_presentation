@@ -3,13 +3,13 @@ from module.export_lab_real import ExportLabReal
 from module.calculate_lab_real import CalculateLabReal
 
 
-def export(filename=""):
-    lab = ExportLabReal(testing=True)
-    lab.export_lab_real(filename)
+def export(filename: str):
+    lab = ExportLabReal(filename, testing=True)
+    lab.export_lab_real()
 
 
-def calculate():
-    lab_calc = CalculateLabReal(testing=True)
+def calculate(filename=""):
+    lab_calc = CalculateLabReal(filename, testing=True)
     lab_calc.calculate()
 
 
@@ -29,7 +29,13 @@ if exec_command == "export":
     exit()
 
 if exec_command == "calculate":
-    calculate()
+    filename = ""
+    if len(sys.argv) >= 3:
+        filename = sys.argv[2]
+    else:
+        print("Falta argumento filename")
+
+    calculate(filename)
     exit()
 
 print("Don't recognize the command argv: ", exec_command)
