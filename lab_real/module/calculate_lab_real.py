@@ -17,7 +17,7 @@ class CalculateLabReal(LabReal):
 
         files = self.import_all_files(filename)
         self.filename = files[0]
-        self.graph, self.dist = self.import_graph_and_dist()
+        self.graph, self.dist = self.import_graph_and_dist(self.filename)
 
         fileJson = self.filename.replace("txt", "json")
         json_file = open(fileJson)
@@ -28,6 +28,9 @@ class CalculateLabReal(LabReal):
         calculate = Algorithm()
         calculate.set_graph(self.graph)
         calculate.attempt = attempt
+
+        if not self.check_action_exist(action):
+            return
 
         action_incremental = self.import_action_incremental(action)
         self.use_action_incremental(action_incremental)
@@ -63,18 +66,6 @@ class CalculateLabReal(LabReal):
                 action['last_edge_updated'][2]
             )
 
-    def import_graph_and_dist(self):
-        print("-----------------------")
-        print("Filename: ", self.filename)
-
-        file_stream = open(self.filename, "r")
-        print("Creating graph ... ")
-        graph = self.create_graph(file_stream)
-
-        dist = self.get_dist_by_filename(self.filename)
-
-        return graph, dist
-
     def import_action_incremental(self, action="insert_edge"):
         folder = self.get_folder_results(self.filename)
 
@@ -84,6 +75,12 @@ class CalculateLabReal(LabReal):
         data_info = json.load(json_file)
 
         return data_info
+
+    def check_action_exist(self, action: str):
+        folder = self.get_folder_results(self.filename)
+        file_incremental = f'{folder}/incremental_{action}.json'
+
+        return os.path.exists(file_incremental)
 
     def export_results(self, results: [], algorithm_name: str, action: str):
 

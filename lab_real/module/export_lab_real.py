@@ -91,20 +91,34 @@ class ExportLabReal(LabReal):
             json.dump(dist_before, fp)
             print(f'file {file_result} exported')
 
-    def export_lab_real(self, filename=""):
+    def import_dist(self, filename: str, file_result: str):
+
+        folder = self.get_folder_results(filename)
+        name_dist_result = f'{folder}/{file_result}.json'
+
+        json_file = open(name_dist_result)
+        data_json = json.load(json_file)
+
+    """
+        stuff_to_export = [dist,insert_edge,decrease_edge,insert_worst_edge,decrease_worst_edge]
+    """
+    def export_lab_real(self, filename="", stuff_to_export="dist"):
         # self.delete_file_testing()
-        incremental_actions = get_incremental_action()
         self.import_all_files(filename=filename)
 
         for filename in self.files:
             if self.check_file_exist(filename):
                 continue
 
-            graph, dist = self.import_file(filename)
-            self.export_data(dist.tolist(), filename, "dist")
+            if stuff_to_export == "dist":
+                graph, dist = self.import_file(filename)
+                self.export_data(dist.tolist(), filename, "dist")
 
-            actions_incremental = []
+                continue
 
-            for action_incremental in incremental_actions:
-                action = self.calculate_action_incremental(graph, action_incremental)
-                self.export_data(action, filename, f'incremental_{action_incremental}')
+            graph, dist = self.import_graph_and_dist(filename)
+
+            action_incremental = stuff_to_export
+
+            action = self.calculate_action_incremental(graph, action_incremental)
+            self.export_data(action, filename, f'incremental_{action_incremental}')
