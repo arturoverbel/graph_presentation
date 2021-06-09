@@ -27,7 +27,6 @@ class CalculateLabReal(LabReal):
     def calculate_action_incremental(self, action="insert_edge", attempt=2):
         calculate = Algorithm()
         calculate.set_graph(self.graph)
-        calculate.attempt = attempt
 
         if not self.check_action_exist(action):
             return
@@ -35,8 +34,15 @@ class CalculateLabReal(LabReal):
         action_incremental = self.import_action_incremental(action)
         self.use_action_incremental(action_incremental)
 
-        for algorithm_name in calculate.list()['incremental']:
+        for algorithm_name in calculate.list()['incremental_accelerate']:
             results = []
+
+            calculate.attempt = attempt
+            if algorithm_name == 'dijkstra-apsp':
+                calculate.attempt = 1
+                if action != "insert_edge":
+                    continue
+
 
             times = calculate.run_algorithm(algorithm_name, np.array(self.dist))
             for time_insta in times:

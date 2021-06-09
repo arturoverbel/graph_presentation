@@ -1,6 +1,12 @@
 import sys
 from module.export_lab_real import ExportLabReal
 from module.calculate_lab_real import CalculateLabReal
+from module.result_lab_real import ResultLabReal
+
+
+def results():
+    lab = ResultLabReal()
+    lab.stats()
 
 
 def export(filename: str, stuff_to_export="dist"):
@@ -51,6 +57,10 @@ if exec_command == "calculate":
         attempt = int(sys.argv[3])
 
     calculate(filename, attempt)
+    exit()
+
+if exec_command == "results":
+    results()
     exit()
 
 print("Don't recognize the command argv: ", exec_command)

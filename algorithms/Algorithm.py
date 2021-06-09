@@ -13,9 +13,9 @@ from time import time
 def get_incremental_action():
     return [
         'insert_edge',
-        'decrease_edge',
-        'insert_worst_edge',
-        'decrease_worst_edge'
+        'decrease_edge'
+        #'insert_worst_edge',
+        #'decrease_worst_edge'
     ]
 
 
@@ -37,6 +37,14 @@ class Algorithm:
                 'even-gazit',
                 'quinca',
                 'forest'
+            ],
+            'incremental_accelerate': [
+                'abm',
+                'rr-bfs-truncated',
+                'even-gazit',
+                'quinca',
+                'forest',
+                'dijkstra-apsp'
             ]
         }
 
@@ -84,11 +92,11 @@ class Algorithm:
         times = []
         for tried in range(self.attempt):
             t = time()
-            Dijkstra_apsp(self.graph)
+            d = Dijkstra_apsp(self.graph)
             time_seconds = (time() - t) * 1000
             times.append(time_seconds)
 
-        return self.export_algorithm(times)
+        return self.export_algorithm(np.array(d), times)
 
     def run_algorithm_rr_bfs_truncated(self, dist):
         times = []
