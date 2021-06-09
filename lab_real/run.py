@@ -14,8 +14,8 @@ def export(filename: str, stuff_to_export="dist"):
     lab.export_lab_real(filename, stuff_to_export=stuff_to_export)
 
 
-def calculate(filename="", attempt=2):
-    lab_calc = CalculateLabReal(filename, testing=True)
+def calculate(filename="", attempt=2, cmd="calculate"):
+    lab_calc = CalculateLabReal(filename, testing=True, cmd=cmd)
     lab_calc.calculate(attempt)
 
 
@@ -38,7 +38,7 @@ if exec_command == "export":
     export(filename, stuff_to_export)
     exit()
 
-if exec_command == "calculate":
+if exec_command == "calculate" or exec_command == "calculate-dist":
     filename = ""
     attempt = 2
 
@@ -56,7 +56,7 @@ if exec_command == "calculate":
     if len(sys.argv) >= 4:
         attempt = int(sys.argv[3])
 
-    calculate(filename, attempt)
+    calculate(filename, attempt, exec_command)
     exit()
 
 if exec_command == "results":

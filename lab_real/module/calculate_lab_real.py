@@ -12,9 +12,10 @@ from algorithms.Algorithm import Algorithm
 
 
 class CalculateLabReal(LabReal):
-    def __init__(self, filename="", testing=False):
+    def __init__(self, filename="", testing=False, cmd="calculate"):
         LabReal.__init__(self, testing)
 
+        self.cmd = cmd
         files = self.import_all_files(filename)
         self.filename = files[0]
         self.graph, self.dist = self.import_graph_and_dist(self.filename)
@@ -34,7 +35,14 @@ class CalculateLabReal(LabReal):
         action_incremental = self.import_action_incremental(action)
         self.use_action_incremental(action_incremental)
 
-        for algorithm_name in calculate.list()['incremental_accelerate']:
+        list_algorithms = calculate.list()['incremental_accelerate']
+        if self.cmd == "calculate-dist":
+            list_algorithms = ['dijkstra-apsp']
+        print("******************************")
+        print(self.cmd)
+        print("******************************")
+
+        for algorithm_name in list_algorithms:
             results = []
 
             calculate.attempt = attempt
