@@ -1,6 +1,7 @@
 import sys
 from module.export_lab_real import ExportLabReal
 from module.calculate_lab_real import CalculateLabReal
+from module.calculate_lab_real_dist import CalculateLabRealDist
 from module.result_lab_real import ResultLabReal
 
 
@@ -15,8 +16,14 @@ def export(filename: str, stuff_to_export="dist"):
 
 
 def calculate(filename="", attempt=2, cmd="calculate"):
-    lab_calc = CalculateLabReal(filename, testing=True, cmd=cmd)
-    lab_calc.calculate(attempt)
+    if cmd == "calculate-dist":
+        lab_calc = CalculateLabRealDist(filename, testing=True)
+        lab_calc.calculate(attempt)
+    else:
+        lab_calc = CalculateLabReal(filename, testing=True)
+        lab_calc.calculate(attempt)
+
+
 
 
 """

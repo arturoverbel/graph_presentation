@@ -127,6 +127,16 @@ class LabReal:
 
         return graph, dist
 
+    def import_graph(self, filename):
+        print("-----------------------")
+        print("Filename: ", filename)
+
+        file_stream = open(filename, "r")
+        print("Creating graph ... ")
+        graph = self.create_graph(file_stream)
+
+        return graph
+
     def get_dist_by_filename(self, filename: str):
         folder = self.get_folder_results(filename)
         file = f'{folder}/dist.json'
