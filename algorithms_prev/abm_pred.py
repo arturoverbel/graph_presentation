@@ -8,6 +8,7 @@ def ABM_Update_PRED(graph, dist, pred):
     if c_uv >= dist[u, v]:
         return dist, pred
 
+    pred[u, v] = u
     affected_sources = deque()
     affected_targets = deque()
 
@@ -22,7 +23,7 @@ def ABM_Update_PRED(graph, dist, pred):
             sum = dist[i, u] + c_uv + dist[v, j]
             if sum < dist[i, j]:
                 dist[i, j] = sum
-                pred[i, j] = u
+                pred[i, j] = u if j == v else pred[v, j]
 
     return dist, pred
 
