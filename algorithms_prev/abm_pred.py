@@ -1,6 +1,7 @@
 import numpy as np
 from collections import deque
 
+
 # Affected Block Matriz = ABM Update
 def ABM_Update_PRED(graph, dist, pred):
     u, v, c_uv = graph.last_edge_updated
@@ -26,5 +27,3 @@ def ABM_Update_PRED(graph, dist, pred):
                 pred[i, j] = u if j == v else pred[v, j]
 
     return dist, pred
-
-    # n + n2
